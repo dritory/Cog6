@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# Remove folders
+*x64*
+*x32*
+*.vs*
