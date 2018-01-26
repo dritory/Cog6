@@ -5,10 +5,12 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
+    <ClCompile Include="src\TileSystem\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
+    <ClInclude Include="src\TileSystem\TileMap.h" />
   </ItemGroup>
 </Project>
