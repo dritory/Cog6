@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <SFML/Graphics.hpp>
 
 #include <sol.hpp>
 #include "Camera.h"
@@ -14,7 +13,7 @@ Game::~Game()
 
 void Game::Start()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600),
+	window.create(sf::VideoMode(800, 600),
 		"Hello SFML", sf::Style::Default, sf::ContextSettings(24, 8, 0, 3, 3));
 
 	window.setFramerateLimit(60);
@@ -65,4 +64,9 @@ void Game::Start()
 		window.display();
 	}
 
+}
+
+const sf::RenderWindow & Game::getWindow()
+{
+	return this->window;
 }

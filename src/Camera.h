@@ -8,6 +8,8 @@ public:
 
 	void update();
 
+	sf::View& getView();
+
 	sf::View view;
 private:
 	float speed = 5.0f;

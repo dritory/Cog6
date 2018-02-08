@@ -30,3 +30,7 @@ void Camera::update()
 		view.move(0,1 * speed);
 	}
 }
+
+sf::View & Camera::getView() {
+	return view;
+}

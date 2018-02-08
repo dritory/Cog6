@@ -14,5 +14,8 @@ public:
 private:
 	// define the level with an array of tile indices
 	TileMap map[HEIGHT];
+
+	const int NONCOLLISION_TILES[1] = {0};
+	int foo = 0;
 };
 
