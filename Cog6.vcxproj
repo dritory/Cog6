@@ -11,15 +11,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
+    <ClCompile Include="src\EntitySystem\Entity.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
+    <ClInclude Include="src\EntitySystem\Entity.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Rendering\SpriteBatch.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
   </ItemGroup>
@@ -61,8 +71,9 @@
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\lolsk\OneDrive\Projects\Cog6\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Users\lolsk\OneDrive\Projects\Cog6\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -89,7 +100,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-main.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
