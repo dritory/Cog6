@@ -23,6 +23,7 @@
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AssetLoader\AssetLoader.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
     <ClInclude Include="src\EntitySystem\Entity.h" />

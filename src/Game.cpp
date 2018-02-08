@@ -5,6 +5,7 @@
 #include "EntitySystem/Entities/EntityWall.h"
 #include "EntitySystem/Entities/EntityDummy.h"
 #include "Rendering/SpriteBatch.h"
+#include "AssetLoader/AssetLoader.h"
 
 Game::Game()
 {
@@ -22,8 +23,13 @@ void Game::Start()
 
 	window.setFramerateLimit(60);
 
-	sf::Font font;
-	font.loadFromFile("C:/Windows/Fonts/SegoeUI.ttf");
+	bool loaded = AssetLoader<sf::Font>::GetInstance().LoadAsset("C:/Windows/Fonts/SegoeUI.ttf");
+	if(!loaded)
+	{
+		std::cout << "Could not load font" << std::endl;
+		return;
+	}
+	sf::Font& font= *AssetLoader<sf::Font>::GetInstance().Get("C:/Windows/Fonts/SegoeUI.ttf");
 
 	sf::Text text;
 	text.setFont(font);
