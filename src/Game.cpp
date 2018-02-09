@@ -52,7 +52,7 @@ void Game::Start()
 
 	for (int x = 0; x < 640; x += 32)
 		for (int z = 0; z < 640; z += 32)
-			for (int y = 0; y < 96; y += 32)
+			for (int y = 0; y < 64; y += 32)
 		{
 			Entity* ent;
 			if (y / 32 >= 1)

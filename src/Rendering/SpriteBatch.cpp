@@ -29,7 +29,7 @@ void SpriteBatch::QueueObject(GameObject* object)
 	auto pos = object->GetPosition();
 	auto a = (pos.x / 4.0f + pos.y + pos.z / 4.0f);
 	auto b = (pos.x / 2.0f - pos.z / 2.0f);
-	if (a < -64 || a >= 1200 + 64 || b < -64 || b >= 1600 + 64) return;
+	//if (a < -64 || a >= 1200 + 64 || b < -64 || b >= 1600 + 64) return;
 
 	m_QueuedDraw.insert(object);
 }
