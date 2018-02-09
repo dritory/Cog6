@@ -18,7 +18,7 @@ Game::~Game()
 
 void Game::Start()
 {
-	sf::RenderWindow window(sf::VideoMode(1600, 1200),
+	sf::RenderWindow window(sf::VideoMode(1200, 800),
 		"Hello SFML", sf::Style::Default);
 
 	window.setFramerateLimit(60);
@@ -33,8 +33,7 @@ void Game::Start()
 
 	sf::Text text;
 	text.setFont(font);
-	text.setPosition(0, 0);
-	text.setString("Hello World, hello SFML");
+	text.setPosition(50, 50);
 
 	sol::state lua;
 	lua.set_function("getString", [] { return "Hello from luajit"; });
@@ -49,8 +48,8 @@ void Game::Start()
 
 	EntitySystem es;
 
-	for (int x = 0; x < 6400; x += 32)
-		for (int z = 0; z < 6400; z += 32)
+	for (int x = 0; x < 640; x += 32)
+		for (int z = 0; z < 640; z += 32)
 			for (int y = 0; y < 96; y += 32)
 		{
 			Entity* ent;

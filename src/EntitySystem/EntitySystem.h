@@ -9,6 +9,8 @@
 #include "Entity.h"
 #include "../Rendering/SpriteBatch.h"
 
+class InteractableEntity;
+
 class EntitySystem : public sf::Drawable
 {
 public:
@@ -31,11 +33,21 @@ public:
 
 	void Update();
 	void SetBatcher(SpriteBatch& batcher);
+	void RemoveEntity(EntityId entityId);
 
 private:
+	friend class InteractableEntity;
+
+	void addInteractable(InteractableEntity* entity);
+	void removeInteractable(InteractableEntity* entity);
+
+	void cleanupEntities();
+
 	std::vector<std::unique_ptr<Entity>> m_Entities;
+	std::vector<InteractableEntity*> m_Interactables;
 	std::unordered_map<std::string, EntityId> m_StringLookup;
-	std::queue<int> m_UnusedEntityIds;
+	std::queue<EntityId> m_UnusedEntityIds;
+	std::queue<EntityId> m_EntitiesToRemove;
 	EntityId m_Next;
 	SpriteBatch* m_SpriteBatcher;
 
@@ -51,7 +63,7 @@ entity* EntitySystem::Add(const std::string& strId)
 	EntityId id = getNextId();
 
 	auto& ent = m_Entities[id];
-	ent = std::make_unique<entity>(this);;
+	ent = std::make_unique<entity>(this, id);;
 	if(!strId.empty())
 	{
 		if(m_StringLookup.find(strId) != m_StringLookup.end())

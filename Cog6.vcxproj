@@ -28,6 +28,7 @@
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
     <ClInclude Include="src\EntitySystem\Entity.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
+    <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Rendering\SpriteBatch.h" />

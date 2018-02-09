@@ -1,6 +1,6 @@
 #include "EntityDummy.h"
 
-EntityDummy::EntityDummy(EntitySystem* system) : Entity(system)
+EntityDummy::EntityDummy(EntitySystem* system, const EntityId& id) : Entity(system, id)
 {
 }
 

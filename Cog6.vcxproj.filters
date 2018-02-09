@@ -3,25 +3,26 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
-    <ClCompile Include="src\EntitySystem\Entity.cpp" />
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
+    <ClCompile Include="src\EntitySystem\Entity.cpp" />
+    <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
-    <ClInclude Include="src\EntitySystem\Entity.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
     <ClInclude Include="src\AssetLoader\AssetLoader.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
+    <ClInclude Include="src\EntitySystem\Entity.h" />
+    <ClInclude Include="src\EntitySystem\EntitySystem.h" />
+    <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
   </ItemGroup>
 </Project>
