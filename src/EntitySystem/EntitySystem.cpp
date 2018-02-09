@@ -64,7 +64,7 @@ void EntitySystem::addInteractable(InteractableEntity* entity)
 
 void EntitySystem::removeInteractable(InteractableEntity* entity)
 {
-	m_Interactables.erase(std::remove(m_Interactables.begin(), m_Interactables.end(), entity), m_Interactables.end());
+	m_InteractablesToRemove.push(entity);
 }
 
 void EntitySystem::cleanupEntities()
@@ -74,6 +74,12 @@ void EntitySystem::cleanupEntities()
 		auto id = m_EntitiesToRemove.front(); m_EntitiesToRemove.pop();
 		m_Entities[id] = nullptr;
 		m_UnusedEntityIds.push(id);
+	}
+
+	while(m_InteractablesToRemove.size() != 0)
+	{
+		auto entity = m_InteractablesToRemove.front(); m_InteractablesToRemove.pop();
+		m_Interactables.erase(std::remove(m_Interactables.begin(), m_Interactables.end(), entity), m_Interactables.end());
 	}
 }
 

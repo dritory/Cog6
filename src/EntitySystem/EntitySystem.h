@@ -48,6 +48,7 @@ private:
 	std::unordered_map<std::string, EntityId> m_StringLookup;
 	std::queue<EntityId> m_UnusedEntityIds;
 	std::queue<EntityId> m_EntitiesToRemove;
+	std::queue<InteractableEntity*> m_InteractablesToRemove;
 	EntityId m_Next;
 	SpriteBatch* m_SpriteBatcher;
 
