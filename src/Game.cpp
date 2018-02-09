@@ -7,6 +7,8 @@
 #include "Rendering/SpriteBatch.h"
 #include "AssetLoader/AssetLoader.h"
 
+#include <sol.hpp>
+#include "Camera.h"
 Game::Game()
 {
 }
@@ -71,6 +73,10 @@ void Game::Start()
 	int frames = 0;
 
 	bool pressed = false;
+	tileSystem.load();
+
+	Camera camera(sf::FloatRect(150,150, 1200, 800));
+	
 	while (window.isOpen())
 	{
 		if(clock.getElapsedTime().asSeconds() >= 0.2f)
@@ -85,20 +91,36 @@ void Game::Start()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				window.close();
 
-		}
+			}
 
+		}
+		
 		es.Update();
 
+		camera.update();
+
 		window.clear();
-		window.draw(text);
-		window.draw(text2);
+		window.setView(camera.view);
+		// Draw world
 		window.draw(es);
-		window.draw(batcher);
 		batcher.SetDirty();
+		tileSystem.draw(window);
+		window.draw(batcher);
+
+		window.setView(window.getDefaultView());
+		// Draw UI
+		window.draw(text2);
+		window.draw(text);
+
 		window.display();
 	}
 
+}
+
+const sf::RenderWindow & Game::getWindow()
+{
+	return this->window;
 }

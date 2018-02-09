@@ -14,6 +14,7 @@
     <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
     <ClCompile Include="src\EntitySystem\Entity.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -27,6 +28,7 @@
     <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
     <ClInclude Include="src\EntitySystem\Entity.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
     <ClInclude Include="src\Game.h" />
@@ -34,6 +36,11 @@
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\Tileset.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -76,6 +83,8 @@
     <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>Libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

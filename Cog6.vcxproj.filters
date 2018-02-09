@@ -11,6 +11,7 @@
     <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
     <ClCompile Include="src\EntitySystem\Entity.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
@@ -24,5 +25,9 @@
     <ClInclude Include="src\EntitySystem\Entity.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
+    <ClInclude Include="src\Camera.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\Tileset.png" />
   </ItemGroup>
 </Project>
