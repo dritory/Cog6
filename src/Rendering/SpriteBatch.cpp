@@ -6,10 +6,8 @@ bool GameObjectComparator::operator()(const GameObject* lhs, const GameObject* r
 	auto& lp = lhs->m_Position;
 	auto& rp = rhs->m_Position;
 
-	if ((int)lp.y != (int)rp.y) return (int)lp.y < (int)rp.y;
-
-	auto a = (lp.x / 4.0f + lp.y + lp.z / 4.0f);
-	auto b = (rp.x / 4.0f + rp.y + rp.z / 4.0f);
+	auto a = (lp.x / 4.0f + lp.y / 2.0f + lp.z / 4.0f);
+	auto b = (rp.x / 4.0f + rp.y / 2.0f + rp.z / 4.0f);
 	if (a != b) return a < b;
 	return lhs->m_Id < rhs->m_Id;
 }

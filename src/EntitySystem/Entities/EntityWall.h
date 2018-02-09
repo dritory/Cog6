@@ -3,7 +3,7 @@
 #include "../Entity.h"
 #include "../InteractableEntity.h"
 
-class EntityWall : public Entity, public InteractableEntity
+class EntityWall : public Entity
 {
 public:
 	EntityWall(EntitySystem* system, const EntityId& id);
@@ -11,5 +11,4 @@ public:
 protected:
 	void Update() override;
 	std::string GetSpriteLocation() override { return "test.png"; }
-	void Interact(Entity* other) override;
 };
