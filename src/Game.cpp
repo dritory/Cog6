@@ -101,13 +101,13 @@ void Game::Start()
 		es.Update();
 
 		camera.update();
-
 		window.clear();
 		window.setView(camera.view);
 		// Draw world
+		tileSystem.draw(batcher);
+		
 		window.draw(es);
 		batcher.SetDirty();
-		tileSystem.draw(window);
 		window.draw(batcher);
 
 		window.setView(window.getDefaultView());

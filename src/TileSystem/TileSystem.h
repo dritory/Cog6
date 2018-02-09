@@ -1,5 +1,6 @@
 #pragma once
 #include "TileMap.h"
+#include "..\Rendering\SpriteBatch.h"
 class TileSystem {
 public:
 	TileSystem();
@@ -7,7 +8,7 @@ public:
 
 	void load();
 
-	void draw(sf::RenderWindow &window);
+	void draw(SpriteBatch &batch);
 
 	static const unsigned int HEIGHT = 10;
 

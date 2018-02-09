@@ -1,9 +1,11 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include <cmath>
+#include "../GameObject.h"
+
 class TileMap : public sf::Transformable {
 private:
-	class Row : public sf::Drawable, public sf::Transformable{
+	class Row : public GameObject {
 	public:
 		bool load(const std::string& tileset,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int rowNumber, const std::vector<int> tiles, int offset,int coloumns, unsigned int width);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -23,7 +25,7 @@ public:
 	//tile size, the layer
 	//initial tilemap int array
 	//width of the level (height is the same as width)
-	bool load(const std::string& tileset,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int layerDepth, const int tiles[], unsigned int width);
+	bool load(const std::string& texturePath,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int layerDepth, const int tiles[], unsigned int width);
 
 	int getTileId(unsigned int x, unsigned int z);
 	void setTileId(int x, int z, int id);

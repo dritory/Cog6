@@ -1,18 +1,17 @@
 #include "TileMap.h"
 #include <memory>
 #include <assert.h>
-bool TileMap::load(const std::string & tileset, sf::Vector2u _tileTextureSize, sf::Vector2i _tileSize, int _layerDepth, const int _tiles[], unsigned int _width) {
-	// load the tileset texture
-	if (!m_tileset.loadFromFile(tileset))
-		return false;
+#include "..\AssetLoader\AssetLoader.h"
+
+bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSize, sf::Vector2i _tileSize, int _layerDepth, const int _tiles[], unsigned int _width) {
+
+	
 	width = _width;
 	height = _width;
 	tileSize = _tileSize;
 	layerDepth = _layerDepth;
 	tileTextureSize = _tileTextureSize;
 	tiles.reserve(_width*_width);
-
-
 
 	for (int i = 0; i < _width*_width; i++) {
 		tiles.push_back(_tiles[i]);
@@ -26,8 +25,9 @@ bool TileMap::load(const std::string & tileset, sf::Vector2u _tileTextureSize, s
 		int offset = _width * (i - tilesBeyondWidth);
 
 		Row row;
-		row.load(tileset, tileTextureSize, tileSize, i,tiles, offset, coloumnNum, _width);
-		row.setPosition(sf::Vector2f((-(coloumnNum / 2))*tileSize.x + (i % 2)*tileSize.x / 2, (i)*(tileSize.y / 4) - layerDepth * tileSize.y / 2) + getPosition());
+		row.load(texturePath, tileTextureSize, tileSize, i, tiles, offset, coloumnNum, _width);
+		sf::Vector2f vector = isoTo2D(sf::Vector2f((-(coloumnNum / 2))*tileSize.x + (i % 2)*tileSize.x / 2, (i)*(tileSize.y / 4)));
+		row.SetPosition(sf::Vector3f(vector.x, layerDepth * tileSize.y, vector.y));
 
 		diagonalRows.push_back(row);
 	}
@@ -77,14 +77,12 @@ sf::Vector2i TileMap::isoToTile(sf::Vector2f point, const TileMap & map) {
 	return  sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
 }
 
-sf::Vector2i TileMap::screenToTile(sf::Vector2i point, const TileMap & map, const sf::RenderWindow &window)
-{
-	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(point)) ;
+sf::Vector2i TileMap::screenToTile(sf::Vector2i point, const TileMap & map, const sf::RenderWindow &window) {
+	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(point));
 	return sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
 }
 
-sf::Vector2f TileMap::screenToIso(sf::Vector2i point, const sf::RenderWindow &window)
-{
+sf::Vector2f TileMap::screenToIso(sf::Vector2i point, const sf::RenderWindow &window) {
 	return window.mapPixelToCoords(point);
 }
 
@@ -93,17 +91,23 @@ sf::Vector2f TileMap::screenTo2D(sf::Vector2i point, const sf::RenderWindow & wi
 }
 
 sf::Vector2i TileMap::mouseToTile(const TileMap & map, const sf::RenderWindow & window) {
-	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(sf::Mouse::getPosition(window))+ sf::Vector2f(map.getTileSize().x * -0.5f,map.getTileSize().y *(map.getDepth() - 0.5f)/2.0f));
+	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(sf::Mouse::getPosition(window)) + sf::Vector2f(map.getTileSize().x * -0.5f, map.getTileSize().y *(map.getDepth() - 0.5f) / 2.0f));
 	return sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
 }
 
 sf::Vector2f TileMap::twoDToIso(sf::Vector2f point) {
-	return sf::Vector2f((point.x+point.y) / 2.0f  ,  point.y - point.x  );
+	return sf::Vector2f((point.x + point.y) / 2.0f, point.y - point.x);
 }
 
-bool TileMap::Row::load(const std::string & tileset, sf::Vector2u tileTextureSize, sf::Vector2i tileSize, int rowNumber, const std::vector<int> tiles,int offset, int coloumns,unsigned int width) {
-	if (!m_tileset.loadFromFile(tileset))
-		return false;
+bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextureSize, sf::Vector2i tileSize, int rowNumber, const std::vector<int> tiles, int offset, int coloumns, unsigned int width) {
+
+	auto tex = AssetLoader<sf::Texture>::GetInstance().Get(texturePath);
+	if (tex == nullptr) {
+		bool loaded = AssetLoader<sf::Texture>::GetInstance().LoadAsset(texturePath);
+		if (!loaded) return false; 
+			tex = AssetLoader<sf::Texture>::GetInstance().Get(texturePath);
+	}
+	m_tileset = *tex;
 	m_vertices.setPrimitiveType(sf::Quads);
 	m_vertices.resize(coloumns * 4);
 
@@ -148,7 +152,7 @@ void TileMap::Row::setTileId(int x, int tileId, sf::Vector2u tileTextureSize) {
 	int tv = tileId / (m_tileset.getSize().x / tileTextureSize.x);
 
 	if ((x) * 4 < m_vertices.getVertexCount()) {
-		
+
 		sf::Vertex* quad = &m_vertices[(x) * 4];
 
 		quad[0].texCoords = sf::Vector2f(tu * tileTextureSize.x, tv * tileTextureSize.y);
