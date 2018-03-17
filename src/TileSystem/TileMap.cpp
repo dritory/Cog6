@@ -2,19 +2,26 @@
 #include <memory>
 #include <assert.h>
 #include "..\AssetLoader\AssetLoader.h"
-
-bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSize, sf::Vector2i _tileSize, int _layerDepth, const int _tiles[], unsigned int _width) {
-
-	
+#include "..\Game.h"
+#include "TileSystem.h"
+bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSize, sf::Vector2i _tileSize, int _layerDepth, const int _tiles[], unsigned int _width, const int nonCollisionTiles[]) {
 	width = _width;
 	height = _width;
 	tileSize = _tileSize;
 	layerDepth = _layerDepth;
 	tileTextureSize = _tileTextureSize;
 	tiles.reserve(_width*_width);
+	collisionMap.reserve(_width*_width);
 
 	for (int i = 0; i < _width*_width; i++) {
 		tiles.push_back(_tiles[i]);
+		bool noncollision = false;
+		for (int j = 0; j < sizeof(nonCollisionTiles) / sizeof(nonCollisionTiles[0]); j++) {
+			if (nonCollisionTiles[j] == _tiles[i]) {
+				noncollision = true;
+			}
+		}
+		collisionMap.push_back(!noncollision);
 	}
 	int diagonalRowNum = 2 * _width - 1;
 	diagonalRows.reserve(diagonalRowNum);
@@ -22,11 +29,11 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 
 		int tilesBeyondWidth = (i - (int)_width + 1)*(int)(i / _width);
 		int coloumnNum = 1 + i - 2 * tilesBeyondWidth;
-		int offset = _width * (i - tilesBeyondWidth);
+		int offset = _width * ( i  -tilesBeyondWidth ) + tilesBeyondWidth;
 
-		Row row;
+ 		Row row;
 		row.load(texturePath, tileTextureSize, tileSize, i, tiles, offset, coloumnNum, _width);
-		sf::Vector2f vector = isoTo2D(sf::Vector2f((-(coloumnNum / 2))*tileSize.x + (i % 2)*tileSize.x / 2, (i)*(tileSize.y / 4)));
+		sf::Vector2f vector = worldToIso(sf::Vector2f((-(coloumnNum / 2))*tileSize.x + (i % 2)*tileSize.x / 2, (i)*(tileSize.y / 4)));
 		row.SetPosition(sf::Vector3f(vector.x, layerDepth * tileSize.y, vector.y));
 
 		diagonalRows.push_back(row);
@@ -36,12 +43,26 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 }
 
 int TileMap::getTileId(unsigned int x, unsigned int z) {
-	return tiles[x + z * width];
+	if (x >= 0 && x < width && z >= 0 && z < height) {
+		return tiles[x + z * width];
+	}
+	return 0;
 }
 
-void TileMap::setTileId(int x, int z, int id) {
+void TileMap::setTileId(int x, int z, int id, const int nonCollisionTiles []) {
 	if (x >= 0 && x < width && z >= 0 && z < height) {
 		tiles[x + z * (int)width] = id;
+		
+		bool nonCollision = false;
+		for (int i = 0; i < sizeof(nonCollisionTiles) / sizeof(nonCollisionTiles[0]); i++) {
+			nonCollision = (nonCollisionTiles[i] == id);
+		}
+
+		if (collisionMap[x + z * (int)width] != !nonCollision) {
+			collisionMap[x + z * (int)width] = !nonCollision;
+			Game::instance().getTileSystem().pathfinder.recalculateMap();
+		}
+		
 		int tilesBeyondWidth = ((x + z) - (int)width + 1)*(int)((x + z) / (int)width);
 		diagonalRows[(x + z)].setTileId(x - tilesBeyondWidth, id, tileTextureSize);
 	}
@@ -55,52 +76,64 @@ int TileMap::getDepth() const {
 	return layerDepth;
 }
 
-bool TileMap::canWalkHere(unsigned int x, unsigned int z, const int nonCollisionTiles[]) {
-	int tile = getTileId(x, z);
-	for (int i = 0; i < sizeof(nonCollisionTiles) / sizeof(nonCollisionTiles[0]); i++) {
-		if (i == tile)
-			return true;
-	}
-	return false;
+int TileMap::getWidth() const{
+	return width;
+}
+
+int TileMap::getHeight() const{
+	return height;
+}
+
+bool TileMap::canWalkHere(unsigned int x, unsigned int z) {
+	return (!collisionMap[x + z * width]) && (x >= 0 && x < width && z >= 0 && z < height);
 }
 std::vector<TileMap::Row> &TileMap::getRows() {
 
 	return diagonalRows;
 }
 
-sf::Vector2f TileMap::isoTo2D(sf::Vector2f point) {
+const std::vector<bool> &TileMap::getCollisionMap() {
+	return collisionMap;
+}
+
+sf::Vector2f TileMap::worldToIso(sf::Vector2f point) {
 	return  sf::Vector2f((2 * point.y + point.x), (2 * point.y - point.x));
 }
 
-sf::Vector2i TileMap::isoToTile(sf::Vector2f point, const TileMap & map) {
-	sf::Vector2f twoD = isoTo2D(point);
-	return  sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
+sf::Vector2i TileMap::worldToTile(sf::Vector2f point) {
+	sf::Vector2f twoD = worldToIso(point);
+	sf::Vector2i tile = sf::Vector2i(twoD.x / this->tileSize.x, twoD.y / this->tileSize.y);
+	return  tile;
 }
 
-sf::Vector2i TileMap::screenToTile(sf::Vector2i point, const TileMap & map, const sf::RenderWindow &window) {
-	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(point));
-	return sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
+sf::Vector2f TileMap::tileToWorld(sf::Vector2i point) {
+	return isoToWorld(sf::Vector2f(point.x *this->tileSize.x,point.y * this->tileSize.y));
 }
 
-sf::Vector2f TileMap::screenToIso(sf::Vector2i point, const sf::RenderWindow &window) {
+sf::Vector2i TileMap::screenToTile(sf::Vector2i point, const sf::RenderWindow &window) {
+	sf::Vector2f twoD = worldToIso(window.mapPixelToCoords(point));
+	return sf::Vector2i(twoD.x / this->tileSize.x, twoD.y / this->tileSize.y);
+}
+
+sf::Vector2f TileMap::screenToWorld(sf::Vector2i point, const sf::RenderWindow &window) {
 	return window.mapPixelToCoords(point);
 }
 
-sf::Vector2f TileMap::screenTo2D(sf::Vector2i point, const sf::RenderWindow & window) {
-	return isoTo2D(window.mapPixelToCoords(point));
+sf::Vector2f TileMap::screenToIso(sf::Vector2i point, const sf::RenderWindow & window) {
+	return worldToIso(window.mapPixelToCoords(point));
 }
 
-sf::Vector2i TileMap::mouseToTile(const TileMap & map, const sf::RenderWindow & window) {
-	sf::Vector2f twoD = isoTo2D(window.mapPixelToCoords(sf::Mouse::getPosition(window)) + sf::Vector2f(map.getTileSize().x * -0.5f, map.getTileSize().y *(map.getDepth() - 0.5f) / 2.0f));
-	return sf::Vector2i(twoD.x / map.tileSize.x, twoD.y / map.tileSize.y);
+sf::Vector2i TileMap::mouseToTile(const sf::RenderWindow & window) {
+	sf::Vector2f offset(this->tileSize.x * -0.5f, this->tileSize.y *(this->layerDepth - 0.5f) / 2.0f);
+	sf::Vector2f twoD = worldToIso(window.mapPixelToCoords(sf::Mouse::getPosition(window)) + offset);
+	return sf::Vector2i(twoD.x / this->tileSize.x, twoD.y / this->tileSize.y);
 }
 
-sf::Vector2f TileMap::twoDToIso(sf::Vector2f point) {
+sf::Vector2f TileMap::isoToWorld(sf::Vector2f point) {
 	return sf::Vector2f((point.x + point.y) / 2.0f, point.y - point.x);
 }
 
 bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextureSize, sf::Vector2i tileSize, int rowNumber, const std::vector<int> tiles, int offset, int coloumns, unsigned int width) {
-
 	auto tex = AssetLoader<sf::Texture>::GetInstance().Get(texturePath);
 	if (tex == nullptr) {
 		bool loaded = AssetLoader<sf::Texture>::GetInstance().LoadAsset(texturePath);
@@ -113,7 +146,8 @@ bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextur
 
 	for (int i = 0; i < coloumns; ++i) {
 		// get the current tile number
-		const int tileNumber = tiles[offset - (width - 1)*(i)];
+		int index = offset - ((int)width - 1)*(i);
+		const int tileNumber = tiles[index];
 
 		// find its position in the tileset texture
 		int tu = tileNumber % (m_tileset.getSize().x / tileTextureSize.x);
@@ -132,6 +166,9 @@ bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextur
 		quad[1].texCoords = sf::Vector2f((tu + 1) * tileTextureSize.x, tv * tileTextureSize.y);
 		quad[2].texCoords = sf::Vector2f((tu + 1) * tileTextureSize.x, (tv + 1) * tileTextureSize.y);
 		quad[3].texCoords = sf::Vector2f(tu * tileTextureSize.x, (tv + 1) * tileTextureSize.y);
+
+		
+		
 	}
 	return true;
 }

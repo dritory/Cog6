@@ -3,6 +3,7 @@
 #include <sol.hpp>
 #include "EntitySystem/EntitySystem.h"
 #include "EntitySystem/Entities/EntityWall.h"
+#include "EntitySystem/Entities/EntityMob.h"
 #include "EntitySystem/Entities/EntityDummy.h"
 #include "Rendering/SpriteBatch.h"
 #include "AssetLoader/AssetLoader.h"
@@ -18,9 +19,11 @@ Game::~Game()
 {
 }
 
+
+
 void Game::Start()
 {
-	sf::RenderWindow window(sf::VideoMode(1200, 800),
+	window.create(sf::VideoMode(1200, 800),
 		"Hello SFML", sf::Style::Default);
 
 	window.setFramerateLimit(60);
@@ -49,22 +52,15 @@ void Game::Start()
 	text2.setString(str);
 
 	EntitySystem es;
-
-	for (int x = 0; x < 640; x += 32)
-		for (int z = 0; z < 640; z += 32)
-			for (int y = 0; y < 64; y += 32)
+	
+	for (int x = 0; x < 32*32; x += 128)
+		for (int z = 0; z < 32*32; z += 128)
 		{
-			Entity* ent;
-			if (y / 32 >= 1)
-			{
-				if (rand() % 3 == 0) continue;
-				ent = es.Add<EntityWall>();
-			}
-			else
-				ent = es.Add<EntityDummy>();
-			ent->SetPosition(sf::Vector3f(x + 700.0f, y, z));
+				Entity* ent;
+			ent = es.Add<EntityMob>();
+			ent->SetPosition(sf::Vector3f(x, 32, z));
 		}
-
+		
 	SpriteBatch batcher;
 	es.SetBatcher(batcher);
 
@@ -100,7 +96,10 @@ void Game::Start()
 		
 		es.Update();
 
+		
 		camera.update();
+
+
 		window.clear();
 		window.setView(camera.view);
 		// Draw world
@@ -116,6 +115,10 @@ void Game::Start()
 		window.draw(text);
 
 		window.display();
+
+		
+
+		tileSystem.LateUpdate();
 	}
 
 }
@@ -123,4 +126,8 @@ void Game::Start()
 const sf::RenderWindow & Game::getWindow()
 {
 	return this->window;
+}
+
+TileSystem & Game::getTileSystem() {
+	return tileSystem;
 }

@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
+    <ClCompile Include="src\EntitySystem\AStar.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
     <ClCompile Include="src\EntitySystem\Entity.cpp" />
@@ -24,6 +27,9 @@
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EntitySystem\Pathfinder.h" />
+    <ClInclude Include="src\EntitySystem\AStar.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
     <ClInclude Include="src\AssetLoader\AssetLoader.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
