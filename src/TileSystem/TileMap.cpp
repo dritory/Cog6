@@ -4,6 +4,18 @@
 #include "..\AssetLoader\AssetLoader.h"
 #include "..\Game.h"
 #include "TileSystem.h"
+
+TileMap::TileMap()
+{
+	collisionMap = nullptr;
+}
+
+TileMap::~TileMap()
+{
+	delete[] collisionMap;
+	collisionMap = nullptr;
+
+}
 bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSize, sf::Vector2i _tileSize, int _layerDepth, const int _tiles[], unsigned int _width, const int nonCollisionTiles[]) {
 	width = _width;
 	height = _width;
@@ -11,7 +23,7 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 	layerDepth = _layerDepth;
 	tileTextureSize = _tileTextureSize;
 	tiles.reserve(_width*_width);
-	collisionMap.reserve(_width*_width);
+	collisionMap = new bool[_width*_width];
 
 	for (int i = 0; i < _width*_width; i++) {
 		tiles.push_back(_tiles[i]);
@@ -21,7 +33,7 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 				noncollision = true;
 			}
 		}
-		collisionMap.push_back(!noncollision);
+		collisionMap[i] = (!noncollision);
 	}
 	int diagonalRowNum = 2 * _width - 1;
 	diagonalRows.reserve(diagonalRowNum);
@@ -55,12 +67,14 @@ void TileMap::setTileId(int x, int z, int id, const int nonCollisionTiles []) {
 		
 		bool nonCollision = false;
 		for (int i = 0; i < sizeof(nonCollisionTiles) / sizeof(nonCollisionTiles[0]); i++) {
-			nonCollision = (nonCollisionTiles[i] == id);
+			if (nonCollisionTiles[i] == id) {
+				nonCollision = true;
+			}
 		}
 
 		if (collisionMap[x + z * (int)width] != !nonCollision) {
 			collisionMap[x + z * (int)width] = !nonCollision;
-			Game::instance().getTileSystem().pathfinder.recalculateMap();
+			Game::instance().getTileSystem().pathfinder->recalculateMap();
 		}
 		
 		int tilesBeyondWidth = ((x + z) - (int)width + 1)*(int)((x + z) / (int)width);
@@ -68,7 +82,7 @@ void TileMap::setTileId(int x, int z, int id, const int nonCollisionTiles []) {
 	}
 }
 
-sf::Vector2i TileMap::getTileSize()  const {
+const sf::Vector2i &TileMap::getTileSize()  const {
 	return tileSize;
 }
 
@@ -85,14 +99,22 @@ int TileMap::getHeight() const{
 }
 
 bool TileMap::canWalkHere(unsigned int x, unsigned int z) {
-	return (!collisionMap[x + z * width]) && (x >= 0 && x < width && z >= 0 && z < height);
+	if (x >= 0 && x < width && z >= 0 && z < height)
+		return (!collisionMap[x + z * width]);
+	else
+		return false;
+}
+void TileMap::setCollision(int x, int z, bool collidable)
+{
+	if (x >= 0 && x < width && z >= 0 && z < height)
+		collisionMap[x + z *width] = collidable;
 }
 std::vector<TileMap::Row> &TileMap::getRows() {
 
 	return diagonalRows;
 }
 
-const std::vector<bool> &TileMap::getCollisionMap() {
+const bool *TileMap::getCollisionMap() {
 	return collisionMap;
 }
 

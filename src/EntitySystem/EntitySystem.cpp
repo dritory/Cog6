@@ -49,6 +49,7 @@ void EntitySystem::SetBatcher(SpriteBatch& batcher)
 	m_SpriteBatcher = &batcher;
 }
 
+
 void EntitySystem::RemoveEntity(EntityId entityId)
 {
 	auto ent = Get(entityId);

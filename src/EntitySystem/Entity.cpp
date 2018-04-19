@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include "../AssetLoader/AssetLoader.h"
 
-Entity::Entity(EntitySystem* system, const EntityId& id) : m_Id(id), m_Health(0), m_System(system)
+Entity::Entity(EntitySystem* system, const EntityId& id) : m_Id(id), m_Health(10), m_System(system)
 {
 }
 

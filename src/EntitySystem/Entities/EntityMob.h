@@ -19,10 +19,13 @@ private:
 	sf::Vector2i getTilePos();
 
 	sf::Vector3i getBestDirection();
-	
+	 
 	Pathfinder *pathFinder;
 
 	sf::Vector3f normalize(const sf::Vector3f& source);
+
+	int waitTimer = 0;
+	sf::Vector3i lastDirection;
 
 protected:
 	void Update() override;

@@ -17,17 +17,19 @@ private:
 	};
 
 public:
+	
+
+	TileMap();
+	~TileMap();
+
 	//loads the map and generates rows
-	//takes in tileset as a filename, texture size per tile
-	//tile size, the layer
-	//initial tilemap int array
-	//width of the level (height is the same as width)
+	//takes in tileset as a filename
 	bool load(const std::string& texturePath,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int layerDepth, const int tiles[], unsigned int width, const int collisionIDs[]);
 
 	int getTileId(unsigned int x, unsigned int z);
 	void setTileId(int x, int z, int id, const int nonCollisionTiles []);
 
-	sf::Vector2i getTileSize() const;
+	const sf::Vector2i &getTileSize() const;
 	int getDepth() const ;
 
 	int getWidth() const;
@@ -37,9 +39,11 @@ public:
 	//Takes in a x and y and tiles that are walkable and returns true if it is walkable
 	bool canWalkHere(unsigned int x, unsigned int z);
 
+	void setCollision(int x, int z, bool collidable);
+
 	std::vector<TileMap::Row> &getRows();
 
-	const std::vector<bool> &getCollisionMap();
+	const bool *getCollisionMap();
 
 
 	//brief converts iso coords to world coords
@@ -83,5 +87,5 @@ private:
 	unsigned int width;
 	unsigned int height;
 	std::vector<int>tiles;
-	std::vector<bool>collisionMap;
+	bool *collisionMap;
 };

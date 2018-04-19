@@ -18,6 +18,8 @@ public:
 	template<class entity>
 	bool Is();
 	bool Removed() const { return m_Removed; }
+	int GetHealth() { return m_Health; }
+	void SetHealth(int health) { m_Health = health; };
 
 protected:
 	virtual void Update() = 0;
