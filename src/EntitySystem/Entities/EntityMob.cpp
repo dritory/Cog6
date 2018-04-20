@@ -47,7 +47,7 @@ sf::Vector3i EntityMob::getBestDirection() {
 				}
 				continue;
 			}
-			if (heat < best || (heat != FLT_MAX && (int)heat == (int)best && lastDirection == sf::Vector3i(x, height, y))) {//|| (heat != FLT_MAX && rand() % 1000 > 998)) {
+			if (heat < best || (heat != FLT_MAX && (int)heat < (int)best + 0.1f && lastDirection == sf::Vector3i(x, height, y))) {//|| (heat != FLT_MAX && rand() % 1000 > 998)) {
 
 				best = heat;
 				bestDirection = sf::Vector3i(x, height, y);
