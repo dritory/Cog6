@@ -38,9 +38,11 @@ private:
 	sf::Texture m_Texture;
 	sf::Sprite m_Sprite;
 
-	void Load();
+protected:
+	virtual void Load();
 	void Remove() { m_Removed = true; }
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
+	
 

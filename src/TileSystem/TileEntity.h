@@ -9,7 +9,7 @@ public:
 	TileEntity(EntitySystem* system, const EntityId& id);
 	~TileEntity();
 
-	bool BindToTile(int x, int y, int z);
+	bool virtual BindToTile(int x, int y, int z);
 
 	sf::Vector3i getTilePos();
 	

@@ -9,31 +9,32 @@ Player::Player() {
 Player::~Player() {
 }
 
-void Player::build(int x, int y, int z)
+bool Player::build(int x, int y, int z)
 {
 	if (Game::instance().getTileSystem().isInBounds(x, y, z)) {
-		Building *b;
-		b = Game::instance().getEntitySystem().Add<Building>();
+		Building *b = Game::instance().getEntitySystem().Add<Building>();
 
-		if (!b->BindToTile(x, y, z)) {
+		if (!b->BindToTile(x, y, z) && b != nullptr) {
 			Game::instance().getEntitySystem().RemoveEntity(b);
-			return;
+			return false;
 		}
 		else {
 			//Game::instance().getTileSystem().pathfinder->recalculateMap();
 
-
+			return true;
 		}
 	}
 }
 
 void Player::Update()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+	static bool oldKeyState = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {// && !oldKeyState) {
 
 		sf::Vector2i pos = Game::instance().getTileSystem().getMap(32).mouseToTile(Game::instance().getWindow());
-		build(pos.x, 1, pos.y);
-		
-		Game::instance().getTileSystem().pathfinder->recalculateMap();
+		if (build(pos.x, 1, pos.y)) {
+			Game::instance().getTileSystem().pathfinder->recalculateMap();
+		}
 	}
+	oldKeyState = sf::Keyboard::isKeyPressed(sf::Keyboard::B);
 }

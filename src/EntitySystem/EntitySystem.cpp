@@ -73,8 +73,10 @@ void EntitySystem::cleanupEntities()
 	while(m_EntitiesToRemove.size() != 0)
 	{
 		auto id = m_EntitiesToRemove.front(); m_EntitiesToRemove.pop();
-		m_Entities[id] = nullptr;
-		m_UnusedEntityIds.push(id);
+		if (m_Entities[id] != nullptr) {
+			m_Entities[id].reset();
+			m_UnusedEntityIds.push(id);
+		}
 	}
 
 	while(m_InteractablesToRemove.size() != 0)

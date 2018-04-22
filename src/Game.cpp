@@ -19,7 +19,7 @@ Game::Game()
 	int seed = std::rand();
 	
 	fastnoise = new FastNoise(seed);
-	tileSystem = new TileSystem(64, 10);
+	tileSystem = new TileSystem(32, 10);
 }
 
 
@@ -72,8 +72,8 @@ void Game::Start()
 
 	
 	
-	for (int x = 0; x < 32*32; x += 64)
-		for (int z = 0; z < 32*32; z += 64)
+	for (int x = 0; x < 32*32; x += 128)
+		for (int z = 0; z < 32*32; z += 128)
 		{
 				Entity* ent;
 			ent = es.Add<EntityMob>();

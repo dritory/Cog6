@@ -184,7 +184,10 @@ bool Pathfinder::canWalkHere(int x, int z) {
 void Pathfinder::LateUpdate() {
 	for (int i = 0; i < map->getWidth()*map->getHeight() * gridPerTile* gridPerTile; i++) {
 		lastHeatMap[i] = heatmap[i];
-		heatmap[i] = distancemap[i];
+		if (distancemap[i] != FLT_MAX)
+			heatmap[i] = distancemap[i];
+		else
+			heatmap[i] = FLT_MAX;
 	}
 }
 
