@@ -68,7 +68,6 @@ template <class entity>
 entity* EntitySystem::Add(const std::string& strId)
 {
 	// Assume no errors, for now
-
 		EntityId id = getNextId();
 
 	auto& ent = m_Entities[id];
