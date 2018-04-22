@@ -15,9 +15,11 @@ void Camera::update()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		view.zoom(0.90f);
+		speed *= 0.9f;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		view.zoom(1.1f);
+		speed *= 1.1f;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
