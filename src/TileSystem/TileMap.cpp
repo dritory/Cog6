@@ -23,7 +23,7 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 	layerDepth = _layerDepth;
 	tileTextureSize = _tileTextureSize;
 
-	tiles.reserve(_width*_width);
+	tiles.resize(_width*_width);
 	collisionMap = new bool[_width*_width];
 
 	for (int i = 0; i < (int)(_width*_width); i++) {
