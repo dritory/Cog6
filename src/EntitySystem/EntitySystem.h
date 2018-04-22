@@ -68,25 +68,26 @@ template <class entity>
 entity* EntitySystem::Add(const std::string& strId)
 {
 	// Assume no errors, for now
-	//do {
 
 		EntityId id = getNextId();
 
-		auto& ent = m_Entities[id];
-		ent = std::make_unique<entity>(this, id);;
-		if (!strId.empty()) {
-			if (m_StringLookup.find(strId) != m_StringLookup.end()) {
-				std::cout << "Entity with id: \"" << strId << "\ is already exists, ignoring" << std::endl;
-			}
-			else {
-				m_StringLookup[strId] = id;
-			}
+	auto& ent = m_Entities[id];
+	ent = std::make_unique<entity>(this, id);;
+	if(!strId.empty())
+	{
+		if(m_StringLookup.find(strId) != m_StringLookup.end())
+		{
+			std::cout << "Entity with id: \"" << strId << "\" already exists, ignoring" << std::endl;
 		}
+		else
+		{
+			m_StringLookup[strId] = id;
+		}
+	}
 
 		ent->Load();
 
 		return static_cast<entity*>(m_Entities[id].get());
-	//} while (m_Entities[i] != nullptr);
 }
 
 template <class entity>
