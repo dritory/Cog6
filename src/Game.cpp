@@ -48,13 +48,13 @@ void Game::Start()
 
 	sf::Text text2;
 	text2.setFont(font);
-	text2.setPosition(200, 250);
+	text2.setPosition(50, 100);
 	text2.setString(str);
 
 	EntitySystem es;
 	
-	for (int x = 0; x < 32*32; x += 128)
-		for (int z = 0; z < 32*32; z += 128)
+	for (int x = 0; x < 32*32; x += 64)
+		for (int z = 0; z < 32*32; z += 64)
 		{
 				Entity* ent;
 			ent = es.Add<EntityMob>();
@@ -107,10 +107,12 @@ void Game::Start()
 		
 		window.draw(es);
 		batcher.SetDirty();
+		batcher.prepareDraw();
 		window.draw(batcher);
 
 		window.setView(window.getDefaultView());
 		// Draw UI
+		text2.setString(std::to_string(batcher.getQueued()));
 		window.draw(text2);
 		window.draw(text);
 

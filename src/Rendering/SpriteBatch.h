@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../GameObject.h"
-#include <set>
+#include <algorithm>
 
 struct GameObjectComparator
 {
@@ -15,10 +15,16 @@ public:
 
 	void QueueObject(GameObject* object);
 	void SetDirty() { m_Dirty = true; }
+	void prepareDraw();
+	long long getQueued() { return m_Queued; }
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	std::set<GameObject*, GameObjectComparator> m_QueuedDraw;
+	void sort();
+	
+	std::vector<GameObject*> m_QueuedDraw;
 	bool m_Dirty;
+	long long m_Counter;
+	long long m_Queued;
 };

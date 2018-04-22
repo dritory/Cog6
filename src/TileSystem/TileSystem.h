@@ -42,7 +42,7 @@ private:
 
 	const int NONCOLLISION_TILES[1] = {0};
 	
-	 int WIDTH = 32;
+	 int WIDTH = 512;
 	int foo = 0;
 };
 
