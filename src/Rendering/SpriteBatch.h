@@ -3,8 +3,9 @@
 #include "../GameObject.h"
 #include <algorithm>
 
-struct GameObjectComparator
+class GameObjectComparator
 {
+public:
 	bool operator()(const GameObject* lhs, const GameObject* rhs) const;
 };
 

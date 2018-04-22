@@ -58,7 +58,7 @@ void Game::Start()
 		{
 				Entity* ent;
 			ent = es.Add<EntityMob>();
-			ent->SetPosition(sf::Vector3f(x, 32, z));
+			ent->SetPosition(sf::Vector3f((float)x, 32, (float)z));
 		}
 		
 	SpriteBatch batcher;

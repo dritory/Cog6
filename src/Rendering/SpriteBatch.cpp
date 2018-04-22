@@ -31,7 +31,7 @@ void SpriteBatch::QueueObject(GameObject* object)
 	auto a = (pos.x / 4.0f + pos.y + pos.z / 4.0f);
 	auto b = (pos.x / 2.0f - pos.z / 2.0f);
 	//if (a < -64 || a >= 1200 + 64 || b < -64 || b >= 1600 + 64) return;
-	if (m_Counter + 1 > m_QueuedDraw.size())
+	if (m_Counter + 1 > (int)m_QueuedDraw.size())
 		m_QueuedDraw.resize(m_QueuedDraw.size() * 2);
 	m_QueuedDraw[m_Counter] = object;
 	m_Counter++;

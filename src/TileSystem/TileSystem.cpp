@@ -4,7 +4,7 @@
 #include <random>
 #include <ctime>
 TileSystem::TileSystem() {
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 	
 	int *level = new int[WIDTH*WIDTH];
 	int *level2 = new int[WIDTH*WIDTH];
@@ -109,10 +109,10 @@ int TileSystem::getTileId(sf::Vector3i pos)
 //takes in world coords and tile id
 void TileSystem::setTileId(sf::Vector3f pos, int id)
 {
-	int tm = pos.y / WIDTH;
+	int tm = (int)(pos.y / WIDTH);
 	if (tm < HEIGHT && tm >= 0) {
 		sf::Vector2i size = map[tm].getTileSize();
-		map[tm].setTileId(pos.x / size.x, pos.z / size.y, id, NONCOLLISION_TILES);
+		map[tm].setTileId((int)(pos.x / size.x), (int)(pos.z / size.y), id, NONCOLLISION_TILES);
 	}
 }
 //brief sets the tile id
@@ -125,26 +125,27 @@ void TileSystem::setTileId(int x, int y, int z, int id)
 	}
 }
 sf::Vector2i TileSystem::worldToTileCoord(sf::Vector3f pos) {
-	return getMap(pos.y).worldToTile(sf::Vector2f(pos.x, pos.z));
+	return getMap((unsigned int)pos.y).worldToTile(sf::Vector2f(pos.x, pos.z));
 }
 sf::Vector2i TileSystem::isoToTileCoord(sf::Vector3f pos)
 {
-	sf::Vector2i tilesize = getMap(pos.y).getTileSize();
-	return sf::Vector2i(pos.x / tilesize.x,pos.z /tilesize.y);
+	sf::Vector2i tilesize = getMap((unsigned int)pos.y).getTileSize();
+	return sf::Vector2i((int)(pos.x / tilesize.x),(int)(pos.z /tilesize.y));
 }
 sf::Vector3f TileSystem::tileToIsoCoord(sf::Vector3i pos)
 {
 	sf::Vector2i tilesize = getMap(pos.y).getTileSize();
-	return sf::Vector3f(pos.x * tilesize.x, pos.y * tilesize.x, pos.z * tilesize.y);
+	return sf::Vector3f((float)pos.x * tilesize.x, (float)pos.y * tilesize.x, (float)pos.z * tilesize.y);
 }
 //brief gets a reference to a map
 //takes in world coord y
-TileMap & TileSystem::getMap(unsigned int y)
+TileMap& TileSystem::getMap(unsigned int y)
 {
 	int tm = y / WIDTH;
 	if (tm < HEIGHT && tm >= 0) {
 		return map[tm];
 	}
-	
+	// TODO: Handle better
+	throw new std::exception("Map does not exist");
 }
 
