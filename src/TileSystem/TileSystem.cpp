@@ -3,8 +3,9 @@
 #include "..\Game.h"
 #include <random>
 #include <ctime>
+
 TileSystem::TileSystem(int width, int height, int tileSize) : width(width),height(height) , tileSize(tileSize) {
-	
+  
 	map = new TileMap[height];
 
 	pathfinder = nullptr;
@@ -161,10 +162,11 @@ int TileSystem::getTileId(sf::Vector3i pos)
 //takes in world coords and tile id
 void TileSystem::setTileId(sf::Vector3f pos, int id)
 {
-	int tm = pos.y / width;
+	int tm = (int)(pos.y / width);
 	if (tm < height && tm >= 0) {
 		
-		map[tm].setTileId(pos.x / tileSize, pos.z / tileSize, id, NONCOLLISION_TILES);
+		map[tm].setTileId((int)(pos.x / tileSize), (int)(pos.z / tileSize), id, NONCOLLISION_TILES);
+
 	}
 }
 //brief sets the tile id
@@ -190,25 +192,25 @@ TileEntity * TileSystem::getTileEntity(int x, int y, int z)
 		return nullptr;
 }
 sf::Vector2i TileSystem::worldToTileCoord(sf::Vector3f pos) {
-	return getMap(pos.y).worldToTile(sf::Vector2f(pos.x, pos.z));
+	return getMap((unsigned int)pos.y).worldToTile(sf::Vector2f(pos.x, pos.z));
 }
 sf::Vector2i TileSystem::isoToTileCoord(sf::Vector3f pos)
 {
-	
-	return sf::Vector2i(pos.x / tileSize,pos.z /tileSize);
+	return sf::Vector2i((int)pos.x / tileSize,(int)pos.z /tileSize);
 }
 sf::Vector3f TileSystem::tileToIsoCoord(sf::Vector3i pos)
 {
-	return sf::Vector3f(pos.x * tileSize, pos.y * tileSize, pos.z * tileSize);
+	return sf::Vector3f((float)pos.x * tileSize, (float)pos.y * tileSize, (float)pos.z * tileSize);
 }
 //brief gets a reference to a map
 //takes in world coord y
-TileMap & TileSystem::getMap(unsigned int y)
+TileMap& TileSystem::getMap(unsigned int y)
 {
 	int tm = y / width;
 	if (tm < height && tm >= 0) {
 		return map[tm];
 	}
-	
+	// TODO: Handle better
+	throw new std::exception("Map does not exist");
 }
 

@@ -62,22 +62,19 @@ void Game::Start()
 
 	sf::Text text2;
 	text2.setFont(font);
-	text2.setPosition(200, 250);
+	text2.setPosition(50, 100);
 	text2.setString(str);
 
 	Level level; //current test level
 
 	tileSystem->load();
-
-
-	
-	
+  
 	for (int x = 0; x < 32*32; x += 64)
 		for (int z = 0; z < 32*32; z += 64)
 		{
 				Entity* ent;
 			ent = es.Add<EntityMob>();
-			ent->SetPosition(sf::Vector3f(x, 32, z));
+			ent->SetPosition(sf::Vector3f((float)x, 32, (float)z));
 		}
 		
 	SpriteBatch batcher;
@@ -144,11 +141,13 @@ void Game::Start()
 		//Draw entity system
 		window.draw(es);
 		batcher.SetDirty();
+		batcher.prepareDraw();
 		window.draw(batcher);
 
 		//resets the view so that UI is fixed in the window
 		window.setView(window.getDefaultView());
 		// Draw UI
+		text2.setString(std::to_string(batcher.getQueued()));
 		window.draw(text2);
 		window.draw(text);
 

@@ -7,12 +7,12 @@ class TileMap : public sf::Transformable {
 private:
 	class Row : public GameObject {
 	public:
-		bool load(const std::string& tileset,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int rowNumber, const std::vector<int> tiles, int offset,int coloumns, unsigned int width);
+		bool load(const std::string& tileset,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int rowNumber, const std::vector<int>& tiles, int offset,int coloumns, unsigned int width);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void setTileId(int x, int tileId, sf::Vector2u tileTextureSize);
 	private:
 		sf::VertexArray m_vertices;
-		sf::Texture m_tileset;
+		sf::Texture* m_tileset;
 		double depth = 0.0;
 	};
 
@@ -79,7 +79,7 @@ private:
 
 	std::vector<TileMap::Row> diagonalRows;
 	sf::VertexArray m_vertices;
-	sf::Texture m_tileset;
+	sf::Texture* m_tileset;
 	sf::Vector2i tileSize;
 	sf::Vector2u tileTextureSize;
 	int layerDepth = 0;

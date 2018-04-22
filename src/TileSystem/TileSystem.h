@@ -68,5 +68,6 @@ private:
 
 
 	int NONCOLLISION_TILES[1] = {0};
+
 };
 

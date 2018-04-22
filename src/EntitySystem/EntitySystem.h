@@ -76,7 +76,7 @@ entity* EntitySystem::Add(const std::string& strId)
 	{
 		if(m_StringLookup.find(strId) != m_StringLookup.end())
 		{
-			std::cout << "Entity with id: \"" << strId << "\ is already exists, ignoring" << std::endl;
+			std::cout << "Entity with id: \"" << strId << "\" already exists, ignoring" << std::endl;
 		}
 		else
 		{
