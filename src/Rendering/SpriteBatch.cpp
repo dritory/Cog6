@@ -27,6 +27,9 @@ void SpriteBatch::QueueObject(GameObject* object)
 		m_Dirty = false;
 	}
 
+	// Ignore if hidden
+	if (object->isHidden()) return;
+
 	auto pos = object->GetPosition();
 	auto a = (pos.x / 4.0f + pos.y + pos.z / 4.0f);
 	auto b = (pos.x / 2.0f - pos.z / 2.0f);
