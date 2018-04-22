@@ -35,6 +35,13 @@ public:
 	void SetBatcher(SpriteBatch& batcher);
 	void RemoveEntity(EntityId entityId);
 
+	template <class T>
+	void RemoveEntity(T * entityPtr) {
+		if (entityPtr->Removed()) return;
+		entityPtr->Remove();
+		m_EntitiesToRemove.push(entityPtr->GetId());
+	};
+
 private:
 	friend class InteractableEntity;
 

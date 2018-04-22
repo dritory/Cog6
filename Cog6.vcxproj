@@ -11,6 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\TileSystem\Building.cpp" />
+    <ClCompile Include="src\FastNoise.cpp" />
+    <ClCompile Include="src\GL\Spawner.cpp" />
+    <ClCompile Include="src\GL\Player.cpp" />
+    <ClCompile Include="src\GL\Level.cpp" />
+    <ClCompile Include="src\Gui\Gui.cpp" />
     <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
     <ClCompile Include="src\EntitySystem\AStar.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
@@ -25,8 +31,15 @@
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
+    <ClCompile Include="src\TileSystem\TileEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\TileSystem\Building.h" />
+    <ClInclude Include="src\FastNoise.h" />
+    <ClInclude Include="src\GL\Spawner.h" />
+    <ClInclude Include="src\GL\Player.h" />
+    <ClInclude Include="src\GL\Level.h" />
+    <ClInclude Include="src\Gui\Gui.h" />
     <ClInclude Include="src\EntitySystem\Pathfinder.h" />
     <ClInclude Include="src\EntitySystem\AStar.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
@@ -42,11 +55,23 @@
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
+    <ClInclude Include="src\TileSystem\TileEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -82,8 +107,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\sfgui-0.3.2\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
@@ -91,6 +117,7 @@
     <SourcePath>$(SourcePath)</SourcePath>
     <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -98,11 +125,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>SFML_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;SFGUI_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -113,13 +144,17 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>SFML_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command> xcopy /d /y "$(ProjectDir)Libraries\sfgui-0.3.2\bin\*.*" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

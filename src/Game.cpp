@@ -10,13 +10,27 @@
 
 #include <sol.hpp>
 #include "Camera.h"
+#include "GL\Level.h"
+#include <cstdlib>
 Game::Game()
 {
+	std::srand(std::time(0));
+
+	int seed = std::rand();
+	
+	fastnoise = new FastNoise(seed);
+	tileSystem = new TileSystem(64, 10);
 }
 
 
 Game::~Game()
 {
+	delete tileSystem;
+	tileSystem = nullptr;
+
+	delete fastnoise;
+	fastnoise = nullptr;
+
 }
 
 
@@ -51,8 +65,10 @@ void Game::Start()
 	text2.setPosition(50, 100);
 	text2.setString(str);
 
-	EntitySystem es;
-	
+	Level level; //current test level
+
+	tileSystem->load();
+  
 	for (int x = 0; x < 32*32; x += 64)
 		for (int z = 0; z < 32*32; z += 64)
 		{
@@ -67,14 +83,18 @@ void Game::Start()
 	sf::Clock clock;
 	float lastTime = 0;
 	int frames = 0;
+	
+	sf::Clock guiClock;
 
 	bool pressed = false;
-	tileSystem.load();
+	
 
 	Camera camera(sf::FloatRect(150,150, 1200, 800));
 	
+
 	while (window.isOpen())
 	{
+		
 		if(clock.getElapsedTime().asSeconds() >= 0.2f)
 		{
 			float currentTime = clock.restart().asSeconds();
@@ -87,29 +107,44 @@ void Game::Start()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			
+			
 			if (event.type == sf::Event::Closed) {
 				window.close();
-
 			}
 
 		}
 		
-		es.Update();
-
 		
-		camera.update();
-
+		//Updates
+		//----------------------------------------//
 
 		window.clear();
+		//sets view to cameras view
 		window.setView(camera.view);
-		// Draw world
-		tileSystem.draw(batcher);
+
 		
+		es.Update();
+		camera.update();
+		player.Update();
+		//--------------------------//
+
+
+
+		//Rendering
+
+		//----------------------------------------//
+		
+		// Draw world
+		tileSystem->draw(batcher);
+		
+		//Draw entity system
 		window.draw(es);
 		batcher.SetDirty();
 		batcher.prepareDraw();
 		window.draw(batcher);
 
+		//resets the view so that UI is fixed in the window
 		window.setView(window.getDefaultView());
 		// Draw UI
 		text2.setString(std::to_string(batcher.getQueued()));
@@ -118,9 +153,10 @@ void Game::Start()
 
 		window.display();
 
-		
+		//--------------------------//
 
-		tileSystem.LateUpdate();
+		tileSystem->LateUpdate();
+		
 	}
 
 }
@@ -130,6 +166,22 @@ const sf::RenderWindow & Game::getWindow()
 	return this->window;
 }
 
-TileSystem & Game::getTileSystem() {
-	return tileSystem;
+EntitySystem & Game::getEntitySystem()
+{
+	return es;
 }
+
+TileSystem & Game::getTileSystem() {
+	return *tileSystem;
+}
+
+FastNoise & Game::getNoiseGen() {
+	return *fastnoise;
+}
+
+Player & Game::getPlayer()
+{
+	return player;
+}
+
+

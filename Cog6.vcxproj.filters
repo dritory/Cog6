@@ -15,6 +15,13 @@
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
     <ClCompile Include="src\EntitySystem\AStar.cpp" />
     <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
+    <ClCompile Include="src\Gui\Gui.cpp" />
+    <ClCompile Include="src\GL\Level.cpp" />
+    <ClCompile Include="src\GL\Player.cpp" />
+    <ClCompile Include="src\GL\Spawner.cpp" />
+    <ClCompile Include="src\TileSystem\TileEntity.cpp" />
+    <ClCompile Include="src\FastNoise.cpp" />
+    <ClCompile Include="src\TileSystem\Building.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
@@ -32,8 +39,20 @@
     <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
     <ClInclude Include="src\EntitySystem\AStar.h" />
     <ClInclude Include="src\EntitySystem\Pathfinder.h" />
+    <ClInclude Include="src\Gui\Gui.h" />
+    <ClInclude Include="src\GL\Level.h" />
+    <ClInclude Include="src\GL\Player.h" />
+    <ClInclude Include="src\GL\Spawner.h" />
+    <ClInclude Include="src\TileSystem\TileEntity.h" />
+    <ClInclude Include="src\FastNoise.h" />
+    <ClInclude Include="src\TileSystem\Building.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll" />
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll" />
+    <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
   </ItemGroup>
 </Project>
