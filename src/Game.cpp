@@ -19,7 +19,7 @@ Game::Game()
 	int seed = std::rand();
 	
 	fastnoise = new FastNoise(seed);
-	tileSystem = new TileSystem(64, 10);
+	tileSystem = new TileSystem(32, 10);
 }
 
 

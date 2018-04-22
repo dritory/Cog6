@@ -68,7 +68,7 @@ template <class entity>
 entity* EntitySystem::Add(const std::string& strId)
 {
 	// Assume no errors, for now
-	EntityId id = getNextId();
+		EntityId id = getNextId();
 
 	auto& ent = m_Entities[id];
 	ent = std::make_unique<entity>(this, id);;
@@ -84,9 +84,9 @@ entity* EntitySystem::Add(const std::string& strId)
 		}
 	}
 
-	ent->Load();
-	
-	return static_cast<entity*>(ent.get());
+		ent->Load();
+
+		return static_cast<entity*>(m_Entities[id].get());
 }
 
 template <class entity>

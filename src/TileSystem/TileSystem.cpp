@@ -38,6 +38,7 @@ void TileSystem::load() {
 	int *level = new int[width*width];
 	int *level2 = new int[width*width];
 	int *level3 = new int[width*width];
+	int *level4 = new int[width*width];
 	Game::instance().getNoiseGen().SetFrequency(0.02);
 	for (int i = 0; i < width*width; i++) {
 		level[i] = 5;
@@ -46,6 +47,8 @@ void TileSystem::load() {
 		float f = Game::instance().getNoiseGen().GetSimplexFractal((2 * y + x), (2 * y - x));
 		level2[i] = f < -0.2f ? 5 : 0;
 		level3[i] = f < -0.5f ? 5 : 0;
+
+		level4[i] = 0;
 	}
 		
 	// create the tilemap from the level definition
@@ -53,17 +56,20 @@ void TileSystem::load() {
 	map[0].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 0, level, width, NONCOLLISION_TILES);
 	map[1].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 1, level2, width, NONCOLLISION_TILES);
 	map[2].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 2, level3, width, NONCOLLISION_TILES);
+	map[3].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 2, level4, width, NONCOLLISION_TILES);
 	if(pathfinder != nullptr)
 		delete pathfinder;
 
 	pathfinder = new Pathfinder(&map[1]);
 	delete[] level;
 	delete[] level2;
-	
+	delete[] level4;
+
 	delete[] level3;
 	level = nullptr;
 	level3 = nullptr;
 	level2 = nullptr;
+	level4 = nullptr;
 }
 
 void TileSystem::LateUpdate()

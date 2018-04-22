@@ -39,19 +39,30 @@ sf::Vector3i EntityMob::getBestDirection() {
 
 			float heat = pathFinder->getHeat(pos.x + x, pos.y + y);
 
+			
+
 			if (x == 0 && y == 0) {
-				if (heat == 0 || heat == FLT_MAX) {
+				if (heat == 0 || heat == FLT_MAX || isinf(heat)) {
 
 					this->SetPosition(sf::Vector3f(4, 32 * 1, 4+ (std::rand() % Game::instance().getTileSystem().getWidth())*Game::instance().getTileSystem().getTileSize() ));
 					return sf::Vector3i(0, 0, 0);
 				}
 				continue;
 			}
-			if (heat < best || (heat != FLT_MAX && (int)heat < (int)best + 0.1f && lastDirection == sf::Vector3i(x, height, y))) {//|| (heat != FLT_MAX && rand() % 1000 > 998)) {
+			if (x == y && heat != FLT_MAX) {
+				heat -= 0.5f;
+			}
+			if (lastDirection == sf::Vector3i(x, height, y)) {
+				heat -= 0.1f;
+			}
+			//chooses the lowest heat location to move to
+			//Also prefere to move in the same direction as opposite to changing direction
+			if (heat < best ) {//|| (heat != FLT_MAX && rand() % 1000 > 998)) {
 
 				best = heat;
 				bestDirection = sf::Vector3i(x, height, y);
 			}
+			//Makes the mob wait a bit if there is lots of heat going about
 			else if (pathFinder->getHeatDifference(pos.x + x, pos.y + y) > 0.5f && rand() % 1000 > 900) {
 				waitTimer = std::rand() % 30 + 5;
 			}
@@ -94,14 +105,15 @@ void EntityMob::Update() {
 	}
 
 	SetPosition(GetPosition() + velocity);
-	pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()), 0.05f);
+	pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()),10);
 
-	for (int x = -1; x <= 1; x++) {
-		for (int y = -1; y <= 1; y++) {
+	//Generates heat in an 3x3 area, with most heat in the middle
+		for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y++) {
 
-			//pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) + sf::Vector2i(x, y), 1.0f / 10 * ((abs(x) + abs(y) + 1)));
+				pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) + sf::Vector2i(x, y), 1.0f / 10 * ((abs(x)*abs(x) + abs(y)*abs(y) + 1)));
+			}
 		}
-	}
 	if (waitTimer > 0)
 		waitTimer--;
 

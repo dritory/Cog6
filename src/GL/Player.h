@@ -5,7 +5,7 @@ public:
 	~Player();
 
 	//tile coords
-	void build(int x, int y, int z);
+	bool build(int x, int y, int z);
 
 	void Update();
 };
