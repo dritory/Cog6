@@ -13,10 +13,13 @@ public:
 
 	sf::Vector3i getTilePos();
 	
+	
+
 	void damage(int d);
 
 	float getHeat() {
-		return heat;
+		int h = GetHealth();
+		return heat * (h > 0 ? h : 1);
 	};
 private:
 

@@ -6,12 +6,12 @@ public:
 	Camera(sf::FloatRect bounds);
 	~Camera();
 
-	void update();
+	void update(sf::Time elapsed);
 
 	sf::View& getView();
 
 	sf::View view;
 private:
-	float speed = 5.0f;
+	float speed = 25.0f;
 };
 

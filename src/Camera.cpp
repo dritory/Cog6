@@ -11,8 +11,9 @@ Camera::~Camera()
 {
 }
 
-void Camera::update()
+void Camera::update(sf::Time elapsed)
 {
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		view.zoom(0.90f);
 		speed *= 0.9f;

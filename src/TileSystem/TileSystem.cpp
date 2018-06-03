@@ -39,16 +39,20 @@ void TileSystem::load() {
 	int *level2 = new int[width*width];
 	int *level3 = new int[width*width];
 	int *level4 = new int[width*width];
-	Game::instance().getNoiseGen().SetFrequency(0.02);
+	Game::instance().getNoiseGen().SetFrequency((FN_DECIMAL)0.02f);
 	for (int i = 0; i < width*width; i++) {
-		level[i] = 5;
+		
 		int x = i % width;
 		int y = i / width;
-		float f = Game::instance().getNoiseGen().GetSimplexFractal((2 * y + x), (2 * y - x));
-		level2[i] = f < -0.2f ? 5 : 0;
-		level3[i] = f < -0.5f ? 5 : 0;
+		float f = Game::instance().getNoiseGen().GetSimplexFractal((FN_DECIMAL)( y + x), (FN_DECIMAL)( y - x));
+		float d = Game::instance().getNoiseGen().GetSimplexFractal((FN_DECIMAL)(1000+(y + x)), (FN_DECIMAL)( 1000+(y - x)));
+		level[i] = 1;
+		level2[i] = f < -0.2f ? 1 : 0;
+		
+		level3[i] = f < -0.5f ?  1 : 0;
 
-		level4[i] = 0;
+		level4[i] = f < -0.6f ? 17 : 0;
+
 	}
 		
 	// create the tilemap from the level definition
@@ -83,7 +87,7 @@ void TileSystem::draw(SpriteBatch &batch) {
 
 	for (int i = 0; i < height; i ++) {
 		
-		for (GameObject &d : map[i].getRows()) {
+		for (auto &d : map[i].getRows()) {
 			batch.QueueObject(&d);
 		}
 
@@ -91,8 +95,8 @@ void TileSystem::draw(SpriteBatch &batch) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y)) {
 		sf::Vector2i tile = map[1].mouseToTile(Game::instance().getWindow());
 		//setTileId(tile.x, 1,tile.y,5);
-		pathfinder->calculateMap(tile.x, tile.y);
-				//map[0].sprite.setPosition(map[0].getPosition());
+		pathfinder->flush();
+		//map[0].sprite.setPosition(map[0].getPosition());
 	}
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && !oldMouseState) {
@@ -197,6 +201,10 @@ TileEntity * TileSystem::getTileEntity(int x, int y, int z)
 	else
 		return nullptr;
 }
+sf::Vector2f TileSystem::isoToWorldCoord(sf::Vector3f pos) {
+	sf::Vector2f world = getMap((unsigned int)pos.y).isoToWorld(sf::Vector2f(pos.x, pos.z));
+	return sf::Vector2f(world.x, world.y - pos.y);
+}
 sf::Vector2i TileSystem::worldToTileCoord(sf::Vector3f pos) {
 	return getMap((unsigned int)pos.y).worldToTile(sf::Vector2f(pos.x, pos.z));
 }
@@ -209,7 +217,7 @@ sf::Vector3f TileSystem::tileToIsoCoord(sf::Vector3i pos)
 	return sf::Vector3f((float)pos.x * tileSize, (float)pos.y * tileSize, (float)pos.z * tileSize);
 }
 //brief gets a reference to a map
-//takes in world coord y
+//takes in iso coord y
 TileMap& TileSystem::getMap(unsigned int y)
 {
 	int tm = y / width;
@@ -217,6 +225,6 @@ TileMap& TileSystem::getMap(unsigned int y)
 		return map[tm];
 	}
 	// TODO: Handle better
-	throw new std::exception("Map does not exist");
+	//throw new std::exception("Map does not exist"); // the map might not exist because y is undefined?
 }
 

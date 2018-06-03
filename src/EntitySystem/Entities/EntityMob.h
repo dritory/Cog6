@@ -15,10 +15,12 @@ private:
 	} state;
 
 
-	float speed = 2.0f;
+	int speed = 2;
 	sf::Vector2i getTilePos();
 
 	sf::Vector3i getBestDirection();
+
+	virtual void FixedUpdate();
 	 
 	Pathfinder *pathFinder;
 

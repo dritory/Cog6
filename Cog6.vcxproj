@@ -29,9 +29,12 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
+    <ClCompile Include="src\TileSystem\Extractor.cpp" />
+    <ClCompile Include="src\TileSystem\Generator.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
     <ClCompile Include="src\TileSystem\TileEntity.cpp" />
+    <ClCompile Include="src\TileSystem\Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TileSystem\Building.h" />
@@ -53,9 +56,12 @@
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
+    <ClInclude Include="src\TileSystem\Extractor.h" />
+    <ClInclude Include="src\TileSystem\Generator.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
     <ClInclude Include="src\TileSystem\TileEntity.h" />
+    <ClInclude Include="src\TileSystem\Tower.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png">
@@ -106,7 +112,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;Libraries\cereal-1.2.2\include;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\sfgui-0.3.2\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>

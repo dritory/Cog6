@@ -44,3 +44,5 @@ sf::Vector3i TileEntity::getTilePos()
 	return sf::Vector3i(tileX,tileY,tileZ);
 }
 
+
+

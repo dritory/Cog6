@@ -38,7 +38,7 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 	}
 	int diagonalRowNum = 2 * _width - 1;
 	diagonalRows.resize(diagonalRowNum);
-	for (int i = 0; i <  diagonalRowNum - 1; ++i) {
+	for (int i = 0; i <  diagonalRowNum; ++i) {
 
 		int tilesBeyondWidth = (i - (int)_width + 1)*(int)(i / _width);
 		int coloumnNum = 1 + i - 2 * tilesBeyondWidth;
@@ -50,6 +50,7 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 		row.SetPosition(sf::Vector3f((float)vector.x, (float)layerDepth * tileSize.y, (float)vector.y));
 
 		diagonalRows[i] = std::move(row);
+		
 	}
 	//std::reverse(diagonalRows.begin(), diagonalRows.end());
 	return true;
@@ -107,7 +108,7 @@ bool TileMap::canWalkHere(unsigned int x, unsigned int z) {
 }
 void TileMap::setCollision(int x, int z, bool collidable)
 {
-	if (x >= 0 && x < width && z >= 0 && z < height)
+	if (x >= 0 && x < (int)width && z >= 0 && z < (int)height)
 		collisionMap[x + z *width] = collidable;
 }
 std::vector<TileMap::Row> &TileMap::getRows() {
@@ -153,7 +154,7 @@ sf::Vector2i TileMap::mouseToTile(const sf::RenderWindow & window) {
 }
 
 sf::Vector2f TileMap::isoToWorld(sf::Vector2f point) {
-	return sf::Vector2f((point.x + point.y) / 2.0f, point.y - point.x);
+	return sf::Vector2f((point.x - point.y) / 2.0f, (point.y + point.x) / 4.0f);
 }
 
 bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextureSize, sf::Vector2i tileSize, int rowNumber, const std::vector<int>& tiles, int offset, int coloumns, unsigned int width) {
@@ -208,16 +209,18 @@ void TileMap::Row::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 }
 
 void TileMap::Row::setTileId(int x, int tileId, sf::Vector2u tileTextureSize) {
-	int tu = tileId % (m_tileset->getSize().x / tileTextureSize.x);
-	int tv = tileId / (m_tileset->getSize().x / tileTextureSize.x);
+	if (m_tileset != nullptr) {
+		int tu = tileId % (m_tileset->getSize().x / tileTextureSize.x);
+		int tv = tileId / (m_tileset->getSize().x / tileTextureSize.x);
 
-	if ((x) * 4 < m_vertices.getVertexCount()) {
+		if ((x) * 4 < m_vertices.getVertexCount()) {
 
-		sf::Vertex* quad = &m_vertices[(x) * 4];
+			sf::Vertex* quad = &m_vertices[(x) * 4];
 
-		quad[0].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)tv * tileTextureSize.y);
-		quad[1].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)tv * tileTextureSize.y);
-		quad[2].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
-		quad[3].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
+			quad[0].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)tv * tileTextureSize.y);
+			quad[1].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)tv * tileTextureSize.y);
+			quad[2].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
+			quad[3].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
+		}
 	}
 }

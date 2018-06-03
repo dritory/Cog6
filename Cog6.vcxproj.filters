@@ -22,6 +22,9 @@
     <ClCompile Include="src\TileSystem\TileEntity.cpp" />
     <ClCompile Include="src\FastNoise.cpp" />
     <ClCompile Include="src\TileSystem\Building.cpp" />
+    <ClCompile Include="src\TileSystem\Tower.cpp" />
+    <ClCompile Include="src\TileSystem\Extractor.cpp" />
+    <ClCompile Include="src\TileSystem\Generator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
@@ -46,6 +49,9 @@
     <ClInclude Include="src\TileSystem\TileEntity.h" />
     <ClInclude Include="src\FastNoise.h" />
     <ClInclude Include="src\TileSystem\Building.h" />
+    <ClInclude Include="src\TileSystem\Tower.h" />
+    <ClInclude Include="src\TileSystem\Extractor.h" />
+    <ClInclude Include="src\TileSystem\Generator.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png" />

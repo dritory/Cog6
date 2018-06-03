@@ -35,6 +35,8 @@ public:
 	void setTileEntity(int x, int y, int z, TileEntity *entity);
 	TileEntity *getTileEntity(int x, int y, int z);
 
+	sf::Vector2f isoToWorldCoord(sf::Vector3f pos);
+
 	sf::Vector2i worldToTileCoord(sf::Vector3f pos);
 
 	sf::Vector2i isoToTileCoord(sf::Vector3f pos);

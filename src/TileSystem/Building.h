@@ -1,6 +1,7 @@
 #pragma once
 #include "TileEntity.h"
 #include <vector>
+#include <memory>
 
 class SubBuilding;
 
@@ -10,21 +11,39 @@ public:
 	~Building();
 
 	sf::Vector3i getCenter();
-	void AddSubBuilding(int tilex, int tiley, int tilez, SubBuilding * building);
-	bool BindToTile(int tilex, int tiley, int tilez) override;
+	void AddSubBuilding(int relx, int rely, int relz, SubBuilding * building);
+	virtual bool BindToTile(int tilex, int tiley, int tilez);
+
 
 	bool CanPlaceHere(int x, int y, int z);
-private:
 
-	std::vector<SubBuilding *> subBuildings;
+	bool isValid() { return (tileX >= 0 && tileY >= 0 && tileZ >= 0); }
 
-	
+	int getCost() { return cost; };
+	int getPowerUsage() { return powerUsage; }
+	int getMaxHealth() { return maxHealth; }
+
+	//overriden in order to move subbuildings
+	virtual void SetPosition(const sf::Vector3f& position) override;
 
 protected:
 
-	void Load() override;
-	void Update() override;
+	std::vector<SubBuilding *> subBuildings;
+
+	int cost = 10;
+	int powerUsage = 0;
+
+
+	virtual void Load() override;
+	virtual void Update();
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 	std::string GetSpriteLocation() override { return ""; }
+
+private:
+
+
 };
 
 class SubBuilding : public Entity {
@@ -33,15 +52,21 @@ public:
 	~SubBuilding() = default;
 
 
-	bool BindToBuilding(Building *ptr);
+	virtual bool BindToBuilding(Building *ptr);
+
+	
+
+	sf::Vector3f getRelPos();
+	sf::Vector3i getRelTilePos();
 
 private:
+
 
 	int tileX, tileY, tileZ;
 	int relX, relY, relZ;
 	friend Building;
 protected:
 
-	void Update() override;
+	virtual void Update();
 	std::string GetSpriteLocation() override { return "wall.png"; };
 };

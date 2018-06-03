@@ -18,7 +18,7 @@ public:
 	~EntitySystem();
 
 	template<class entity>
-	entity* Add(const std::string& strId = std::string());
+	entity* Add(const std::string& strId = std::string(), const std::string& spriteLocation = std::string());
 
 	template <class entity>
 	entity* Get(const EntityId& id);
@@ -28,10 +28,12 @@ public:
 
 	Entity* Get(const EntityId& id);
 
+	void FixedUpdate(sf::Time elapsed);
+
 	template <class entity>
 	bool Is(const EntityId& id);
 
-	void Update();
+	void Update(sf::Time elapsed);
 	void SetBatcher(SpriteBatch& batcher);
 	void RemoveEntity(EntityId entityId);
 
@@ -41,6 +43,17 @@ public:
 		entityPtr->Remove();
 		m_EntitiesToRemove.push(entityPtr->GetId());
 	};
+
+	template <class T>
+	void DeactivateEntity(T * entityPtr) {
+		entityPtr->m_Deactivated = true;
+	}
+	template <class T>
+	void ActivateEntity(T * entityPtr) {
+		entityPtr->m_Deactivated = false;
+	}
+
+	void drawGUI (sf::RenderWindow &window);
 
 private:
 	friend class InteractableEntity;
@@ -62,16 +75,17 @@ private:
 	EntityId getNextId();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	
 };
 
 template <class entity>
-entity* EntitySystem::Add(const std::string& strId)
+entity* EntitySystem::Add(const std::string& strId, const std::string& spriteLocation)
 {
 	// Assume no errors, for now
 		EntityId id = getNextId();
 
-	auto& ent = m_Entities[id];
-	ent = std::make_unique<entity>(this, id);;
+	auto& ent = m_Entities[id]; 
+	ent = std::make_unique<entity>(this, id);
 	if(!strId.empty())
 	{
 		if(m_StringLookup.find(strId) != m_StringLookup.end())
@@ -83,8 +97,12 @@ entity* EntitySystem::Add(const std::string& strId)
 			m_StringLookup[strId] = id;
 		}
 	}
-
+	if (!spriteLocation.empty()) {
+		ent->Load(spriteLocation);
+	}
+	else {
 		ent->Load();
+	}
 
 		return static_cast<entity*>(m_Entities[id].get());
 }

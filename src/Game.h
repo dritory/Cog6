@@ -6,6 +6,10 @@
 #include "FastNoise.h"
 #include "GL\Player.h"
 
+#include "GL\Spawner.h"
+
+
+class Spawner;
 class Game {
 public:
 	Game();
@@ -17,6 +21,7 @@ public:
 	EntitySystem& getEntitySystem();
 	TileSystem& getTileSystem();
 	FastNoise& getNoiseGen();
+	Spawner& getSpawner();
 	Player& getPlayer();
 
 	static Game& instance() {
@@ -31,5 +36,6 @@ private:
 	FastNoise *fastnoise;
 	sf::RenderWindow window;
 	TileSystem *tileSystem;
+	Spawner *spawner;
 };
 

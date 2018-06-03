@@ -8,7 +8,7 @@ class GameObject : public sf::Drawable, protected sf::Transformable
 {
 public:
 	GameObject();
-	void SetPosition(const sf::Vector3f& position);
+	virtual void SetPosition(const sf::Vector3f& position);
 	const sf::Vector3f& GetPosition() { return m_Position; }
 
 private:

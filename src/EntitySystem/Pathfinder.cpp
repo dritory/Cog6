@@ -3,7 +3,7 @@
 #include <iostream>
 #include <queue>
 #include "../Game.h"
-Pathfinder::Pathfinder(TileMap * map) {
+Pathfinder::Pathfinder(TileMap * map) : startX(-1), startY(-1) {
 
 	this->map = map;
 	this->width = map->getWidth() * gridPerTile;
@@ -17,7 +17,6 @@ Pathfinder::Pathfinder(TileMap * map) {
 		distancemap[i] = FLT_MAX;
 		lastHeatMap[i] = FLT_MAX;
 	}
-	calculateMap(31, 10);
 }
 Pathfinder::Pathfinder() {
 	heatmap = nullptr;
@@ -34,12 +33,20 @@ Pathfinder::~Pathfinder() {
 void Pathfinder::calculateMap(int x, int y) {
 	startX = x;
 	startY = y;
+	targets.insert(std::make_pair(x, y));
+	recalculateMap();
+}
+
+void Pathfinder::recalculateMap() {
 	int width = map->getWidth()* gridPerTile;
 	int height = map->getHeight() * gridPerTile;
 	for (int i = 0; i < width*height; i++) {
 		distancemap[i] = FLT_MAX;
+		lastHeatMap[i] = FLT_MAX;
 	}
-	floodfill(x * gridPerTile, y * gridPerTile, 0);
+	for (auto p : targets) {
+		floodfill(p.first * gridPerTile, p.second * gridPerTile, 0);
+	}
 	//heatmap = distancemap;
 	/*
 	for (int x = 0; x < width; x++) {
@@ -56,7 +63,6 @@ void Pathfinder::calculateMap(int x, int y) {
 					}
 				}
 			}
-
 			heatmap[i] = distancemap[i];
 		}
 	}
@@ -68,12 +74,8 @@ void Pathfinder::calculateMap(int x, int y) {
 	}
 }
 
-void Pathfinder::recalculateMap() {
-	calculateMap(startX, startY);
-}
-
 void Pathfinder::floodfill(int x, int z, float distance) {
-	if (x >= 0 && x <= width && z > 0 && z < height) {
+	if (x >= 0 && x < width && z >= 0 && z < height) {
 		std::queue<std::pair<int, int> > q;
 		q.push(std::make_pair(x, z));
 		distancemap[x + z * width] = distance;
@@ -89,7 +91,6 @@ void Pathfinder::floodfill(int x, int z, float distance) {
 					if ((i + j) % 2 == 0) continue;
 
 
-
 					std::pair<int, int> nextPoint(curPoint.first + i, curPoint.second + j);
 					if (nextPoint.first >= 0 && nextPoint.first < width
 						&& nextPoint.second >= 0 && nextPoint.second < height
@@ -97,7 +98,7 @@ void Pathfinder::floodfill(int x, int z, float distance) {
 						if (canWalkHere(nextPoint.first, nextPoint.second)) {
 							//float delta = std::max(abs((i + j) / 2.0f), abs((float)j - (float)i));
 							//float delta = static_cast<float>(sqrt(i*i + j*j));
-
+							/*
 							if (i != 0 && j != 0) { //diagonals
 								if (!canWalkHere(nextPoint.first - i, nextPoint.second) && !canWalkHere(nextPoint.first , nextPoint.second - j)) {
 									continue;
@@ -106,10 +107,13 @@ void Pathfinder::floodfill(int x, int z, float distance) {
 									continue;
 								}
 							}
+							*/
 							float delta = 1.0f;
 							TileEntity *e = system->getTileEntity(nextPoint.first, depth, nextPoint.second);
 							if (e != nullptr) {
-								delta += e->getHeat();
+								float h = e->getHeat();
+								if(h > -1.0f)
+									delta += h;
 							}
 
 							distancemap[nextPoint.first + nextPoint.second * width] = curDistance + delta;
@@ -125,7 +129,7 @@ void Pathfinder::floodfill(int x, int z, float distance) {
 }
 
 //grid coords
-void Pathfinder::addHeat(sf::Vector2i pos, double value) {
+void Pathfinder::addHeat(sf::Vector2i pos, float value) {
 	if (pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height) {
 		heatmap[pos.x + pos.y*width] += value;
 		lastHeatMap[pos.x + pos.y*width] += value;
@@ -151,6 +155,29 @@ float Pathfinder::getHeat(int x, int z) {
 
 float Pathfinder::getHeatDifference(sf::Vector2i pos) {
 	return getHeatDifference(pos.x, pos.y);
+}
+bool Pathfinder::targetExistsAt(int x, int y) {
+	if (targets.find(std::make_pair(x, y)) != targets.end()) {
+		return true;
+	}
+	return false;
+}
+bool Pathfinder::removeTarget(int x, int y) {
+	return (targets.erase(std::make_pair(x, y)) > 0);
+}
+bool Pathfinder::isValid() {
+	return (bool)targets.size();
+}
+void Pathfinder::flush() {
+	for (int i = 0; i < width*height; i++) {
+		distancemap[i] = FLT_MAX;
+		lastHeatMap[i] = FLT_MAX;
+	}
+	targets.clear();
+}
+bool Pathfinder::addTarget(int x, int y) {
+	
+	return targets.insert(std::make_pair(x,y)).second;
 }
 float Pathfinder::getHeatDifference(int x, int z) {
 	if (x >= 0 && x < width && z >= 0 && z < height)
@@ -197,15 +224,15 @@ sf::Vector2i Pathfinder::isoToGrid(sf::Vector3f pos) {
 
 sf::Vector2i Pathfinder::isoToGrid(sf::Vector2f pos) {
 	int tileSize = Game::instance().getTileSystem().getTileSize();
-	return sf::Vector2i(pos.x / (tileSize / gridPerTile), pos.y / (tileSize / gridPerTile));
+	return sf::Vector2i((int)pos.x / (tileSize / gridPerTile), (int)pos.y / (tileSize / gridPerTile));
 }
 
 sf::Vector2f Pathfinder::gridToIso(sf::Vector2i pos) {
 	int tileSize = Game::instance().getTileSystem().getTileSize();
-	return sf::Vector2f(pos.x *  (tileSize / gridPerTile), pos.y * (tileSize / gridPerTile));
+	return sf::Vector2f(pos.x *  (float)(tileSize / gridPerTile), pos.y * (float)(tileSize / gridPerTile));
 }
 
 sf::Vector3f Pathfinder::gridToIso(sf::Vector3i pos) {
 	int tileSize = Game::instance().getTileSystem().getTileSize();
-	return sf::Vector3f(pos.x *  (tileSize / gridPerTile), pos.y * (tileSize / gridPerTile), pos.z * (tileSize / gridPerTile));
+	return sf::Vector3f(pos.x *  (float)(tileSize / gridPerTile), pos.y * (float)(tileSize / gridPerTile), pos.z * (float)(tileSize / gridPerTile));
 }
