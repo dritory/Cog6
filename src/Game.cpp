@@ -18,13 +18,7 @@
 #include <cereal/archives/binary.hpp>
 */
 Game::Game() {
-	std::srand(std::time(0));
-
-	int seed = std::rand();
-
-	fastnoise = new FastNoise(seed);
-	tileSystem = new TileSystem(128, 10);
-	spawner = new Spawner();
+	
 }
 
 
@@ -34,19 +28,47 @@ Game::~Game() {
 
 	delete fastnoise;
 	fastnoise = nullptr;
-
+	delete es;
+	delete spawner;
+	delete rangehelper;
 }
 
 
 
 void Game::Start() {
+
+	std::srand(std::time(0));
+
+	int seed = std::rand();
+	if ( fastnoise != nullptr ) {
+		delete fastnoise;
+	}
+	fastnoise = new FastNoise(seed);
+	if ( tileSystem != nullptr ) {
+		delete tileSystem;
+	}
+	tileSystem = new TileSystem(128, 10);
+	if ( spawner != nullptr ) {
+		delete spawner;
+	}
+	spawner = new Spawner();
+	if ( rangehelper != nullptr ) {
+		delete rangehelper;
+	}
+	if ( es != nullptr ) {
+		delete es;
+	}
+	es = new EntitySystem();
+	rangehelper = new RangeHelper(128, 128);
+
+
 	window.create(sf::VideoMode(1200, 800),
 		"Hello SFML", sf::Style::Default);
 
 	window.setFramerateLimit(60);
 
 	bool loaded = AssetLoader<sf::Font>::GetInstance().LoadAsset("C:/Windows/Fonts/SegoeUI.ttf");
-	if (!loaded) {
+	if ( !loaded ) {
 		std::cout << "Could not load font" << std::endl;
 		return;
 	}
@@ -79,10 +101,10 @@ void Game::Start() {
 
 	tileSystem->load();
 
-
+	spawner->load();
 
 	SpriteBatch batcher;
-	es.SetBatcher(batcher);
+	es->SetBatcher(batcher);
 
 	sf::Clock fpsclock;
 	float lastTime = 0;
@@ -92,116 +114,115 @@ void Game::Start() {
 	sf::Clock fixedClock;
 	bool pressed = false;
 
+	player.load();
 
 	Camera camera(sf::FloatRect(150, 150, 1200, 800));
 
 	//milliseconds
-	int dt = (int) (1000.0f*(1.0f / 30.0f )); // Modify this to change physics rate. 
+	int dt = (int) (1000.0f*(1.0f / 30.0f)); // Modify this to change physics rate. 
 	int accumulator = 0;
 
+	bool drawn = false;
+
+	while ( window.isOpen() ) {
 
 
-	while (window.isOpen()) {
 
-
-		
 
 		sf::Event event;
-		while (window.pollEvent(event)) {
+		while ( window.pollEvent(event) ) {
 
 
-			if (event.type == sf::Event::Closed) {
+			if ( event.type == sf::Event::Closed ) {
 				window.close();
 			}
+			if ( event.type == sf::Event::KeyPressed ) {
 
+				switch ( event.key.code ) {
+
+				case sf::Keyboard::F9:
+					
+					Start();
+					return;
+
+				}
+			}
 		}
-
-
-
 		window.clear();
 		//sets view to cameras view
 		window.setView(camera.view);
 
 
-		accumulator += gameClock.getElapsedTime().asMilliseconds();
 		
-		while (accumulator >= dt) {
-			
+		//Unfixed update calls, running at fps
+		//----------------------------------------//
+
+
+		accumulator += fixedClock.getElapsedTime().asMilliseconds();
+		while ( accumulator >= dt ) {
+
+			if ( fpsclock.getElapsedTime().asSeconds() >= 0.2f ) {
+				sf::Time currentTime = fpsclock.restart();
+				float fps = frames / currentTime.asSeconds();
+				text.setString(std::to_string(fps));
+				frames = 0;
+			}
+			++frames;
+
 			sf::Time elapsed = fixedClock.restart();
-
-			if (fpsclock.getElapsedTime().asSeconds() >= 0.2f) {
-			sf::Time currentTime = fpsclock.restart();
-			float fps = frames / currentTime.asSeconds();
-			text.setString(std::to_string(fps));
-			frames = 0;
-		}
-		++frames;
-
-			//fixed update calls
-			//----------------------------------------//
 
 
 			player.Update(elapsed);
-			
-			es.FixedUpdate(elapsed);
+			es->Update(elapsed);
 			spawner->update(elapsed);
-			//--------------------------//
+			rangehelper->Update(elapsed);
 
 
 			accumulator -= dt;
-
-
-
+			drawn = false;
 		}
-		sf::Time elapsed = gameClock.restart();
-		//Unfixed update calls, running at fps
-		//----------------------------------------//
-		
-		es.Update(elapsed);
-		camera.update(elapsed);
 
 		//--------------------------//
-
-
 
 		//Rendering
-
 		//----------------------------------------//
+		if ( drawn ) {
+			sf::sleep(sf::seconds(0.03f));
+		}
+		else {
+			sf::Time elapsed = gameClock.restart();
+			es->FixedUpdate(elapsed);
+			camera.update(elapsed);
 
-		// Draw world
-		tileSystem->draw(batcher);
+			// Draw world
+			tileSystem->draw(batcher);
 
-		//Draw entity system
-		window.draw(es);
-		batcher.SetDirty();
-		batcher.prepareDraw();
-		window.draw(batcher);
+			//Draw entity system
+			window.draw(*es);
+			batcher.SetDirty();
+			batcher.prepareDraw();
+			window.draw(batcher);
 
+			es->drawGUI(window);
+			//resets the view so that UI is fixed in the window
+			window.setView(window.getDefaultView());
+			// Draw UI
 
+			text2.setString(std::to_string(batcher.getQueued()));
+			text3.setString("TrMut: " + std::to_string(player.getTM()));
+			text4.setString("Power: " + std::to_string(player.getPowerEfficienty()) + "%");
 
-		es.drawGUI(window);
-		//resets the view so that UI is fixed in the window
-		window.setView(window.getDefaultView());
-		// Draw UI
+			window.draw(text2);
+			window.draw(text);
+			window.draw(text3);
 
+			window.draw(text4);
+			window.display();
 
-		text2.setString(std::to_string(batcher.getQueued()));
-		text3.setString("TrMut: " + std::to_string(player.getTM()));
-		text4.setString("Power: " + std::to_string(player.getPowerEfficienty()) + "%");
-
-
-
-		window.draw(text2);
-		window.draw(text);
-		window.draw(text3);
-
-		window.draw(text4);
-		window.display();
-
-		//--------------------------//
-
-		tileSystem->LateUpdate();
-
+			//--------------------------//
+			tileSystem->LateUpdate();
+			drawn = true;
+		}
 	}
 
 }
@@ -211,7 +232,7 @@ const sf::RenderWindow & Game::getWindow() {
 }
 
 EntitySystem & Game::getEntitySystem() {
-	return es;
+	return *es;
 }
 
 TileSystem & Game::getTileSystem() {
@@ -224,6 +245,11 @@ FastNoise & Game::getNoiseGen() {
 
 Player & Game::getPlayer() {
 	return player;
+}
+
+RangeHelper & Game::getRangeHelper()
+{
+	return *rangehelper;
 }
 
 Spawner & Game::getSpawner() {

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GL\RangeHelper.cpp" />
     <ClCompile Include="src\TileSystem\Building.cpp" />
     <ClCompile Include="src\FastNoise.cpp" />
     <ClCompile Include="src\GL\Spawner.cpp" />
@@ -29,7 +30,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
-    <ClCompile Include="src\TileSystem\Extractor.cpp" />
+    <ClCompile Include="src\TileSystem\Base.cpp" />
     <ClCompile Include="src\TileSystem\Generator.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\TileSystem\Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GL\RangeHelper.h" />
     <ClInclude Include="src\TileSystem\Building.h" />
     <ClInclude Include="src\FastNoise.h" />
     <ClInclude Include="src\GL\Spawner.h" />
@@ -56,7 +58,7 @@
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
-    <ClInclude Include="src\TileSystem\Extractor.h" />
+    <ClInclude Include="src\TileSystem\Base.h" />
     <ClInclude Include="src\TileSystem\Generator.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />

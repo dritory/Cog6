@@ -24,6 +24,10 @@ public:
 
 	float getHeatDifference(sf::Vector2i pos);
 
+	float getMax();
+
+	float getMin();
+
 	bool targetExistsAt(int x, int y);
 
 	bool removeTarget(int x, int y);
@@ -58,7 +62,7 @@ private:
 	
 	void floodfill(int x, int z, float distance);
 
-	const int gridPerTile = 1; //squareroot
+	int gridPerTile; //squareroot
 
 	int width, height;
 
@@ -71,6 +75,8 @@ private:
 
 	int size;
 
+	float maxHeat;
+	float minHeat;
 	TileMap * map;
 };
 

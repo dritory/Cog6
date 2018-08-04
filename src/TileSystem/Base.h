@@ -1,10 +1,10 @@
 #pragma once
 #include "Building.h"
-class Extractor :
+class Base :
 	public Building {
 public:
-	Extractor(EntitySystem* system, const EntityId& id);
-	~Extractor();
+	Base(EntitySystem* system, const EntityId& id);
+	~Base();
 
 	virtual bool BindToTile(int x, int y, int z);
 protected:

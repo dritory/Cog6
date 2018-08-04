@@ -30,6 +30,8 @@ public:
 
 	virtual void SetPosition(const sf::Vector3f& position);
 
+	virtual void Reset() {};
+
 protected:
 	virtual void FixedUpdate();
 	virtual void Update();

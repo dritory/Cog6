@@ -84,6 +84,14 @@ void TileMap::setTileId(int x, int z, int id, const int nonCollisionTiles []) {
 	}
 }
 
+void TileMap::colorTile(unsigned int x, unsigned int z, sf::Color color)
+{
+	if ( x >= 0 && x < (int) width && z >= 0 && z < (int) height ) {
+		int tilesBeyondWidth = ((x + z) - (int) width + 1)*(int) ((x + z) / (int) width);
+		diagonalRows[(x + z)].setColor(x - tilesBeyondWidth, color);
+	}
+}
+
 const sf::Vector2i &TileMap::getTileSize()  const {
 	return tileSize;
 }
@@ -193,6 +201,7 @@ bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextur
 
 		
 		
+		
 	}
 	return true;
 }
@@ -217,10 +226,25 @@ void TileMap::Row::setTileId(int x, int tileId, sf::Vector2u tileTextureSize) {
 
 			sf::Vertex* quad = &m_vertices[(x) * 4];
 
+			
+
 			quad[0].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)tv * tileTextureSize.y);
 			quad[1].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)tv * tileTextureSize.y);
 			quad[2].texCoords = sf::Vector2f((float)(tu + 1) * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
 			quad[3].texCoords = sf::Vector2f((float)tu * tileTextureSize.x, (float)(tv + 1) * tileTextureSize.y);
 		}
+	}
+}
+
+void TileMap::Row::setColor(int x, sf::Color color)
+{
+	if ( (x) * 4 < m_vertices.getVertexCount() ) {
+
+		sf::Vertex* quad = &m_vertices[(x) * 4];
+		
+		quad[0].color = color;
+		quad[1].color = color;
+		quad[2].color = color;
+		quad[3].color = color;
 	}
 }

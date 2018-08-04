@@ -29,21 +29,29 @@ public:
 	
 	void removeBuilding(Building *building);
 
+	void load();
 
 private:
 
 	
-	int typeBuilding = 0;
+	int typeBuilding;
 
 
 	int producedPower;
 	int consumedPower;
 
-	int transmutanium = 10000;
+	int transmutanium = 100;
 
 	PlayerState state;
 
 	std::vector<Building *> buildings;
+
+	template<class TYPE>
+	TYPE *createGhostBuilding() {
+		TYPE * ghost = Game::instance().getEntitySystem().Add<TYPE>();
+		Game::instance().getEntitySystem().DeactivateEntity(ghost);
+	};
+	
 
 };
 

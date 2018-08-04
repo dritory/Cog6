@@ -3,7 +3,7 @@
 
 #include "..\TileSystem\Tower.h"
 #include "..\TileSystem\TileEntity.h"
-#include "..\TileSystem\Extractor.h"
+#include "..\TileSystem\Base.h"
 
 #include "..\TileSystem\Generator.h"
 #include "..\EntitySystem\Entities\EntityMob.h"
@@ -52,12 +52,12 @@ void Player::Update(sf::Time elapsed) {
 	static Building *building = Game::instance().getEntitySystem().Add<Building>();
 
 	static Tower *tower = Game::instance().getEntitySystem().Add<Tower>();
-
-	static Extractor *ex = Game::instance().getEntitySystem().Add<Extractor>();
+	Game::instance().getEntitySystem().DeactivateEntity(tower);
+	static Base *ex = Game::instance().getEntitySystem().Add<Base>();
 
 	static Generator *gen = Game::instance().getEntitySystem().Add<Generator>();
 
-	static Building *ghostBuilding = building;
+	static Building *ghostBuilding = ex;
 
 
 
@@ -66,7 +66,7 @@ void Player::Update(sf::Time elapsed) {
 			state = BUILDING;
 		else {
 			state = IDLE;
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(0, -10, 0)));
+			ghostBuilding->
 		}
 
 	}
@@ -91,7 +91,7 @@ void Player::Update(sf::Time elapsed) {
 				break;
 			}
 			case 2: {
-				t = Game::instance().getEntitySystem().Add<Extractor>();
+				t = Game::instance().getEntitySystem().Add<Base>();
 				break;
 			}
 			case 1: {
@@ -146,11 +146,11 @@ void Player::Update(sf::Time elapsed) {
 	case IDLE: {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
-			EntityMob *e = Game::instance().getSpawner().AddToPool<EntityMob>();
-			sf::Vector2f cam = Game::instance().getTileSystem().getMap(32).screenToIso(sf::Mouse::getPosition(Game::instance().getWindow()), Game::instance().getWindow());
-			e->SetPosition(sf::Vector3f(cam.x, 32.0f, cam.y));
+			for ( int i = 0; i < 1; i++ ) {
+				sf::Vector2f cam = Game::instance().getTileSystem().getMap(32).screenToIso(sf::Mouse::getPosition(Game::instance().getWindow()), Game::instance().getWindow());
+				Game::instance().getSpawner().spawn<EntityMob>(cam.x, 32.0f, cam.y);
+			}
 		}
-
 		break;
 
 	}
@@ -195,4 +195,11 @@ void Player::removeBuilding(Building * building) {
 		}
 	}
 
+}
+
+void Player::load()
+{
+
+	typeBuilding = 2;
+	state = BUILDING;
 }

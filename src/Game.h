@@ -5,10 +5,10 @@
 #include "Gui\Gui.h"
 #include "FastNoise.h"
 #include "GL\Player.h"
-
+#include "GL\RangeHelper.h"
 #include "GL\Spawner.h"
 
-
+class RangeHelper;
 class Spawner;
 class Game {
 public:
@@ -23,6 +23,8 @@ public:
 	FastNoise& getNoiseGen();
 	Spawner& getSpawner();
 	Player& getPlayer();
+	RangeHelper& getRangeHelper();
+
 
 	static Game& instance() {
 		static Game game;
@@ -32,10 +34,13 @@ public:
 private:
 
 	Player player;
-	EntitySystem es;
+	EntitySystem *es;
 	FastNoise *fastnoise;
 	sf::RenderWindow window;
 	TileSystem *tileSystem;
 	Spawner *spawner;
+	RangeHelper *rangehelper;
+
+
 };
 

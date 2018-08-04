@@ -10,6 +10,7 @@ private:
 		bool load(const std::string& tileset,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int rowNumber, const std::vector<int>& tiles, int offset,int coloumns, unsigned int width);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void setTileId(int x, int tileId, sf::Vector2u tileTextureSize);
+		void setColor(int x, sf::Color color);
 	private:
 		sf::VertexArray m_vertices;
 		sf::Texture* m_tileset;
@@ -28,6 +29,8 @@ public:
 
 	int getTileId(unsigned int x, unsigned int z);
 	void setTileId(int x, int z, int id, const int nonCollisionTiles []);
+
+	void colorTile (unsigned int x, unsigned int z, sf::Color color);
 
 	const sf::Vector2i &getTileSize() const;
 	int getDepth() const ;

@@ -31,6 +31,7 @@ public:
 
 	void setTileId(sf::Vector3f pos, int id);
 	void setTileId(int x, int y, int z, int id);
+	void setColor(int x, int y, int z, sf::Color color);
 
 	void setTileEntity(int x, int y, int z, TileEntity *entity);
 	TileEntity *getTileEntity(int x, int y, int z);
@@ -68,6 +69,7 @@ private:
 		return sf::Vector3i(index % width, (index / (width*width)) % height, (index / width) % width);
 	};
 
+	bool showHeatMap = false;
 
 	int NONCOLLISION_TILES[1] = {0};
 

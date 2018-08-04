@@ -38,6 +38,10 @@ sf::Vector3i EntityMob::getBestDirection() {
 	if (waitTimer > 0) {
 		return sf::Vector3i(0, 0, 0);
 	}
+	sf::Vector3f position = GetPosition();
+	if ( position.x < 0 ) {
+		bool foo = false;
+	}
 	sf::Vector2i pos = pathFinder->isoToGrid(GetPosition());
 	int height = 0;
 	int width = Game::instance().getTileSystem().getWidth();
@@ -94,7 +98,7 @@ sf::Vector3i EntityMob::getBestDirection() {
 
 	return bestDirection;
 }
-void EntityMob::FixedUpdate() {
+void EntityMob::Update() {
 	sf::Vector3f position = GetPosition();
 
 	if (pathFinder->isValid()) {
@@ -104,12 +108,14 @@ void EntityMob::FixedUpdate() {
 
 			if (approximate(position,path[0],5.0f)) {
 				path.pop_front();
-				velocity = sf::Vector3f(0, 0, 0);
+				velocity = sf::Vector3f(0.0f, 0.0f, 0.0f);
 			}
-
+			if ( GetPosition().x < 0 ) {
+				bool foo = false;
+			}
 		}
 		else {
-
+			
 			lastDirection = getBestDirection();
 			sf::Vector3i bestDirection = (sf::Vector3i)pathFinder->gridToIso(lastDirection);
 			if (!(bestDirection.x == 0 && bestDirection.z == 0)) {
@@ -125,13 +131,16 @@ void EntityMob::FixedUpdate() {
 					path.push_back(sf::Vector3f(bestDirection.x + position.x, bestDirection.y + position.y, bestDirection.z + position.z));
 				}
 			}
+			else {
+				pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()), 1.5f);
+			}
 
 		}
-		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) + (sf::Vector2i(lastDirection.x, lastDirection.z)), 0.5f);
+		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) + (sf::Vector2i(lastDirection.x, lastDirection.z)), 0.3f);
 
-		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()), 1.0f);
+		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()), 0.6f);
 
-		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) - (sf::Vector2i(lastDirection.x, lastDirection.z)), 0.5f);
+		pathFinder->addHeat(pathFinder->isoToGrid(GetPosition()) - (sf::Vector2i(lastDirection.x, lastDirection.z)), 0.3f);
 
 		/*
 		//Generates heat in an 3x3 area, with most heat in the middle
@@ -146,9 +155,17 @@ void EntityMob::FixedUpdate() {
 		}
 
 	}
-
+	
 }
-void EntityMob::Update() {
+void EntityMob::Reset()
+{
+	path.clear();
+	velocity = sf::Vector3f();
+	lastDirection = sf::Vector3i();
+	waitTimer = 0;
+	SetHealthToMax();
+}
+void EntityMob::FixedUpdate() {
 	if (pathFinder->isValid()) {
 
 		if (!approximate(velocity, sf::Vector3f(0, 0, 0), 0.001f)) {
@@ -156,4 +173,5 @@ void EntityMob::Update() {
 
 		}
 	}
+	Entity::FixedUpdate();
 }

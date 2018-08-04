@@ -37,7 +37,6 @@ void Entity::Update() {
 }
 void Entity::Load(const std::string &spriteLocation) {
 	
-
 		healthBar.setSize(sf::Vector2f(10, 2));
 
 		std::string sprite = (spriteLocation != std::string() ? spriteLocation : GetSpriteLocation());

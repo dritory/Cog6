@@ -12,6 +12,8 @@ public:
 
 	sf::Vector3i getCenter();
 	void AddSubBuilding(int relx, int rely, int relz, SubBuilding * building);
+	void AddSubBuilding(int relx, int rely, int relz, std::string building);
+	void AddSubBuilding(int relx, int rely, int relz);
 	virtual bool BindToTile(int tilex, int tiley, int tilez);
 
 
@@ -67,6 +69,7 @@ private:
 	friend Building;
 protected:
 
+	
 	virtual void Update();
 	std::string GetSpriteLocation() override { return "wall.png"; };
 };

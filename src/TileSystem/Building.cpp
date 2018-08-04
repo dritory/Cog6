@@ -25,9 +25,17 @@ sf::Vector3i Building::getCenter() {
 }
 
 //takes in relative position (tile coords) and sub building ptr
+void Building::AddSubBuilding(int relx, int rely, int relz, std::string texture) {
+	SubBuilding *building = Game::instance().getEntitySystem().Add<SubBuilding>("",texture);
+	AddSubBuilding(relx, rely, relz, building);
+
+}
+void Building::AddSubBuilding(int relx, int rely, int relz)
+{
+	SubBuilding *building = Game::instance().getEntitySystem().Add<SubBuilding>();
+	AddSubBuilding(relx, rely, relz, building);
+}
 void Building::AddSubBuilding(int relx, int rely, int relz, SubBuilding * building) {
-
-
 
 	building->relX = relx;
 	building->relY = rely;
@@ -97,10 +105,8 @@ void Building::Update() {
 void Building::Load() {
 	SetHealth(500);
 	maxHealth = 500;
-	heat = 10.0f;
-	SubBuilding *b = Game::instance().getEntitySystem().Add<SubBuilding>();
-	AddSubBuilding(0, 0, 0, b);
-	
+	heat = 0.01f;
+	AddSubBuilding(0, 0, 0);
 	
 	Entity::Load();
 }

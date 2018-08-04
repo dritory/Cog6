@@ -1,5 +1,6 @@
 #pragma once
 #include "Building.h"
+#include "..\EntitySystem\Entities\EntityMob.h"
 class Tower :
 	public Building
 {
@@ -9,5 +10,8 @@ public:
 protected:
 	virtual void Load();
 	virtual void Update();
+	virtual void Reset();
+private:
+	Entity * target;
 };
 

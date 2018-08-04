@@ -29,6 +29,8 @@ private:
 	int waitTimer = 0;
 	sf::Vector3i lastDirection;
 
+	void Reset();
+
 protected:
 	void Update() override;
 	std::string GetSpriteLocation() override { return "mob.png"; }
