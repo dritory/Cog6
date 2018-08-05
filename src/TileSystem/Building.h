@@ -20,6 +20,8 @@ public:
 	bool CanPlaceHere(int x, int y, int z);
 
 	bool isValid() { return (tileX >= 0 && tileY >= 0 && tileZ >= 0); }
+	virtual void setHidden(bool hidden);
+
 
 	int getCost() { return cost; };
 	int getPowerUsage() { return powerUsage; }

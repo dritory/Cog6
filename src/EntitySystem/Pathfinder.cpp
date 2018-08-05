@@ -189,6 +189,10 @@ bool Pathfinder::removeTarget(int x, int y) {
 bool Pathfinder::isValid() {
 	return (bool) targets.size();
 }
+bool Pathfinder::isValidAt(float x, float y)
+{
+	return getHeat(isoToGrid(sf::Vector2f(x, y))) != FLT_MAX;
+}
 void Pathfinder::flush() {
 	for ( int i = 0; i < width*height; i++ ) {
 		distancemap[i] = FLT_MAX;

@@ -27,27 +27,29 @@ public:
 
 	template <class TYPE>
 	//isocoords
-	void spawn(float x, float y, float z) {
+	bool spawn(float x, float y, float z) {
+		if ( Game::instance().getTileSystem().pathfinder->isValidAt(x, z) ) {
+			for ( auto p = unusedMobs.begin(); p != unusedMobs.end(); p++ ) {
+				TYPE* type = dynamic_cast<TYPE*> (*p);
+				if ( type != nullptr ) { //the mob is of the same type
 
-		for ( auto p = unusedMobs.begin(); p != unusedMobs.end(); p++ ) {
-			TYPE* type = dynamic_cast<TYPE*> (*p);
-			if ( type != nullptr ) { //the mob is of the same type
+					Game::instance().getEntitySystem().ActivateEntity(*p);
+					(*p)->SetPosition(sf::Vector3f(x, y, z));
+					(*p)->SetHealthToMax();
+					usedMobs.push_back(*p);
+					p = unusedMobs.erase(p);
 
-				Game::instance().getEntitySystem().ActivateEntity(*p);
-				(*p)->SetPosition(sf::Vector3f(x, y, z));
-				(*p)->SetHealthToMax();
-				usedMobs.push_back(*p);
-				p = unusedMobs.erase(p);
-
-				return;
+					return true;
+				}
 			}
+
+			TYPE* entity = AddToPool<TYPE>();
+			entity->SetPosition(sf::Vector3f(x, y, z));
+			entity->SetHealthToMax();
+			usedMobs.push_back(entity);
+			return true;
 		}
-
-		TYPE* entity = AddToPool<TYPE>();
-		entity->SetPosition(sf::Vector3f(x, y, z));
-		entity->SetHealthToMax();
-		usedMobs.push_back(entity);
-
+		return false;
 	}
 
 

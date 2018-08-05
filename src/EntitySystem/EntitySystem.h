@@ -39,7 +39,7 @@ public:
 
 	template <class T>
 	void RemoveEntity(T * entityPtr) {
-		if (entityPtr->Removed()) return;
+		if (entityPtr->Removed() || entityPtr == nullptr) return;
 		entityPtr->Remove();
 		m_EntitiesToRemove.push(entityPtr->GetId());
 	};

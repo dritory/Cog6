@@ -33,6 +33,8 @@ public:
 	bool removeTarget(int x, int y);
 
 	bool isValid();
+	//iso coords
+	bool isValidAt(float x, float y);
 	
 	//resets the heatmaps and clears all targets
 	void flush();

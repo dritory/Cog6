@@ -23,29 +23,40 @@ void Spawner::update(sf::Time elapsed) {
 			p++;
 		}
 	}
-	if ( usedMobs.size() < entityLimit ) {
+	if ( usedMobs.size() < entityLimit && Game::instance().getTileSystem().pathfinder->isValid()) {
 		sf::Time waveTime = waveClock.getElapsedTime();
 		if ( waveTime.asSeconds() > waveInterval ) {
 			sf::Time time = spawnerClock.getElapsedTime();
 
 			if ( time.asMilliseconds() > spawnInterval ) {
-				int width = (Game::instance().getTileSystem().getWidth_world());
-				int z = std::rand() % width;
-				int d = std::rand() % 4;
-				switch (d)
-				{
-				case 0:
-					spawn<EntityMob>(0, 32, z);
-					break;
-				case 1:
-					spawn<EntityMob>(z, 32, 0);
-					break;
-				case 2:
-					spawn<EntityMob>(z, 32, width -32);
-					break;
-				default:
-					spawn<EntityMob>(width - 32, 32, z);
-					break;
+				bool spawned = false;
+				int tries = 0;
+				while ( !spawned && tries < 100) {
+					int width = (Game::instance().getTileSystem().getWidth_world());
+					int r = std::rand() % width;
+					int d = std::rand() % 4;
+					int x, z;
+					switch ( d )
+					{
+					case 0:
+						x = 0;
+						z = r;
+						break;
+					case 1:
+						x = r;
+						z = 0;
+						break;
+					case 2:
+						x = r;
+						z = width - 32;
+						break;
+					default:
+						x = width - 32;
+						z = r;
+						break;
+					}
+					spawned = spawn<EntityMob>(x, 32, z);
+					tries++;
 				}
 				spawnerClock.restart();
 			}

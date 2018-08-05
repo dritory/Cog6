@@ -1,6 +1,6 @@
 #include "Game.h"
 #include <SFML/Graphics.hpp>
-#include <sol.hpp>
+//#include <sol.hpp>
 #include "EntitySystem/EntitySystem.h"
 #include "EntitySystem/Entities/EntityWall.h"
 #include "EntitySystem/Entities/EntityMob.h"
@@ -8,7 +8,7 @@
 #include "Rendering/SpriteBatch.h"
 #include "AssetLoader/AssetLoader.h"
 
-#include <sol.hpp>
+//#include <sol.hpp>
 #include "Camera.h"
 #include "GL\Level.h"
 #include <cstdlib>
@@ -78,16 +78,16 @@ void Game::Start() {
 	text.setFont(font);
 	text.setPosition(50, 50);
 
-	sol::state lua;
-	lua.set_function("getString", [] { return "Hello from luajit"; });
-	auto result = lua.script("return getString()");
+	//sol::state lua;
+	//lua.set_function("getString", [] { return "Hello from luajit"; });
+	//auto result = lua.script("return getString()");
 
-	const std::string str = result;
+	//const std::string str = result;
 
-	sf::Text text2;
-	text2.setFont(font);
-	text2.setPosition(50, 80);
-	text2.setString(str);
+	//sf::Text text2;
+	//text2.setFont(font);
+	//text2.setPosition(50, 80);
+	//text2.setString(str);
 
 	sf::Text text3;
 	text3.setFont(font);
@@ -208,11 +208,11 @@ void Game::Start() {
 			window.setView(window.getDefaultView());
 			// Draw UI
 
-			text2.setString(std::to_string(batcher.getQueued()));
+			//text2.setString(std::to_string(batcher.getQueued()));
 			text3.setString("TrMut: " + std::to_string(player.getTM()));
 			text4.setString("Power: " + std::to_string(player.getPowerEfficienty()) + "%");
 
-			window.draw(text2);
+			//window.draw(text2);
 			window.draw(text);
 			window.draw(text3);
 

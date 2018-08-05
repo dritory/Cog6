@@ -93,6 +93,14 @@ bool Building::CanPlaceHere(int x, int y, int z) {
 	return canplacehere;
 }
 
+void Building::setHidden(bool hidden)
+{
+	for ( SubBuilding *sb : subBuildings ) {
+		sb->setHidden(hidden);
+	}
+	GameObject::setHidden(hidden);
+}
+
 
 
 void Building::Update() {

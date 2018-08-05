@@ -47,11 +47,15 @@ private:
 	std::vector<Building *> buildings;
 
 	template<class TYPE>
-	TYPE *createGhostBuilding() {
-		TYPE * ghost = Game::instance().getEntitySystem().Add<TYPE>();
-		Game::instance().getEntitySystem().DeactivateEntity(ghost);
+	TYPE *changeBuilding(Building *old = nullptr) {
+		if(old !=nullptr)
+			Game::instance().getEntitySystem().RemoveEntity(old);
+		TYPE * next = Game::instance().getEntitySystem().Add<TYPE>();
+		Game::instance().getEntitySystem().DeactivateEntity(next);
+		return next;
 	};
 	
+	Building *chooseBuilding(int type, Building *ghost = nullptr);
 
 };
 

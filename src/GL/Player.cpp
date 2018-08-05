@@ -18,10 +18,10 @@ Player::~Player() {
 }
 
 bool Player::build(int x, int y, int z, Building *building) {
-	if (Game::instance().getTileSystem().isInBounds(x, y, z)) {
+	if (Game::instance().getTileSystem().isInBounds(x, y, z) && building) {
 
 
-		if (transmutanium < building->getCost() || !building->BindToTile(x, y, z) && building != nullptr) {
+		if (transmutanium < building->getCost() || !building->BindToTile(x, y, z)) {
 
 			return false;
 		}
@@ -35,6 +35,7 @@ bool Player::build(int x, int y, int z, Building *building) {
 			else if (power > 0) {
 				consumedPower += power;
 			}
+			Game::instance().getEntitySystem().ActivateEntity(building);
 			buildings.push_back(building);
 
 			return true;
@@ -47,26 +48,17 @@ bool Player::build(int x, int y, int z, Building *building) {
 //TODO: rewrite the whole class
 void Player::Update(sf::Time elapsed) {
 	static bool oldKeyState = false;
-
-	//TODO: need a better way to represent ghostbuidlings
-	static Building *building = Game::instance().getEntitySystem().Add<Building>();
-
-	static Tower *tower = Game::instance().getEntitySystem().Add<Tower>();
-	Game::instance().getEntitySystem().DeactivateEntity(tower);
-	static Base *ex = Game::instance().getEntitySystem().Add<Base>();
-
-	static Generator *gen = Game::instance().getEntitySystem().Add<Generator>();
-
-	static Building *ghostBuilding = ex;
-
+	static Building *ghostBuilding = nullptr;
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B) && !oldKeyState) {
-		if (state != BUILDING)
+		if ( state != BUILDING ) {
 			state = BUILDING;
+		}
 		else {
 			state = IDLE;
-			ghostBuilding->
+			if(ghostBuilding)
+				ghostBuilding->setHidden(true);
 		}
 
 	}
@@ -80,65 +72,32 @@ void Player::Update(sf::Time elapsed) {
 		sf::Vector2i pos = Game::instance().getTileSystem().getMap(32).mouseToTile(Game::instance().getWindow());
 		if (ghostBuilding)
 			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(pos.x, 1, pos.y)));
-
+		else {
+			ghostBuilding = chooseBuilding(typeBuilding, nullptr);
+		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			//This needs a better way of doing
-			Building *t;
-			switch (typeBuilding) {
 
-			case 3: {
-				t = Game::instance().getEntitySystem().Add<Generator>();
-				break;
-			}
-			case 2: {
-				t = Game::instance().getEntitySystem().Add<Base>();
-				break;
-			}
-			case 1: {
-				t = Game::instance().getEntitySystem().Add<Tower>();
-				break;
-			}
-			case 0:
-			default:
-			{
-				t = Game::instance().getEntitySystem().Add<Building>();
-				break;
-			}
-			}
-
-			if (build(pos.x, 1, pos.y, t)) {
+			if (build(pos.x, 1, pos.y, ghostBuilding)) {
 
 				Game::instance().getTileSystem().pathfinder->recalculateMap();
-
+				ghostBuilding = chooseBuilding(typeBuilding);
 			}
 			else {
-
-				Game::instance().getEntitySystem().RemoveEntity(t);
 
 			}
 			break;
 		}
-
-		//Same goes for this snippet
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-			typeBuilding = 0;
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(0, -10, 0)));
-			ghostBuilding = building;
+			ghostBuilding = chooseBuilding(0, ghostBuilding);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-			typeBuilding = 1;
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(0, -10, 0)));
-			ghostBuilding = tower;
+			ghostBuilding = chooseBuilding(1, ghostBuilding);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-			typeBuilding = 2;
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(0, -10, 0)));
-			ghostBuilding = ex;
+			ghostBuilding = chooseBuilding(2, ghostBuilding);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-			typeBuilding = 3;
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(0, -10, 0)));
-			ghostBuilding = gen;
+			ghostBuilding = chooseBuilding(3, ghostBuilding);
 		}
 		break;
 
@@ -202,4 +161,32 @@ void Player::load()
 
 	typeBuilding = 2;
 	state = BUILDING;
+	
+}
+
+Building* Player::chooseBuilding(int type, Building * ghost)
+{
+	typeBuilding = type;
+	Building *ptr = nullptr;
+	switch (type) {
+	case 3: {
+		ptr = changeBuilding<Generator>(ghost);
+		break;
+	}
+	case 2: {
+		ptr = changeBuilding<Base>(ghost);
+		break;
+	}
+	case 1: {
+		ptr = changeBuilding<Tower>(ghost);
+		break;
+	}
+	case 0:
+	default:
+	{
+		ptr = changeBuilding<Building>(ghost);
+		break;
+	}
+	}
+	return ptr;
 }
