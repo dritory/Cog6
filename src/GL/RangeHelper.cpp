@@ -33,9 +33,9 @@ void RangeHelper::Update(sf::Time elapsed)
 {
 	/*
 	flush();
-	int tsize = Game::instance().getTileSystem().getTileSize();
-	int size = Game::instance().getSpawner().getUsedMobs().size();
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+	int size = Game::Instance()->spawner->getUsedMobs().size();
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 		sf::Vector3f pos = e->GetPosition();
 		addEntity(pos.x / tsize, pos.z / tsize, e);
 	}
@@ -53,10 +53,10 @@ std::vector<Entity*> RangeHelper::getEntities(int x, int z)
 /*
 std::vector<Entity*> RangeHelper::entitiesInRange(int x, int z, float range)
 {
-	int tsize = Game::instance().getTileSystem().getTileSize();
+	int tsize = Game::Instance()->tileSystem->getTileSize();
 	std::vector<Entity *> temp;
 	
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 		
 		sf::Vector3f pos = e->GetPosition();
 		float dx = ((pos.x / tsize) - x);
@@ -73,7 +73,7 @@ std::vector<Entity*> RangeHelper::entitiesInRange(int x, int z, float range)
 		ranges[range] = getRangeArray(range);
 	}
 	for (const sf::Vector2i &pos : ranges.find(range)->second ) {
-		Game::instance().getTileSystem().setColor(pos.x + x, 0, pos.y + z, sf::Color(255,200,255));
+		Game::Instance()->tileSystem->setColor(pos.x + x, 0, pos.y + z, sf::Color(255,200,255));
 		int i = index(pos.x + x, pos.y + z);
 		const auto &list = entities.find(i);
 		if (list != entities.end() ) {
@@ -99,8 +99,8 @@ EntityMob * RangeHelper::getEntity(int x, int z, float range, Priority priority)
 	case WEAKEST:
 		return getWeakestEntity(x, z, range);
 	default:
-		int tsize = Game::instance().getTileSystem().getTileSize();
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		int tsize = Game::Instance()->tileSystem->getTileSize();
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			sf::Vector3f pos = e->GetPosition();
 			float dx = ((pos.x / tsize) - x);
 			float dy = ((pos.z / tsize) - z);
@@ -120,8 +120,8 @@ EntityMob * RangeHelper::getClosestEntity(int x, int z, float range)
 	std::vector<EntityMob *> inrange = entitiesInRange(x, z, range);
 	EntityMob * entity = nullptr;
 	int dist = range * range;
-	int tsize = Game::instance().getTileSystem().getTileSize();
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 
 		sf::Vector3f pos = e->GetPosition();
 		float dx = ((pos.x / tsize) - x);
@@ -144,8 +144,8 @@ EntityMob * RangeHelper::getFurthestEntity(int x, int z, float range)
 	std::vector<EntityMob *> inrange = entitiesInRange(x, z, range);
 	EntityMob * entity = nullptr;
 	int dist = 0;
-	int tsize = Game::instance().getTileSystem().getTileSize();
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 
 		sf::Vector3f pos = e->GetPosition();
 		float dx = ((pos.x / tsize) - x);
@@ -168,8 +168,8 @@ EntityMob * RangeHelper::getStrongestEntity(int x, int z, float range)
 	std::vector<EntityMob *> inrange = entitiesInRange(x, z, range);
 	EntityMob * entity = nullptr;
 	int health = 0;
-	int tsize = Game::instance().getTileSystem().getTileSize();
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 
 		sf::Vector3f pos = e->GetPosition();
 		float dx = ((pos.x / tsize) - x);
@@ -192,8 +192,8 @@ EntityMob * RangeHelper::getWeakestEntity(int x, int z, float range)
 	std::vector<EntityMob *> inrange = entitiesInRange(x, z, range);
 	EntityMob * entity = nullptr;
 	int health = INT_MAX;
-	int tsize = Game::instance().getTileSystem().getTileSize();
-	for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+	for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 
 		sf::Vector3f pos = e->GetPosition();
 		float dx = ((pos.x / tsize) - x);

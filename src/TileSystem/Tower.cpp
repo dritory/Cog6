@@ -1,5 +1,5 @@
 #include "Tower.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 Tower::Tower(EntitySystem* system, const EntityId& id) : Building(system, id)
 {
 	
@@ -27,7 +27,7 @@ void Tower::Update() {
 
 	if ( target == nullptr || !target->isAlive() || target->Deactivated()) {
 
-		target = Game::instance().getRangeHelper().getEntity<EntityMob>(tileX, tileZ, 10.0f, RangeHelper::CLOSEST);
+		target = Game::Instance()->rangehelper->getEntity<EntityMob>(tileX, tileZ, 10.0f, RangeHelper::CLOSEST);
 	
 	}
 	else
@@ -35,7 +35,7 @@ void Tower::Update() {
 		target->SetHealth(target->GetHealth() - 1);
 	}
 	/*
-	auto list = Game::instance().getRangeHelper().entitiesInRange(tileX,tileZ, 10);
+	auto list = Game::Instance()->rangehelper->entitiesInRange(tileX,tileZ, 10);
 	if ( list.size() > 0 ) {
 		for ( auto *e : list ) {
 

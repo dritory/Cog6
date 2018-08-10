@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 
 #include "..\TileSystem\Tower.h"
 #include "..\TileSystem\TileEntity.h"
@@ -18,7 +18,7 @@ Player::~Player() {
 }
 
 bool Player::build(int x, int y, int z, Building *building) {
-	if (Game::instance().getTileSystem().isInBounds(x, y, z) && building) {
+	if (Game::Instance()->tileSystem->isInBounds(x, y, z) && building) {
 
 
 		if (transmutanium < building->getCost() || !building->BindToTile(x, y, z)) {
@@ -35,7 +35,7 @@ bool Player::build(int x, int y, int z, Building *building) {
 			else if (power > 0) {
 				consumedPower += power;
 			}
-			Game::instance().getEntitySystem().ActivateEntity(building);
+			Game::Instance()->entitysystem->ActivateEntity(building);
 			buildings.push_back(building);
 
 			return true;
@@ -48,7 +48,7 @@ bool Player::build(int x, int y, int z, Building *building) {
 //TODO: rewrite the whole class
 void Player::Update(sf::Time elapsed) {
 	static bool oldKeyState = false;
-	static Building *ghostBuilding = nullptr;
+
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B) && !oldKeyState) {
@@ -69,17 +69,19 @@ void Player::Update(sf::Time elapsed) {
 	case BUILDING:
 	{
 
-		sf::Vector2i pos = Game::instance().getTileSystem().getMap(32).mouseToTile(Game::instance().getWindow());
+		sf::Vector2i pos = Game::Instance()->tileSystem->getMap(32).mouseToTile(Game::Instance()->getWindow());
 		if (ghostBuilding)
-			ghostBuilding->SetPosition(Game::instance().getTileSystem().tileToIsoCoord(sf::Vector3i(pos.x, 1, pos.y)));
+			ghostBuilding->SetPosition(Game::Instance()->tileSystem->tileToIsoCoord(sf::Vector3i(pos.x, 1, pos.y)));
 		else {
 			ghostBuilding = chooseBuilding(typeBuilding, nullptr);
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 
 			if (build(pos.x, 1, pos.y, ghostBuilding)) {
-
-				Game::instance().getTileSystem().pathfinder->recalculateMap();
+				sf::Time timeSinceLast = buildTimer.restart();
+				if ( timeSinceLast.asMilliseconds() >= 500) {
+					Game::Instance()->tileSystem->pathfinder->recalculateMap();
+				}
 				ghostBuilding = chooseBuilding(typeBuilding);
 			}
 			else {
@@ -106,8 +108,8 @@ void Player::Update(sf::Time elapsed) {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
 			for ( int i = 0; i < 1; i++ ) {
-				sf::Vector2f cam = Game::instance().getTileSystem().getMap(32).screenToIso(sf::Mouse::getPosition(Game::instance().getWindow()), Game::instance().getWindow());
-				Game::instance().getSpawner().spawn<EntityMob>(cam.x, 32.0f, cam.y);
+				sf::Vector2f cam = Game::Instance()->tileSystem->getMap(32).screenToIso(sf::Mouse::getPosition(Game::Instance()->getWindow()), Game::Instance()->getWindow());
+				Game::Instance()->spawner->spawn<EntityMob>(cam.x, 32.0f, cam.y);
 			}
 		}
 		break;
@@ -161,7 +163,7 @@ void Player::load()
 
 	typeBuilding = 2;
 	state = BUILDING;
-	
+	ghostBuilding = chooseBuilding(typeBuilding);
 }
 
 Building* Player::chooseBuilding(int type, Building * ghost)

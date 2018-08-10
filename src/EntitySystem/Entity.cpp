@@ -1,13 +1,13 @@
 #include "Entity.h"
 #include "../AssetLoader/AssetLoader.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 
 Entity::Entity(EntitySystem* system, const EntityId& id) : m_Id(id), m_Health(10), m_System(system) {
 }
 
 Entity::~Entity() = default;
 
-void Entity::FixedUpdate() {
+void Entity::FixedUpdate(sf::Time elapsed) {
 	
 	float health = (float)GetHealth();
 	if(maxHealth > 0 && health != m_lastHealth) {
@@ -63,9 +63,9 @@ void Entity::SetHealthToMax() {
 }
 void Entity::SetPosition(const sf::Vector3f & position) {
 	if (maxHealth > 0) {
-		int size = Game::instance().getTileSystem().getTileSize();
+		int size = Game::Instance()->tileSystem->getTileSize();
 		sf::Vector3f bar(2 * size / 3, -10, 0);
-		sf::Vector2f pos = Game::instance().getTileSystem().isoToWorldCoord((position + bar));
+		sf::Vector2f pos = Game::Instance()->tileSystem->isoToWorldCoord((position + bar));
 		healthBar.setPosition(pos);
 	}
 	GameObject::SetPosition(position);

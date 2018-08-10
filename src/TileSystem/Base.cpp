@@ -1,22 +1,22 @@
 #include "Base.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 
 Base::Base(EntitySystem* system, const EntityId& id) : Building(system,id){
 }
 
 
 Base::~Base() {
-	if(&Game::instance().getTileSystem() != nullptr && Game::instance().getTileSystem().pathfinder != NULL)
-	if (Game::instance().getTileSystem().pathfinder->targetExistsAt(tileX,tileZ)) {
-		Game::instance().getTileSystem().pathfinder->removeTarget(tileX, tileZ);
-		Game::instance().getTileSystem().pathfinder->recalculateMap();
+	if(&Game::Instance()->tileSystem != nullptr && Game::Instance()->tileSystem->pathfinder != NULL)
+	if (Game::Instance()->tileSystem->pathfinder->targetExistsAt(tileX,tileZ)) {
+		Game::Instance()->tileSystem->pathfinder->removeTarget(tileX, tileZ);
+		Game::Instance()->tileSystem->pathfinder->recalculateMap();
 	}
 }
 bool Base::BindToTile(int x, int y, int z) {
 
 	if (Building::BindToTile(x, y, z)) {
 		
-		Game::instance().getTileSystem().pathfinder->addTarget(x, z);
+		Game::Instance()->tileSystem->pathfinder->addTarget(x, z);
 		return true;
 	}
 	return false;
@@ -28,26 +28,26 @@ void Base::Load(){
 	powerUsage = -5;
 	heat = 0.0f;
 
-	AddSubBuilding(0, 0, 0, Game::instance().getEntitySystem().Add<SubBuilding>("", "block.png"));
-	AddSubBuilding(1, 0, 0, Game::instance().getEntitySystem().Add<SubBuilding>("", "block.png"));
-	AddSubBuilding(0, 0, 1, Game::instance().getEntitySystem().Add<SubBuilding>("", "block.png"));
-	AddSubBuilding(1, 0, 1, Game::instance().getEntitySystem().Add<SubBuilding>("", "block.png"));
+	AddSubBuilding(0, 0, 0, Game::Instance()->entitysystem->Add<SubBuilding>("", "block.png"));
+	AddSubBuilding(1, 0, 0, Game::Instance()->entitysystem->Add<SubBuilding>("", "block.png"));
+	AddSubBuilding(0, 0, 1, Game::Instance()->entitysystem->Add<SubBuilding>("", "block.png"));
+	AddSubBuilding(1, 0, 1, Game::Instance()->entitysystem->Add<SubBuilding>("", "block.png"));
 	
-	AddSubBuilding(2, 0, -1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(2, 0, 0, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(2, 0, 1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(2, 0, -1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(2, 0, 0, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(2, 0, 1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
 
-	AddSubBuilding(-1, 0, 2, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(0, 0, 2, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(1, 0, 2, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(2, 0, 2, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(-1, 0, 2, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(0, 0, 2, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(1, 0, 2, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(2, 0, 2, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
 
-	AddSubBuilding(-1, 0, -1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(0, 0, -1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(1, 0, -1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(-1, 0, -1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(0, 0, -1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(1, 0, -1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
 
-	AddSubBuilding(-1, 0, 0, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
-	AddSubBuilding(-1, 0, 1, Game::instance().getEntitySystem().Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(-1, 0, 0, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
+	AddSubBuilding(-1, 0, 1, Game::Instance()->entitysystem->Add<SubBuilding>("", "slab.png"));
 
 	Entity::Load();
 }
@@ -55,7 +55,7 @@ void Base::Load(){
 void Base::Update() {
 	
 	if (isValid()) {
-		Game::instance().getPlayer().addTM((int)(Game::instance().getPlayer().getPowerEfficienty()/10));
+		Game::Instance()->player->addTM((int)(Game::Instance()->player->getPowerEfficienty()/10));
 	}
 	Building::Update();
 }

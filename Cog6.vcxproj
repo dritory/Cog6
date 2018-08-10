@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GL\RangeHelper.cpp" />
+    <ClCompile Include="src\PlayState.cpp" />
     <ClCompile Include="src\TileSystem\Building.cpp" />
     <ClCompile Include="src\FastNoise.cpp" />
     <ClCompile Include="src\GL\Spawner.cpp" />
@@ -38,7 +40,10 @@
     <ClCompile Include="src\TileSystem\Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\GL\RangeHelper.h" />
+    <ClInclude Include="src\PlayState.h" />
     <ClInclude Include="src\TileSystem\Building.h" />
     <ClInclude Include="src\FastNoise.h" />
     <ClInclude Include="src\GL\Spawner.h" />

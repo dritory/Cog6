@@ -1,3 +1,4 @@
+/*
 #include "Game.h"
 #include <SFML/Graphics.hpp>
 //#include <sol.hpp>
@@ -16,7 +17,7 @@
 /* cereal
 #include <cereal\cereal.hpp>
 #include <cereal/archives/binary.hpp>
-*/
+
 Game::Game() {
 	
 }
@@ -112,7 +113,6 @@ void Game::Start() {
 
 	sf::Clock gameClock;
 	sf::Clock fixedClock;
-	bool pressed = false;
 
 	player.load();
 
@@ -151,12 +151,6 @@ void Game::Start() {
 		window.clear();
 		//sets view to cameras view
 		window.setView(camera.view);
-
-
-		
-		//Unfixed update calls, running at fps
-		//----------------------------------------//
-
 
 		accumulator += fixedClock.getElapsedTime().asMilliseconds();
 		while ( accumulator >= dt ) {
@@ -257,3 +251,4 @@ Spawner & Game::getSpawner() {
 }
 
 
+*/

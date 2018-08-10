@@ -1,7 +1,7 @@
 #include "AStar.h"
 #include <algorithm>
 #include <set>
-#include "..\Game.h"
+#include "..\PlayState.h"
 Node::Node(int xp, int yp, int d, int p) {
 	xPos = xp; yPos = yp; level = d; priority = p;
 }
@@ -48,7 +48,7 @@ AStar::~AStar() {
 //takes in 2d coords
 std::deque<sf::Vector3f> AStar::findPath(sf::Vector3i start, sf::Vector3i destination) {
 	
-	map = &Game::instance().getTileSystem().getMap(start.y * 32);
+	map = &Game::Instance()->tileSystem->getMap(start.y * 32);
 	
 	//changes the z and y
 	start = sf::Vector3i(start.x, start.z, start.y);

@@ -1,6 +1,4 @@
 #include "TileSystem.h"
-
-#include "..\Game.h"
 #include <random>
 #include <ctime>
 
@@ -39,14 +37,14 @@ void TileSystem::load() {
 	int *level2 = new int[width*width];
 	int *level3 = new int[width*width];
 	int *level4 = new int[width*width];
-	Game::instance().getNoiseGen().SetFrequency((FN_DECIMAL)0.02f);
+	Game::Instance()->fastnoise->SetFrequency((FN_DECIMAL)0.02f);
 	int random = rand();
 	for ( int i = 0; i < width*width; i++ ) {
 
 		int x = i % width;
 		int y = i / width;
-		float f = Game::instance().getNoiseGen().GetSimplexFractal((FN_DECIMAL) (y + x) + random, (FN_DECIMAL) (y - x) + random);
-		float d = Game::instance().getNoiseGen().GetSimplexFractal((FN_DECIMAL) (1000 + (y + x)) + random, (FN_DECIMAL) (1000 + (y - x)) + random);
+		float f = Game::Instance()->fastnoise->GetSimplexFractal((FN_DECIMAL) (y + x) + random, (FN_DECIMAL) (y - x) + random);
+		float d = Game::Instance()->fastnoise->GetSimplexFractal((FN_DECIMAL) (1000 + (y + x)) + random, (FN_DECIMAL) (1000 + (y - x)) + random);
 		level[i] = 1;
 		level2[i] = f < -0.2f ? 1 : 0;
 
@@ -111,20 +109,22 @@ void TileSystem::draw(SpriteBatch &batch) {
 
 
 	if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Y) ) {
-		//sf::Vector2i tile = map[1].mouseToTile(Game::instance().getWindow());
+		//sf::Vector2i tile = map[1].mouseToTile(Game::Instance()->getWindow());
 		//setTileId(tile.x, 1,tile.y,5);
 		pathfinder->flush();
 		//map[0].sprite.setPosition(map[0].getPosition());
 	}
 
 	if ( sf::Mouse::isButtonPressed(sf::Mouse::Right) && !oldMouseState ) {
-		sf::Vector2i tile = map[1].mouseToTile(Game::instance().getWindow());
+		sf::Vector2i tile = map[1].mouseToTile(Game::Instance()->getWindow());
 		int tileId = getTileId(tile.x, 1, tile.y);
 		setTileId(tile.x, 1, tile.y, (tileId == 5 ? 0 : 5));
 		if ( getTileEntity(tile.x, 1, tile.y) != nullptr ) {
-			Game::instance().getEntitySystem().RemoveEntity(getTileEntity(tile.x, 1, tile.y));
+			Game::Instance()->entitysystem->RemoveEntity(getTileEntity(tile.x, 1, tile.y));
 		}
 	}
+
+
 	if ( sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F6)) {
 		if ( !F6Keystate ) {
 			if ( showHeatMap ) {

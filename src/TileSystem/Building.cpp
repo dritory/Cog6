@@ -1,5 +1,5 @@
 #include "Building.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 #include "..\EntitySystem\EntitySystem.h"
 
 Building::Building(EntitySystem* system, const EntityId& id) : TileEntity(system, id) {
@@ -9,15 +9,15 @@ Building::Building(EntitySystem* system, const EntityId& id) : TileEntity(system
 
 Building::~Building() {
 	for (SubBuilding *b : subBuildings) {
+		if(Game::Instance()->tileSystem != nullptr)
+			Game::Instance()->tileSystem->setTileEntity(b->tileX, b->tileY, b->tileZ, nullptr);
 
-		tileSystem->setTileEntity(b->tileX, b->tileY, b->tileZ, nullptr);
 
-
-		Game::instance().getEntitySystem().RemoveEntity(b);
+		Game::Instance()->entitysystem->RemoveEntity(b);
 
 		b = nullptr;
 	}
-	Game::instance().getPlayer().removeBuilding(this);
+	Game::Instance()->player->removeBuilding(this);
 }
 
 sf::Vector3i Building::getCenter() {
@@ -26,13 +26,13 @@ sf::Vector3i Building::getCenter() {
 
 //takes in relative position (tile coords) and sub building ptr
 void Building::AddSubBuilding(int relx, int rely, int relz, std::string texture) {
-	SubBuilding *building = Game::instance().getEntitySystem().Add<SubBuilding>("",texture);
+	SubBuilding *building = Game::Instance()->entitysystem->Add<SubBuilding>("",texture);
 	AddSubBuilding(relx, rely, relz, building);
 
 }
 void Building::AddSubBuilding(int relx, int rely, int relz)
 {
-	SubBuilding *building = Game::instance().getEntitySystem().Add<SubBuilding>();
+	SubBuilding *building = Game::Instance()->entitysystem->Add<SubBuilding>();
 	AddSubBuilding(relx, rely, relz, building);
 }
 void Building::AddSubBuilding(int relx, int rely, int relz, SubBuilding * building) {
@@ -62,11 +62,11 @@ bool Building::BindToTile(int x, int y, int z) {
 			sb->tileX = tileX + sb->relX;
 			sb->tileY = tileY + sb->relY;
 			sb->tileZ = tileZ + sb->relZ;
-			tileSystem->setTileEntity(sb->tileX, sb->tileY, sb->tileZ, this);
-			sb->SetPosition(tileSystem->tileToIsoCoord(sf::Vector3i(sb->tileX, sb->tileY, sb->tileZ)));
+			Game::Instance()->tileSystem->setTileEntity(sb->tileX, sb->tileY, sb->tileZ, this);
+			sb->SetPosition(Game::Instance()->tileSystem->tileToIsoCoord(sf::Vector3i(sb->tileX, sb->tileY, sb->tileZ)));
 
 		}
-		SetPosition(tileSystem->tileToIsoCoord(sf::Vector3i(x, y, z)));
+		SetPosition(Game::Instance()->tileSystem->tileToIsoCoord(sf::Vector3i(x, y, z)));
 
 
 		/*
@@ -85,7 +85,7 @@ bool Building::BindToTile(int x, int y, int z) {
 bool Building::CanPlaceHere(int x, int y, int z) {   
 	bool canplacehere = true;
 	for (SubBuilding *sb : subBuildings) {
-		if (!tileSystem->isInBounds(x + sb->relX, y + sb->relY, z + sb->relZ) || tileSystem->getTileEntity(x + sb->relX, y + sb->relY, z + sb->relZ) != nullptr || (!tileSystem->canWalkHere(x + sb->relX, y + sb->relY, z + sb->relZ))) {
+		if (!Game::Instance()->tileSystem->isInBounds(x + sb->relX, y + sb->relY, z + sb->relZ) || Game::Instance()->tileSystem->getTileEntity(x + sb->relX, y + sb->relY, z + sb->relZ) != nullptr || (!Game::Instance()->tileSystem->canWalkHere(x + sb->relX, y + sb->relY, z + sb->relZ))) {
 
 			canplacehere = false;
 		}
@@ -105,7 +105,7 @@ void Building::setHidden(bool hidden)
 
 void Building::Update() {
 	if (!isAlive()) {
-		Game::instance().getEntitySystem().RemoveEntity(this);
+		Game::Instance()->entitysystem->RemoveEntity(this);
 	}
 	Entity::Update();
 }
@@ -150,7 +150,7 @@ bool SubBuilding::BindToBuilding(Building * ptr) {
 }
 
 sf::Vector3f SubBuilding::getRelPos() {
-	float size = Game::instance().getTileSystem().getTileSize();
+	float size = Game::Instance()->tileSystem->getTileSize();
 	return sf::Vector3f(size*relX,size*relY,size*relZ);
 }
 

@@ -2,7 +2,7 @@
 #include <memory>
 #include <assert.h>
 #include "..\AssetLoader\AssetLoader.h"
-#include "..\Game.h"
+#include "..\PlayState.h"
 #include "TileSystem.h"
 
 TileMap::TileMap()
@@ -76,7 +76,7 @@ void TileMap::setTileId(int x, int z, int id, const int nonCollisionTiles []) {
 
 		if (collisionMap[x + z * (int)width] != !nonCollision) {
 			collisionMap[x + z * (int)width] = !nonCollision;
-			Game::instance().getTileSystem().pathfinder->recalculateMap();
+			Game::Instance()->tileSystem->pathfinder->recalculateMap();
 		}
 		
 		int tilesBeyondWidth = ((x + z) - (int)width + 1)*(int)((x + z) / (int)width);

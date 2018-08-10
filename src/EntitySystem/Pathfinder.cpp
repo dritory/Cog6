@@ -2,7 +2,7 @@
 #include <utility>
 #include <iostream>
 #include <queue>
-#include "../Game.h"
+#include "../PlayState.h"
 Pathfinder::Pathfinder(TileMap * map) : startX(-1), startY(-1) {
 	gridPerTile = 1;
 	this->map = map;
@@ -19,7 +19,7 @@ Pathfinder::Pathfinder(TileMap * map) : startX(-1), startY(-1) {
 	}
 }
 Pathfinder::Pathfinder() {
-	gridPerTile = 1;
+	gridPerTile = 2;
 	heatmap = nullptr;
 	distancemap = nullptr;
 }
@@ -89,7 +89,7 @@ void Pathfinder::floodfill(int x, int z, float distance) {
 		q.push(std::make_pair(x, z));
 		distancemap[x + z * width] = distance;
 
-		TileSystem * system = &Game::instance().getTileSystem();
+		TileSystem * system = Game::Instance()->tileSystem;
 		int depth = map->getDepth();
 		while ( !q.empty() ) {
 			std::pair<int, int> curPoint = q.front();
@@ -256,16 +256,16 @@ sf::Vector2i Pathfinder::isoToGrid(sf::Vector3f pos) {
 }
 
 sf::Vector2i Pathfinder::isoToGrid(sf::Vector2f pos) {
-	int tileSize = Game::instance().getTileSystem().getTileSize();
+	int tileSize = Game::Instance()->tileSystem->getTileSize();
 	return sf::Vector2i((int) pos.x / (tileSize / gridPerTile), (int) pos.y / (tileSize / gridPerTile));
 }
 
 sf::Vector2f Pathfinder::gridToIso(sf::Vector2i pos) {
-	int tileSize = Game::instance().getTileSystem().getTileSize();
+	int tileSize = Game::Instance()->tileSystem->getTileSize();
 	return sf::Vector2f(pos.x *  (float) (tileSize / gridPerTile), pos.y * (float) (tileSize / gridPerTile));
 }
 
 sf::Vector3f Pathfinder::gridToIso(sf::Vector3i pos) {
-	int tileSize = Game::instance().getTileSystem().getTileSize();
+	int tileSize = Game::Instance()->tileSystem->getTileSize();
 	return sf::Vector3f(pos.x *  (float) (tileSize / gridPerTile), pos.y * (float) (tileSize / gridPerTile), pos.z * (float) (tileSize / gridPerTile));
 }

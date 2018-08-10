@@ -33,7 +33,7 @@ public:
 	virtual void Reset() {};
 
 protected:
-	virtual void FixedUpdate();
+	virtual void FixedUpdate(sf::Time elapsed);
 	virtual void Update();
 	virtual std::string GetSpriteLocation() = 0;
 

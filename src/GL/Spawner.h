@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Game.h"
+#include "..\PlayState.h"
 
 class Spawner {
 public:
@@ -11,7 +11,7 @@ public:
 	template <class entity>
 	entity * AddToPool() {
 
-		entity * ent = Game::instance().getEntitySystem().Add<entity>();
+		entity * ent = Game::Instance()->entitysystem->Add<entity>();
 		mobpool.push_back(ent);
 		return ent;
 	}
@@ -28,12 +28,12 @@ public:
 	template <class TYPE>
 	//isocoords
 	bool spawn(float x, float y, float z) {
-		if ( Game::instance().getTileSystem().pathfinder->isValidAt(x, z) ) {
+		if ( Game::Instance()->tileSystem->pathfinder->isValidAt(x, z) ) {
 			for ( auto p = unusedMobs.begin(); p != unusedMobs.end(); p++ ) {
 				TYPE* type = dynamic_cast<TYPE*> (*p);
 				if ( type != nullptr ) { //the mob is of the same type
 
-					Game::instance().getEntitySystem().ActivateEntity(*p);
+					Game::Instance()->entitysystem->ActivateEntity(*p);
 					(*p)->SetPosition(sf::Vector3f(x, y, z));
 					(*p)->SetHealthToMax();
 					usedMobs.push_back(*p);

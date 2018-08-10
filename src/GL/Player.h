@@ -1,11 +1,11 @@
 #pragma once
-
+#include "..\PlayState.h"
 #include "..\TileSystem\Building.h"
 enum PlayerState {
 	IDLE,
 	BUILDING
 };
-
+class Building;
 class Player {
 public:
 	Player();
@@ -33,7 +33,7 @@ public:
 
 private:
 
-	
+	sf::Clock buildTimer;
 	int typeBuilding;
 
 
@@ -42,6 +42,8 @@ private:
 
 	int transmutanium = 100;
 
+	Building *ghostBuilding = nullptr;
+
 	PlayerState state;
 
 	std::vector<Building *> buildings;
@@ -49,9 +51,9 @@ private:
 	template<class TYPE>
 	TYPE *changeBuilding(Building *old = nullptr) {
 		if(old !=nullptr)
-			Game::instance().getEntitySystem().RemoveEntity(old);
-		TYPE * next = Game::instance().getEntitySystem().Add<TYPE>();
-		Game::instance().getEntitySystem().DeactivateEntity(next);
+			Game::Instance()->entitysystem->RemoveEntity(old);
+		TYPE * next = Game::Instance()->entitysystem->Add<TYPE>();
+		Game::Instance()->entitysystem->DeactivateEntity(next);
 		return next;
 	};
 	

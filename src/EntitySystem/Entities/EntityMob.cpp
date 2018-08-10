@@ -1,9 +1,9 @@
 #include "EntityMob.h"
 #include <cstdlib>
 #include <ctime>
-#include "../../Game.h"
+#include "../../PlayState.h"
 EntityMob::EntityMob(EntitySystem* system, const EntityId& id) : Entity(system, id) {
-	pathFinder = Game::instance().getTileSystem().pathfinder;
+	pathFinder = Game::Instance()->tileSystem->pathfinder;
 	maxHealth = 100;
 	SetHealthToMax();
 }
@@ -30,7 +30,7 @@ bool approximate(sf::Vector3f A, sf::Vector3f B, float epsilon) {
 
 sf::Vector2i EntityMob::getTilePos() {
 
-	return Game::instance().getTileSystem().isoToTileCoord(GetPosition());
+	return Game::Instance()->tileSystem->isoToTileCoord(GetPosition());
 }
 
 
@@ -44,7 +44,7 @@ sf::Vector3i EntityMob::getBestDirection() {
 	}
 	sf::Vector2i pos = pathFinder->isoToGrid(GetPosition());
 	int height = 0;
-	int width = Game::instance().getTileSystem().getWidth();
+	int width = Game::Instance()->tileSystem->getWidth();
 	float best = FLT_MAX;
 	sf::Vector3i bestDirection(0, height, 0);
 	bool stuck = false;
@@ -120,9 +120,9 @@ void EntityMob::Update() {
 			sf::Vector3i bestDirection = (sf::Vector3i)pathFinder->gridToIso(lastDirection);
 			if (!(bestDirection.x == 0 && bestDirection.z == 0)) {
 
-				sf::Vector2i pos = Game::instance().getTileSystem().isoToTileCoord(GetPosition());
+				sf::Vector2i pos = Game::Instance()->tileSystem->isoToTileCoord(GetPosition());
 
-				TileEntity *e = Game::instance().getTileSystem().getTileEntity(pos.x + lastDirection.x, 1 + lastDirection.y, pos.y + lastDirection.z);
+				TileEntity *e = Game::Instance()->tileSystem->getTileEntity(pos.x + lastDirection.x, 1 + lastDirection.y, pos.y + lastDirection.z);
 				if (e != nullptr) {
 					e->damage(1);
 				}
@@ -165,13 +165,12 @@ void EntityMob::Reset()
 	waitTimer = 0;
 	SetHealthToMax();
 }
-void EntityMob::FixedUpdate() {
+void EntityMob::FixedUpdate(sf::Time elapsed) {
 	if (pathFinder->isValid()) {
-
 		if (!approximate(velocity, sf::Vector3f(0, 0, 0), 0.001f)) {
-			SetPosition(GetPosition() + (sf::Vector3f)velocity);
-
+			sf::Vector3f deltaS = sf::Vector3f(velocity.x * elapsed.asSeconds(), velocity.y * elapsed.asSeconds(), velocity.z * elapsed.asSeconds());
+			SetPosition(GetPosition() + (sf::Vector3f)deltaS);
 		}
 	}
-	Entity::FixedUpdate();
+	Entity::FixedUpdate(elapsed);
 }

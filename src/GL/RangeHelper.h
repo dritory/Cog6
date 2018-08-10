@@ -1,6 +1,5 @@
 #pragma once
-#include "..\Game.h"
-
+#include "..\PlayState.h"
 class RangeHelper {
 
 public:
@@ -26,10 +25,10 @@ public:
 	std::vector<Entity*> getEntities(int x, int z);
 	template<class TYPE>
 	std::vector<Entity *> entitiesInRange(int x, int z, float range) {
-		int tsize = Game::instance().getTileSystem().getTileSize();
+		int tsize = Game::Instance()->tileSystem->getTileSize();
 		std::vector<Entity *> temp;
 
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			TYPE* type = dynamic_cast<TYPE*> (*e);
 			if ( type != nullptr ) { //the mob is of the same type
 				sf::Vector3f pos = e->GetPosition();
@@ -56,8 +55,8 @@ public:
 		case WEAKEST:
 			return getWeakestEntity<TYPE>(x, z, range);
 		default:
-			int tsize = Game::instance().getTileSystem().getTileSize();
-			for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+			int tsize = Game::Instance()->tileSystem->getTileSize();
+			for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 				TYPE* type = dynamic_cast<TYPE*> (e);
 				if ( type != nullptr ) { //the mob is of the same type
 					sf::Vector3f pos = e->GetPosition();
@@ -79,8 +78,8 @@ public:
 	Entity * getClosestEntity(int x, int z, float range) {
 		Entity * entity = nullptr;
 		int dist = range * range;
-		int tsize = Game::instance().getTileSystem().getTileSize();
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		int tsize = Game::Instance()->tileSystem->getTileSize();
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			TYPE* type = dynamic_cast<TYPE*> (e);
 			if ( type != nullptr ) { //the mob is of the same type
 
@@ -105,8 +104,8 @@ public:
 	Entity * getFurthestEntity(int x, int z, float range) {
 		Entity * entity = nullptr;
 		int dist = 0;
-		int tsize = Game::instance().getTileSystem().getTileSize();
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		int tsize = Game::Instance()->tileSystem->getTileSize();
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			TYPE* type = dynamic_cast<TYPE*> (e);
 			if ( type != nullptr ) { //the mob is of the same type
 
@@ -131,8 +130,8 @@ public:
 	Entity * getStrongestEntity(int x, int z, float range) {
 		Entity * entity = nullptr;
 		int health = 0;
-		int tsize = Game::instance().getTileSystem().getTileSize();
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		int tsize = Game::Instance()->tileSystem->getTileSize();
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			TYPE* type = dynamic_cast<TYPE*> (e);
 			if ( type != nullptr ) { //the mob is of the same type
 
@@ -156,8 +155,8 @@ public:
 	Entity * getWeakestEntity(int x, int z, float range) {
 		Entity * entity = nullptr;
 		int health = INT_MAX;
-		int tsize = Game::instance().getTileSystem().getTileSize();
-		for ( auto e : Game::instance().getSpawner().getUsedMobs() ) {
+		int tsize = Game::Instance()->tileSystem->getTileSize();
+		for ( auto e : Game::Instance()->spawner->getUsedMobs() ) {
 			TYPE* type = dynamic_cast<TYPE*> (e);
 			if ( type != nullptr ) { //the mob is of the same type
 

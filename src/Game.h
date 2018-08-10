@@ -1,7 +1,7 @@
+/*
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "TileSystem\TileSystem.h"
 #include "Gui\Gui.h"
 #include "FastNoise.h"
 #include "GL\Player.h"
@@ -44,3 +44,4 @@ private:
 
 };
 
+*/

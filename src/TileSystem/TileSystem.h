@@ -3,8 +3,8 @@
 #include "..\Rendering\SpriteBatch.h"
 #include "../EntitySystem/Pathfinder.h"
 #include "TileEntity.h"
+#include "../PlayState.h"
 class TileEntity;
-
 class TileSystem {
 public:
 	TileSystem(int width, int height, int tileSize = 32);

@@ -1,5 +1,5 @@
 
-#include "..\Game.h"
+#include "..\PlayState.h"
 #include "Spawner.h"
 
 class Level {

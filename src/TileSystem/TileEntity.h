@@ -2,8 +2,7 @@
 
 #include "../EntitySystem/Entity.h"
 #include "../EntitySystem/InteractableEntity.h"
-#include "TileSystem.h"
-class TileSystem;
+
 class TileEntity : public Entity {
 public:
 	TileEntity(EntitySystem* system, const EntityId& id);
@@ -24,7 +23,6 @@ public:
 private:
 
 protected:
-	TileSystem *tileSystem;
 	
 	float heat = 100.0f;
 	bool occupiesTile = true;

@@ -14,7 +14,7 @@ void Spawner::update(sf::Time elapsed) {
 	for (auto p = usedMobs.begin(); p != usedMobs.end();) {
 		if (! (*p)->isAlive()) {
 			(*p)->Reset();
-			Game::instance().getEntitySystem().DeactivateEntity(*p);
+			Game::Instance()->entitysystem->DeactivateEntity(*p);
 			unusedMobs.push_back(*p);
 			p = usedMobs.erase(p);
 		}
@@ -23,7 +23,7 @@ void Spawner::update(sf::Time elapsed) {
 			p++;
 		}
 	}
-	if ( usedMobs.size() < entityLimit && Game::instance().getTileSystem().pathfinder->isValid()) {
+	if ( usedMobs.size() < entityLimit && Game::Instance()->tileSystem->pathfinder->isValid()) {
 		sf::Time waveTime = waveClock.getElapsedTime();
 		if ( waveTime.asSeconds() > waveInterval ) {
 			sf::Time time = spawnerClock.getElapsedTime();
@@ -32,7 +32,7 @@ void Spawner::update(sf::Time elapsed) {
 				bool spawned = false;
 				int tries = 0;
 				while ( !spawned && tries < 100) {
-					int width = (Game::instance().getTileSystem().getWidth_world());
+					int width = (Game::Instance()->tileSystem->getWidth_world());
 					int r = std::rand() % width;
 					int d = std::rand() % 4;
 					int x, z;

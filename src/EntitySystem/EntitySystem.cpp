@@ -19,7 +19,7 @@ Entity* EntitySystem::Get(const EntityId& id) {
 void EntitySystem::FixedUpdate(sf::Time elapsed) {
 	for (auto& it : m_Entities)
 		if (it != nullptr && !it->Deactivated())
-			it->FixedUpdate();
+			it->FixedUpdate(elapsed);
 
 	cleanupEntities();
 }

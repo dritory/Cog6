@@ -3,7 +3,7 @@
 
 
 Level::Level() {
-	this->game = &Game::instance();
+	this->game = Game::Instance();
 }
 
 
