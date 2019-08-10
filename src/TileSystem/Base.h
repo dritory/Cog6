@@ -10,5 +10,9 @@ public:
 protected:
 	virtual void Load();
 	virtual void Update();
+
+private:
+
+	sf::Clock genClock;
 };
 

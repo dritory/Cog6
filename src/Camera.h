@@ -12,6 +12,6 @@ public:
 
 	sf::View view;
 private:
-	float speed = 25.0f;
+	float speed = 1.5f;
 };
 

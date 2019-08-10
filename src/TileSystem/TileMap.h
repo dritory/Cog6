@@ -11,10 +11,14 @@ private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void setTileId(int x, int tileId, sf::Vector2u tileTextureSize);
 		void setColor(int x, sf::Color color);
+		bool last = false;
+
+		int layer = 0;
 	private:
 		sf::VertexArray m_vertices;
 		sf::Texture* m_tileset;
-		double depth = 0.0;
+		
+		
 	};
 
 public:
@@ -56,6 +60,8 @@ public:
 	//brief converts world coords to iso coords
 	//return float vector with iso coords
 	static sf::Vector2f worldToIso(sf::Vector2f point);
+
+	static sf::Vector2i isoToScreen(sf::Vector2f point, const sf::RenderWindow &window);
 
 	//brief converts world coords to a tile coord in the map
 	//return int vector with tile coords

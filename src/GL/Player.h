@@ -27,6 +27,12 @@ public:
 
 	PlayerState getState() { return state; }
 	
+	void setState(PlayerState state) {
+		this->state = state;
+	}
+	
+	void toggleBuildState();
+
 	void removeBuilding(Building *building);
 
 	void load();

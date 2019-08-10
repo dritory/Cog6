@@ -19,10 +19,11 @@ void Gui::initialize()
 
 }
 
-
-void Gui::draw(sf::RenderWindow &window)
-{	
-
+void Gui::update(sf::Event & e, sf::RenderWindow & window)
+{
 }
 
+void Gui::draw(sf::RenderTarget & target)
+{
+}
 

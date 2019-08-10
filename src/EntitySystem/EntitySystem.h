@@ -53,6 +53,10 @@ public:
 		entityPtr->m_Deactivated = false;
 	}
 
+	int GetCount();
+
+	void CleanupEntities();
+
 	void drawGUI (sf::RenderWindow &window);
 
 private:
@@ -61,7 +65,6 @@ private:
 	void addInteractable(InteractableEntity* entity);
 	void removeInteractable(InteractableEntity* entity);
 
-	void cleanupEntities();
 
 	std::vector<std::unique_ptr<Entity>> m_Entities;
 	std::vector<InteractableEntity*> m_Interactables;

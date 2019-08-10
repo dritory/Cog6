@@ -3,6 +3,8 @@
 #include <iostream>
 #include <queue>
 #include "../PlayState.h"
+
+
 Pathfinder::Pathfinder(TileMap * map) : startX(-1), startY(-1) {
 	gridPerTile = 1;
 	this->map = map;

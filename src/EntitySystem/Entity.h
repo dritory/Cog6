@@ -39,9 +39,20 @@ protected:
 
 	EntitySystem* GetSystem() const { return m_System; }
 
-	
+
 	int maxHealth = 0;
 
+	void setColor(const sf::Color& color);
+
+	const sf::Color & getColor();
+
+	const sf::Sprite &getSprite() {
+		return m_Sprite;
+	}
+
+	void setTextureRect(const sf::IntRect & rect) {
+		m_Sprite.setTextureRect(rect);
+	}
 
 private:
 	friend class EntitySystem;
@@ -55,9 +66,8 @@ private:
 
 
 	EntitySystem* m_System;
-	sf::Texture m_Texture;
 	sf::Sprite m_Sprite;
-
+	sf::Color m_color = sf::Color::White;
 	
 	sf::RectangleShape healthBar;
 

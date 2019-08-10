@@ -18,7 +18,7 @@ public:
 	virtual bool BindToTile(int tilex, int tiley, int tilez);
 
 
-	bool CanPlaceHere(int x, int y, int z);
+	bool CanPlaceHere(int x, int y, int z, bool setColor);
 
 	bool isValid() { return (tileX >= 0 && tileY >= 0 && tileZ >= 0); }
 	virtual void setHidden(bool hidden);

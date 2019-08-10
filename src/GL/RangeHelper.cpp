@@ -42,6 +42,21 @@ void RangeHelper::Update(sf::Time elapsed)
 	*/
 }
 
+bool RangeHelper::isInRange(Entity * e, int x, int z, float range)
+{
+	int tsize = Game::Instance()->tileSystem->getTileSize();
+
+	sf::Vector3f pos = e->GetPosition();
+	float dx = ((pos.x / tsize) - x);
+	float dy = ((pos.z / tsize) - z);
+	float distance = (dx*dx + dy * dy);
+	if ( distance <= range * range ) {
+		return true;
+	}
+	return false;
+}
+
+
 std::vector<Entity*> RangeHelper::getEntities(int x, int z)
 {
 	if (z >= 0 && x >= 0 && z < lenght && x < width) {

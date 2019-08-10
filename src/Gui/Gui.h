@@ -6,10 +6,15 @@ public:
 	Gui();
 	~Gui();
 
+
+
 	void initialize();
 
-	void draw(sf::RenderWindow &window);
+	virtual void update(sf::Event& e, sf::RenderWindow& window);
 
+	virtual void draw(sf::RenderTarget& target);
+
+	
 
 private:
 

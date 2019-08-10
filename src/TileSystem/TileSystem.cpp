@@ -1,7 +1,7 @@
 #include "TileSystem.h"
 #include <random>
 #include <ctime>
-
+#include "../GameObject.h"
 TileSystem::TileSystem(int width, int height, int tileSize) : width(width), height(height), tileSize(tileSize) {
 
 	map = new TileMap[height];
@@ -37,6 +37,7 @@ void TileSystem::load() {
 	int *level2 = new int[width*width];
 	int *level3 = new int[width*width];
 	int *level4 = new int[width*width];
+	int *level5 = new int[width*width];
 	Game::Instance()->fastnoise->SetFrequency((FN_DECIMAL)0.02f);
 	int random = rand();
 	for ( int i = 0; i < width*width; i++ ) {
@@ -46,12 +47,13 @@ void TileSystem::load() {
 		float f = Game::Instance()->fastnoise->GetSimplexFractal((FN_DECIMAL) (y + x) + random, (FN_DECIMAL) (y - x) + random);
 		float d = Game::Instance()->fastnoise->GetSimplexFractal((FN_DECIMAL) (1000 + (y + x)) + random, (FN_DECIMAL) (1000 + (y - x)) + random);
 		level[i] = 1;
-		level2[i] = f < -0.2f ? 1 : 0;
-
+		level2[i] = f < -0.2f ? 1 : 29;
+		
 		level3[i] = f < -0.5f ? 1 : 0;
 
 		level4[i] = f < -0.6f ? 17 : 0;
 
+		level5[i] = 0;
 	}
 
 	// create the tilemap from the level definition
@@ -59,7 +61,15 @@ void TileSystem::load() {
 	map[0].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 0, level, width, NONCOLLISION_TILES);
 	map[1].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 1, level2, width, NONCOLLISION_TILES);
 	map[2].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 2, level3, width, NONCOLLISION_TILES);
-	map[3].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 2, level4, width, NONCOLLISION_TILES);
+	map[3].load("textures/tileset.png", sf::Vector2u(32, 32), sf::Vector2i(tileSize, tileSize), 3, level4, width, NONCOLLISION_TILES);
+
+	for ( int i = 4; i < height; i++ ) {
+		map[i].load("textures/tileset.png", 
+			sf::Vector2u(32, 32), 
+			sf::Vector2i(tileSize, tileSize), 
+			i, level5, width, NONCOLLISION_TILES);
+	}
+
 	if ( pathfinder != nullptr ) {
 		delete pathfinder;
 		pathfinder = nullptr;
@@ -67,13 +77,27 @@ void TileSystem::load() {
 	pathfinder = new Pathfinder(&map[1]);
 	delete[] level;
 	delete[] level2;
-	delete[] level4;
 
 	delete[] level3;
+
+	delete[] level4;
+
+	delete[] level5;
 	level = nullptr;
 	level3 = nullptr;
 	level2 = nullptr;
 	level4 = nullptr;
+	level5 = nullptr;
+	for ( int x = 0; x < width; x++ ) {
+
+		for ( int z = 0; z < width; z++ ) {
+			setColor(x, 1, z, sf::Color::White);
+			if ( getTileId(x, 1, z) == 29 ) {
+				setColor(x, 1, z, sf::Color::Transparent);
+			}
+		}
+	}
+
 }
 
 void TileSystem::LateUpdate()
@@ -81,16 +105,16 @@ void TileSystem::LateUpdate()
 	pathfinder->LateUpdate();
 }
 
-void TileSystem::draw(SpriteBatch &batch) {
+void TileSystem::draw(SpriteBatch &batch, sf::RenderTarget &target) {
 
 	static bool oldMouseState = false;
 	static bool F6Keystate = false;
 	for ( int i = 0; i < height; i++ ) {
-
+		
 		for ( auto &d : map[i].getRows() ) {
 			batch.QueueObject(&d);
 		}
-
+		
 	}
 	if ( showHeatMap ) {
 		for ( int x = 0; x < width; x++ ) {
@@ -98,10 +122,11 @@ void TileSystem::draw(SpriteBatch &batch) {
 			for ( int z = 0; z < width; z++ ) {
 				float heat = pathfinder->getHeat(x, z);
 				if ( heat < FLT_MAX ) {
-					float norm = (heat - pathfinder->getMin() / (pathfinder->getMax() - pathfinder->getMin()));
+					float norm = (heat - pathfinder->getMin()) / (pathfinder->getMax() - pathfinder->getMin());
 
-					sf::Color color = sf::Color(-255 * norm + 255, 0, 255 * norm);
-					setColor(x, 0, z, color);
+					sf::Color color = sf::Color(255, 255, 255, 200 - 100*norm);
+
+					setColor(x, 1, z, color);
 				}
 			}
 		}
@@ -131,8 +156,10 @@ void TileSystem::draw(SpriteBatch &batch) {
 				for ( int x = 0; x < width; x++ ) {
 
 					for ( int z = 0; z < width; z++ ) {
-						setColor(x, 0, z, sf::Color::White);
-
+						setColor(x, 1, z, sf::Color::White);
+						if ( getTileId(x, 1, z) == 29 ) {
+							setColor(x, 1, z, sf::Color::Transparent);
+						}
 					}
 				}
 			}
@@ -153,7 +180,7 @@ void TileSystem::draw(SpriteBatch &batch) {
 //return true if walkable and false if not
 bool TileSystem::canWalkHere(int x, int y, int z) {
 	int tm = y;
-	if ( tm < height && tm > 0 ) {
+	if ( tm < height && tm > 0) {
 		return map[tm].canWalkHere(x, z);
 	}
 	return true;

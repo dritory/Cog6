@@ -55,7 +55,10 @@ void Base::Load(){
 void Base::Update() {
 	
 	if (isValid()) {
-		Game::Instance()->player->addTM((int)(Game::Instance()->player->getPowerEfficienty()/10));
+		if ( genClock.getElapsedTime().asMilliseconds() > 500 ) {
+			Game::Instance()->player->addTM((int) (Game::Instance()->player->getPowerEfficienty() / 10));
+			genClock.restart();
+		}
 	}
 	Building::Update();
 }

@@ -22,6 +22,10 @@ public:
 
 	void Update(sf::Time elapsed);
 
+	bool isInRange(Entity * entity,int x, int z, float range);
+	
+
+
 	std::vector<Entity*> getEntities(int x, int z);
 	template<class TYPE>
 	std::vector<Entity *> entitiesInRange(int x, int z, float range) {
@@ -176,6 +180,9 @@ public:
 		}
 		return entity;
 	};
+
+	
+
 
 private:
 	std::unordered_map<int, std::vector<Entity * >> entities;

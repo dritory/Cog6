@@ -1,7 +1,8 @@
 #pragma once
 #include "gamestate.h"
 #include "TileSystem\TileSystem.h"
-#include "Gui\Gui.h"
+#include "Gui\PlayGui.h"
+#include "Gui\PausedGui.h"
 #include "FastNoise.h"
 #include "GL\Player.h"
 #include "GL\RangeHelper.h"
@@ -23,6 +24,20 @@ public:
 	void Pause();
 	void Resume();
 
+	void Freeze() {
+		freezed = true;
+	}
+	void Unfreeze() {
+		freezed = false;
+	}
+	void ToggleFreeze() {
+		freezed = !freezed;
+	}
+
+	int getFPS();
+	int getFFPS();
+
+
 	void HandleEvents(GameEngine* game, sf::Event event);
 	void Update(GameEngine* game);
 	void Draw(GameEngine* game);
@@ -42,6 +57,8 @@ public:
 	RangeHelper *rangehelper;
 	SpriteBatch *batcher;
 	Camera *camera;
+	PlayGui *gui;
+	PausedGui *pausedGui;
 
 protected:
 	PlayState() { }
@@ -50,7 +67,18 @@ private:
 	
 	sf::Clock gameClock;
 	sf::Clock fixedClock;
+
+	sf::Clock fclock;
+	sf::Clock ffclock;
 	bool drawn;
+	bool freezed = false;
+	bool paused = false;
+
+	int FPS;
+	int FFPS;
+	int frames;
+	int fframes;
+	
 	int accumulator = 0;
 	int dt = (int) (1000.0f*(1.0f / 30.0f)); // Modify this to change physics rate. 
 };

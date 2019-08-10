@@ -54,7 +54,7 @@ void Building::AddSubBuilding(int relx, int rely, int relz, SubBuilding * buildi
 
 bool Building::BindToTile(int x, int y, int z) {
 
-	if (CanPlaceHere(x, y, z)) {
+	if (CanPlaceHere(x, y, z, false) ){
 		tileX = x;
 		tileY = y;
 		tileZ = z;
@@ -82,12 +82,22 @@ bool Building::BindToTile(int x, int y, int z) {
 
 
 
-bool Building::CanPlaceHere(int x, int y, int z) {   
+bool Building::CanPlaceHere(int x, int y, int z, bool setColor) {   
 	bool canplacehere = true;
 	for (SubBuilding *sb : subBuildings) {
-		if (!Game::Instance()->tileSystem->isInBounds(x + sb->relX, y + sb->relY, z + sb->relZ) || Game::Instance()->tileSystem->getTileEntity(x + sb->relX, y + sb->relY, z + sb->relZ) != nullptr || (!Game::Instance()->tileSystem->canWalkHere(x + sb->relX, y + sb->relY, z + sb->relZ))) {
+		if (!Game::Instance()->tileSystem->isInBounds(x + sb->relX, y + sb->relY, z + sb->relZ) 
+			|| Game::Instance()->tileSystem->getTileEntity(x + sb->relX, y + sb->relY, z + sb->relZ) != nullptr 
+			|| (!Game::Instance()->tileSystem->canWalkHere(x + sb->relX, y + sb->relY, z + sb->relZ))) {
+			if(setColor)
+				sb->setColor(sf::Color(255,100,100,100));
 
 			canplacehere = false;
+		}
+		else {
+			if ( setColor )
+				sb->setColor(sf::Color(255, 255, 255, 200));
+			else
+				sb->setColor(sf::Color::White);
 		}
 	}
 	return canplacehere;

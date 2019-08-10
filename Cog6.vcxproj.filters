@@ -28,6 +28,17 @@
     <ClCompile Include="src\GL\RangeHelper.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\PlayState.cpp" />
+    <ClCompile Include="src\Gui\PlayGui.cpp" />
+    <ClCompile Include="src\Gui\PausedGui.cpp" />
+    <ClCompile Include="src\Gui\Button.cpp" />
+    <ClCompile Include="src\Gui\GuiObject.cpp" />
+    <ClCompile Include="src\Gui\Panel.cpp" />
+    <ClCompile Include="src\Gui\Text.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityFodder.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityTank.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityAnimated.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Particle.cpp" />
+    <ClCompile Include="src\GL\Taint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
@@ -59,9 +70,22 @@
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\PlayState.h" />
+    <ClInclude Include="src\Gui\PlayGui.h" />
+    <ClInclude Include="src\Gui\PausedGui.h" />
+    <ClInclude Include="src\Gui\Button.h" />
+    <ClInclude Include="src\Gui\GuiObject.h" />
+    <ClInclude Include="src\Gui\Panel.h" />
+    <ClInclude Include="src\Gui\Text.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityFodder.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityTank.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityAnimated.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Particle.h" />
+    <ClInclude Include="src\GL\Taint.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png" />
+    <Image Include="..\..\..\OneDrive\Documents\Sprite Sheet 2.png" />
+    <Image Include="assets\entities\sheet2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll" />

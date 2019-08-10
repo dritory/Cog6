@@ -21,8 +21,11 @@ void EntitySystem::FixedUpdate(sf::Time elapsed) {
 		if (it != nullptr && !it->Deactivated())
 			it->FixedUpdate(elapsed);
 
-	cleanupEntities();
+	
 }
+
+
+
 void EntitySystem::Update(sf::Time elapsed) {
 	for (auto& it : m_Entities)
 		if (it != nullptr && !it->Deactivated())
@@ -62,7 +65,12 @@ void EntitySystem::removeInteractable(InteractableEntity* entity) {
 	m_InteractablesToRemove.push(entity);
 }
 
-void EntitySystem::cleanupEntities() {
+int EntitySystem::GetCount()
+{
+	return m_Entities.size();
+}
+
+void EntitySystem::CleanupEntities() {
 	while (m_EntitiesToRemove.size() != 0) {
 		auto id = m_EntitiesToRemove.front(); m_EntitiesToRemove.pop();
 		if (m_Entities[id] != nullptr) {

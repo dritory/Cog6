@@ -7,6 +7,9 @@ Entity::Entity(EntitySystem* system, const EntityId& id) : m_Id(id), m_Health(10
 
 Entity::~Entity() = default;
 
+
+
+
 void Entity::FixedUpdate(sf::Time elapsed) {
 	
 	float health = (float)GetHealth();
@@ -34,6 +37,15 @@ void Entity::FixedUpdate(sf::Time elapsed) {
 	m_lastHealth = health;
 }
 void Entity::Update() {
+}
+void Entity::setColor(const sf::Color &color)
+{
+	this->m_color = color;
+	m_Sprite.setColor(color);
+}
+const sf::Color & Entity::getColor()
+{
+	return m_color;
 }
 void Entity::Load(const std::string &spriteLocation) {
 	

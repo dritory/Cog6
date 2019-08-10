@@ -16,27 +16,27 @@ void Camera::update(sf::Time elapsed)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		view.zoom(0.90f);
-		speed *= 0.9f;
+		speed *= 0.95f;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		view.zoom(1.1f);
-		speed *= 1.1f;
+		speed *= 1.05f;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		view.move(-1 * speed, 0);
+		view.move(-1 * speed * elapsed.asMilliseconds(), 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		view.move(1 * speed, 0);
+		view.move(1 * speed* elapsed.asMilliseconds(), 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		view.move(0,-1 * speed);
+		view.move(0,-1 * speed* elapsed.asMilliseconds());
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		view.move(0,1 * speed);
+		view.move(0,1 * speed* elapsed.asMilliseconds());
 	}
 }
 

@@ -48,7 +48,11 @@ bool TileMap::load(const std::string & texturePath, sf::Vector2u _tileTextureSiz
 		row.load(texturePath, tileTextureSize, tileSize, i, tiles, offset, coloumnNum, _width);
 		sf::Vector2f vector = worldToIso(sf::Vector2f((float)(-(coloumnNum / 2))*tileSize.x + (i % 2)*tileSize.x / 2, (float)(i)*(tileSize.y / 4)));
 		row.SetPosition(sf::Vector3f((float)vector.x, (float)layerDepth * tileSize.y, (float)vector.y));
+		if ( i == diagonalRowNum - 1 ) {
+			row.last = true;
 
+		}
+		row.layer = layerDepth;
 		diagonalRows[i] = std::move(row);
 		
 	}
@@ -132,6 +136,11 @@ sf::Vector2f TileMap::worldToIso(sf::Vector2f point) {
 	return  sf::Vector2f((2 * point.y + point.x), (2 * point.y - point.x));
 }
 
+sf::Vector2i TileMap::isoToScreen(sf::Vector2f point, const sf::RenderWindow &window)
+{
+	return window.mapCoordsToPixel(sf::Vector2f((point.x - point.y) / 2.0f, (point.y + point.x) / 4.0f));
+}
+
 sf::Vector2i TileMap::worldToTile(sf::Vector2f point) {
 	sf::Vector2f twoD = worldToIso(point);
 	sf::Vector2i tile = sf::Vector2i((int)(twoD.x / tileSize.x), (int)(twoD.y / tileSize.y));
@@ -207,6 +216,11 @@ bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextur
 }
 
 void TileMap::Row::draw(sf::RenderTarget & target, sf::RenderStates states) const {
+	if ( layer == 0 && last ) {
+		target.draw(Game::Instance()->spawner->taint);
+	}
+	
+
 	// apply the transform
 	states.transform *= getTransform();
 

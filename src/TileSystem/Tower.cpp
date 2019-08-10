@@ -25,10 +25,10 @@ void Tower::Load(){
 
 void Tower::Update() {
 
-	if ( target == nullptr || !target->isAlive() || target->Deactivated()) {
+	if ( target == nullptr || !target->isAlive() || target->Deactivated() || !Game::Instance()->rangehelper->isInRange(target,tileX,tileZ,10.0f)) {
 
 		target = Game::Instance()->rangehelper->getEntity<EntityMob>(tileX, tileZ, 10.0f, RangeHelper::CLOSEST);
-	
+		
 	}
 	else
 	{

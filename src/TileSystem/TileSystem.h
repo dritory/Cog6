@@ -14,7 +14,7 @@ public:
 
 
 	void LateUpdate();
-	void draw(SpriteBatch &batch);
+	void draw(SpriteBatch &batch, sf::RenderTarget &target);
 
 	bool canWalkHere(int x, int y, int z);
 
@@ -35,6 +35,8 @@ public:
 
 	void setTileEntity(int x, int y, int z, TileEntity *entity);
 	TileEntity *getTileEntity(int x, int y, int z);
+
+	
 
 	sf::Vector2f isoToWorldCoord(sf::Vector3f pos);
 
@@ -71,7 +73,7 @@ private:
 
 	bool showHeatMap = false;
 
-	int NONCOLLISION_TILES[1] = {0};
+	int NONCOLLISION_TILES[2] = {0,29};
 
 };
 
