@@ -31,8 +31,9 @@ Text::~Text()
 {
 }
 
-void Text::update(sf::Event & e, sf::RenderWindow & window)
+bool Text::update(sf::Event & e, sf::RenderWindow & window)
 {
+	return true;
 }   
 
 void Text::draw(sf::RenderTarget & target, sf::RenderStates states) const

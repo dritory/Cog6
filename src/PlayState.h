@@ -1,5 +1,5 @@
 #pragma once
-#include "gamestate.h"
+#include "gameEngine.h"
 #include "TileSystem\TileSystem.h"
 #include "Gui\PlayGui.h"
 #include "Gui\PausedGui.h"
@@ -8,13 +8,15 @@
 #include "GL\RangeHelper.h"
 #include "GL\Spawner.h"
 #include "Camera.h"
+#include <eventbus/EventBus.h>
+
+
 
 class RangeHelper;
 class Spawner;
 class TileSystem;
 class Player;
-class PlayState : public GameState
-{
+class PlayState : public GameState {
 public:
 
 
@@ -60,11 +62,13 @@ public:
 	PlayGui *gui;
 	PausedGui *pausedGui;
 
+	Dexode::EventBus *bus;
+
 protected:
-	PlayState() { }
+	PlayState() {}
 
 private:
-	
+
 	sf::Clock gameClock;
 	sf::Clock fixedClock;
 
@@ -78,9 +82,10 @@ private:
 	int FFPS;
 	int frames;
 	int fframes;
-	
+
 	int accumulator = 0;
-	int dt = (int) (1000.0f*(1.0f / 30.0f)); // Modify this to change physics rate. 
+	int dt = (int)(1000.0f*(1.0f / 30.0f)); // Modify this to change physics rate. 
 };
+
 
 typedef PlayState Game;

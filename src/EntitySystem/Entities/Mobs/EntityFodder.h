@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity.h"
+#include "../../Entity.h"
 #include "EntityMob.h"
 class EntityFodder : public EntityMob {
 public:

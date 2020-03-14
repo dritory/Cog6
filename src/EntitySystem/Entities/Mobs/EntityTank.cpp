@@ -1,5 +1,5 @@
 #include "EntityTank.h"
-#include "../../PlayState.h"
+#include "../../../PlayState.h"
 void EntityTank::FixedUpdate(sf::Time elapsed)
 {
 	EntityMob::FixedUpdate(elapsed);
@@ -7,13 +7,13 @@ void EntityTank::FixedUpdate(sf::Time elapsed)
 
 EntityTank::EntityTank(EntitySystem * system, const EntityId & id) : EntityMob(system, id)
 {
-	speed = 50;
+	speed = 70;
 	maxHealth = 500;
 	attackFreq = 10;
 	damage = 10;
 	heatModifier = 1.2f;
 	setColor(sf::Color::Red);
-	setScale(sf::Vector2f(1.5f, 1.5f));
+	setScale(sf::Vector2f(1.8f, 1.5f));
 	setOrigin(sf::Vector2f(0, 16.0f));
 }
 

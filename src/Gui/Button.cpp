@@ -44,7 +44,7 @@ Button::~Button()
 {
 }
 
-void Button::update(sf::Event & e, sf::RenderWindow & window)
+bool Button::update(sf::Event & e, sf::RenderWindow & window)
 {
 	GuiObject::update(e, window);
 	switch(this->getState()){
@@ -53,6 +53,7 @@ void Button::update(sf::Event & e, sf::RenderWindow & window)
 		text.setFillColor(textClicked);
 		if ( callback && !isHidden() && !oldHidden) {
 			callback();
+			return false;
 		}
 		break;
 	case HOVER:
@@ -68,6 +69,7 @@ void Button::update(sf::Event & e, sf::RenderWindow & window)
 		break;
 	}
 	oldHidden = isHidden();
+	return true;
 }
 
 void Button::draw (sf::RenderTarget& target, sf::RenderStates states) const

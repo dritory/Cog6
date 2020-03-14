@@ -1,7 +1,7 @@
 #include "EntityMob.h"
 #include <cstdlib>
 #include <ctime>
-#include "../../PlayState.h"
+#include "../../../PlayState.h"
 EntityMob::EntityMob(EntitySystem* system, const EntityId& id) : EntityAnimated(system, id) {
 	
 	maxHealth = 100;

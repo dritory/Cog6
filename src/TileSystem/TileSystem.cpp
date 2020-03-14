@@ -51,7 +51,7 @@ void TileSystem::load() {
 		
 		level3[i] = f < -0.5f ? 1 : 0;
 
-		level4[i] = f < -0.6f ? 17 : 0;
+		level4[i] = f < -0.6f ? 1 : 0;
 
 		level5[i] = 0;
 	}
@@ -109,13 +109,20 @@ void TileSystem::draw(SpriteBatch &batch, sf::RenderTarget &target) {
 
 	static bool oldMouseState = false;
 	static bool F6Keystate = false;
+	int a = 0;
 	for ( int i = 0; i < height; i++ ) {
 		
 		for ( auto &d : map[i].getRows() ) {
-			batch.QueueObject(&d);
+			if ( !d.isEmpty() ) {
+				batch.QueueObject(&d);
+			}
+			else {
+				a++;
+			}
 		}
 		
 	}
+	
 	if ( showHeatMap ) {
 		for ( int x = 0; x < width; x++ ) {
 

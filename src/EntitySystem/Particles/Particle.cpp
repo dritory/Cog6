@@ -52,7 +52,12 @@ void Particle::FixedUpdate(sf::Time elapsed)
 			velocity.y -= g;
 		}
 	}
-
+	if ( lifetime > 0 ) {
+		lifetime--;
+		if ( lifetime == 0) {
+			GetSystem()->RemoveEntity(this);
+		}
+	}
 	EntityAnimated::FixedUpdate(elapsed);
 }
 

@@ -20,6 +20,8 @@ public:
 	void addButton(const sf::String &s, const sf::Vector2f &pos, Button::Callback callback);
 	void addButton(Button *button);
 
+	bool isMouseOverGUI();
+
 private:
 
 	std::vector<GuiObject*> objects;

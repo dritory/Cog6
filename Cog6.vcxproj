@@ -12,9 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EntitySystem\Entities\EntityAnimated.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityFodder.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityTank.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\Particle.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityFodder.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityTank.cpp" />
+    <ClCompile Include="src\EntitySystem\Particles\Particle.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GL\RangeHelper.cpp" />
     <ClCompile Include="src\GL\Taint.cpp" />
@@ -33,13 +33,12 @@
     <ClCompile Include="src\Gui\Gui.cpp" />
     <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
     <ClCompile Include="src\EntitySystem\AStar.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityMob.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
     <ClCompile Include="src\EntitySystem\Entity.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
-    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
@@ -52,9 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EntitySystem\Entities\EntityAnimated.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityFodder.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityTank.h" />
-    <ClInclude Include="src\EntitySystem\Entities\Particle.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityFodder.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityTank.h" />
+    <ClInclude Include="src\EntitySystem\Particles\Particle.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\GL\RangeHelper.h" />
@@ -74,7 +73,7 @@
     <ClInclude Include="src\Gui\Gui.h" />
     <ClInclude Include="src\EntitySystem\Pathfinder.h" />
     <ClInclude Include="src\EntitySystem\AStar.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityMob.h" />
     <ClInclude Include="src\AssetLoader\AssetLoader.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
@@ -82,7 +81,6 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
     <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
-    <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Rendering\SpriteBatch.h" />
     <ClInclude Include="src\TileSystem\Base.h" />
@@ -98,17 +96,19 @@
     <Image Include="assets\textures\Tileset.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+    <Image Include="Libraries\EventBus-master\EventBusDiagram.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
-    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
-    </None>
-    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
-    </None>
+    <None Include="Libraries\EventBus-master\.clang-format" />
+    <None Include="Libraries\EventBus-master\.gitignore" />
+    <None Include="Libraries\EventBus-master\.gitmodules" />
+    <None Include="Libraries\EventBus-master\.travis.yml" />
+    <None Include="Libraries\EventBus-master\LICENSE" />
+    <None Include="Libraries\EventBus-master\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Libraries\EventBus-master\CMakeLists.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -143,7 +143,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;Libraries\cereal-1.2.2\include;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);Libraries\Yojimbo</IncludePath>
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;Libraries\cereal-1.2.2\include;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);Libraries\Yojimbo;Libraries\EventBus-master\lib\include</IncludePath>
     <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\sfgui-0.3.2\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;Libraries\Yojimbo\lib</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>

@@ -1,8 +1,8 @@
 #pragma once
-#include "./EntityAnimated.h"
-#include "../InteractableEntity.h"
-#include "../Pathfinder.h"
-#include "../../TileSystem/TileEntity.h"
+#include "../EntityAnimated.h"
+#include "../../InteractableEntity.h"
+#include "../../Pathfinder.h"
+#include "../../../TileSystem/TileEntity.h"
 
 class EntityMob : public EntityAnimated{
 public:

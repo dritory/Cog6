@@ -1,6 +1,6 @@
 #pragma once
 #include "Building.h"
-#include "..\EntitySystem\Entities\EntityMob.h"
+#include "../EntitySystem/Entities/Mobs/EntityMob.h"
 class Tower :
 	public Building
 {

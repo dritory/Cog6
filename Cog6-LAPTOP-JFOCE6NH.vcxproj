@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\EntitySystem\Entities\EntityAnimated.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityFodder.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityTank.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Particle.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\GL\RangeHelper.cpp" />
+    <ClCompile Include="src\GL\Taint.cpp" />
+    <ClCompile Include="src\Gui\Button.cpp" />
+    <ClCompile Include="src\Gui\GuiObject.cpp" />
+    <ClCompile Include="src\Gui\Panel.cpp" />
+    <ClCompile Include="src\Gui\PausedGui.cpp" />
+    <ClCompile Include="src\Gui\PlayGui.cpp" />
+    <ClCompile Include="src\Gui\Text.cpp" />
+    <ClCompile Include="src\PlayState.cpp" />
+    <ClCompile Include="src\TileSystem\Building.cpp" />
+    <ClCompile Include="src\FastNoise.cpp" />
+    <ClCompile Include="src\GL\Spawner.cpp" />
+    <ClCompile Include="src\GL\Player.cpp" />
+    <ClCompile Include="src\GL\Level.cpp" />
+    <ClCompile Include="src\Gui\Gui.cpp" />
+    <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
+    <ClCompile Include="src\EntitySystem\AStar.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
+    <ClCompile Include="src\EntitySystem\Entity.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
+    <ClCompile Include="src\TileSystem\Base.cpp" />
+    <ClCompile Include="src\TileSystem\Generator.cpp" />
+    <ClCompile Include="src\TileSystem\TileMap.cpp" />
+    <ClCompile Include="src\TileSystem\TileSystem.cpp" />
+    <ClCompile Include="src\TileSystem\TileEntity.cpp" />
+    <ClCompile Include="src\TileSystem\Tower.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\EntitySystem\Entities\EntityAnimated.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityFodder.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityTank.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Particle.h" />
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\GL\RangeHelper.h" />
+    <ClInclude Include="src\GL\Taint.h" />
+    <ClInclude Include="src\Gui\Button.h" />
+    <ClInclude Include="src\Gui\GuiObject.h" />
+    <ClInclude Include="src\Gui\Panel.h" />
+    <ClInclude Include="src\Gui\PausedGui.h" />
+    <ClInclude Include="src\Gui\PlayGui.h" />
+    <ClInclude Include="src\Gui\Text.h" />
+    <ClInclude Include="src\PlayState.h" />
+    <ClInclude Include="src\TileSystem\Building.h" />
+    <ClInclude Include="src\FastNoise.h" />
+    <ClInclude Include="src\GL\Spawner.h" />
+    <ClInclude Include="src\GL\Player.h" />
+    <ClInclude Include="src\GL\Level.h" />
+    <ClInclude Include="src\Gui\Gui.h" />
+    <ClInclude Include="src\EntitySystem\Pathfinder.h" />
+    <ClInclude Include="src\EntitySystem\AStar.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
+    <ClInclude Include="src\AssetLoader\AssetLoader.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
+    <ClInclude Include="src\EntitySystem\Entity.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\EntitySystem\EntitySystem.h" />
+    <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Rendering\SpriteBatch.h" />
+    <ClInclude Include="src\TileSystem\Base.h" />
+    <ClInclude Include="src\TileSystem\Generator.h" />
+    <ClInclude Include="src\TileSystem\TileMap.h" />
+    <ClInclude Include="src\TileSystem\TileSystem.h" />
+    <ClInclude Include="src\TileSystem\TileEntity.h" />
+    <ClInclude Include="src\TileSystem\Tower.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\OneDrive\Documents\Sprite Sheet 2.png" />
+    <Image Include="assets\entities\sheet2.png" />
+    <Image Include="assets\textures\Tileset.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{252F9DDE-C2BE-4B55-844E-436EB35539E7}</ProjectGuid>
+    <RootNamespace>Cog6</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;Libraries\cereal-1.2.2\include;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);Libraries\Yojimbo</IncludePath>
+    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\sfgui-0.3.2\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;Libraries\Yojimbo\lib</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>Libraries\LuaJIT-2.0.5\src;libraries\sol2;libraries\SFML-2.4.2\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>Libraries\LuaJIT-2.0.5\lib;Libraries\SFML-2.4.2\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);libraries\sol2;</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>SFML_STATIC;SFGUI_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>SFML_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>buildvm.lib;minilua.lib;luajit.lib;lua51.lib;sfml-main-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

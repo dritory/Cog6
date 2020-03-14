@@ -1,9 +1,9 @@
 #pragma once
-#include "..\PlayState.h"
-#include "..\EntitySystem\Entities\EntityMob.h"
+#include "../PlayState.h"
+#include "../EntitySystem/Entities/Mobs/EntityMob.h"
 
-#include "../EntitySystem/Entities/EntityFodder.h"
-#include "../EntitySystem/Entities/EntityTank.h"
+#include "../EntitySystem/Entities/Mobs/EntityFodder.h"
+#include "../EntitySystem/Entities/Mobs/EntityTank.h"
 
 #include "Taint.h"
 class Spawner {

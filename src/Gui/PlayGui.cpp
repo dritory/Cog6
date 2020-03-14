@@ -3,7 +3,7 @@
 #include "../PlayState.h"
 #include "../GL/Spawner.h"
 #include "../PlayState.h"
-#include "../EntitySystem/Entities/Particle.h"
+#include "../EntitySystem/Particles/Particle.h"
 PlayGui::PlayGui()
 {
 
@@ -36,15 +36,19 @@ void PlayGui::initialize()
 
 
 	text = new Text("TrMut:", font, sf::Vector2f(800, 50));
+	text->setOpaque(false);
 	objects.push_back(text);
 
 	text4 = new Text("FPS:", font, sf::Vector2f(50, 50));
+	text4->setOpaque(false);
 	objects.push_back(text4);
 
 	text5 = new Text("FFPS:", font, sf::Vector2f(50, 80));
+	text5->setOpaque(false);
 	objects.push_back(text5);
 
 	text6 = new Text("Entities:", font, sf::Vector2f(50, 110));
+	text6->setOpaque(false);
 	objects.push_back(text6);
 
 	addButton("Next Wave", sf::Vector2f(1050, 750), [this] () {
@@ -71,13 +75,16 @@ void PlayGui::initialize()
 	});
 
 	addButton("Test",sf::Vector2f(1050,500), [this] () {
-		Particle *p = Game::Instance()->entitysystem->Add<Particle>();
-		p->SetPosition(sf::Vector3f(32, 128,32 ));
-		p->SetVelocity(sf::Vector3f(rand() % 500, rand() % 2000, rand() % 500));
-		p->SetHealthToMax();
-		p->ToggleCollision(true);
-		p->ToggleGravity(true);
-		Game::Instance()->entitysystem->ActivateEntity(p);
+		for ( int i = 0; i < 100; i++) {
+			Particle *p = Game::Instance()->entitysystem->Add<Particle>();
+			p->SetPosition(sf::Vector3f(32, 128, 32));
+			p->SetVelocity(sf::Vector3f(rand() % 500, rand() % 2000, rand() % 500));
+			p->SetHealthToMax();
+			p->ToggleCollision(true);
+			p->ToggleGravity(true);
+			p->SetLifeTime(rand() % 500);
+			Game::Instance()->entitysystem->ActivateEntity(p);
+		}
 	});
 
 
@@ -90,7 +97,9 @@ void PlayGui::initialize()
 void PlayGui::update(sf::Event & e, sf::RenderWindow & window) {
 	for ( auto o : objects ) {
 		if (!o->isHidden()) 
-			o->update(e, window);
+			if (!o->update(e, window) ) {
+				return;
+			}
 	}
 
 }
@@ -126,5 +135,17 @@ void PlayGui::addButton(const sf::String &s, const sf::Vector2f & pos, Button::C
 void PlayGui::addButton(Button * button)
 {
 	objects.push_back(button);
+}
+
+bool PlayGui::isMouseOverGUI()
+{
+	for ( auto o : objects ) {
+		if (!o->isHidden() ) {
+			if ( o->isMouseOverGUI() ) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 

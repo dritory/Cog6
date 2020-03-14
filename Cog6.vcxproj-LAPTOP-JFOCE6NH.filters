@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\TileSystem\TileSystem.cpp" />
+    <ClCompile Include="src\TileSystem\TileMap.cpp" />
+    <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
+    <ClCompile Include="src\EntitySystem\Entity.cpp" />
+    <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
+    <ClCompile Include="src\EntitySystem\AStar.cpp" />
+    <ClCompile Include="src\EntitySystem\Pathfinder.cpp" />
+    <ClCompile Include="src\Gui\Gui.cpp" />
+    <ClCompile Include="src\GL\Level.cpp" />
+    <ClCompile Include="src\GL\Player.cpp" />
+    <ClCompile Include="src\GL\Spawner.cpp" />
+    <ClCompile Include="src\TileSystem\TileEntity.cpp" />
+    <ClCompile Include="src\FastNoise.cpp" />
+    <ClCompile Include="src\TileSystem\Building.cpp" />
+    <ClCompile Include="src\TileSystem\Tower.cpp" />
+    <ClCompile Include="src\TileSystem\Generator.cpp" />
+    <ClCompile Include="src\TileSystem\Base.cpp" />
+    <ClCompile Include="src\GL\RangeHelper.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\PlayState.cpp" />
+    <ClCompile Include="src\Gui\PlayGui.cpp" />
+    <ClCompile Include="src\Gui\PausedGui.cpp" />
+    <ClCompile Include="src\Gui\Button.cpp" />
+    <ClCompile Include="src\Gui\GuiObject.cpp" />
+    <ClCompile Include="src\Gui\Panel.cpp" />
+    <ClCompile Include="src\Gui\Text.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityFodder.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityTank.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\EntityAnimated.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Particle.cpp" />
+    <ClCompile Include="src\GL\Taint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\TileSystem\TileSystem.h" />
+    <ClInclude Include="src\TileSystem\TileMap.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Rendering\SpriteBatch.h" />
+    <ClInclude Include="src\AssetLoader\AssetLoader.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
+    <ClInclude Include="src\EntitySystem\Entity.h" />
+    <ClInclude Include="src\EntitySystem\EntitySystem.h" />
+    <ClInclude Include="src\EntitySystem\InteractableEntity.h" />
+    <ClInclude Include="src\EntitySystem\AStar.h" />
+    <ClInclude Include="src\EntitySystem\Pathfinder.h" />
+    <ClInclude Include="src\Gui\Gui.h" />
+    <ClInclude Include="src\GL\Level.h" />
+    <ClInclude Include="src\GL\Player.h" />
+    <ClInclude Include="src\GL\Spawner.h" />
+    <ClInclude Include="src\TileSystem\TileEntity.h" />
+    <ClInclude Include="src\FastNoise.h" />
+    <ClInclude Include="src\TileSystem\Building.h" />
+    <ClInclude Include="src\TileSystem\Tower.h" />
+    <ClInclude Include="src\TileSystem\Generator.h" />
+    <ClInclude Include="src\TileSystem\Base.h" />
+    <ClInclude Include="src\GL\RangeHelper.h" />
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\PlayState.h" />
+    <ClInclude Include="src\Gui\PlayGui.h" />
+    <ClInclude Include="src\Gui\PausedGui.h" />
+    <ClInclude Include="src\Gui\Button.h" />
+    <ClInclude Include="src\Gui\GuiObject.h" />
+    <ClInclude Include="src\Gui\Panel.h" />
+    <ClInclude Include="src\Gui\Text.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityFodder.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityTank.h" />
+    <ClInclude Include="src\EntitySystem\Entities\EntityAnimated.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Particle.h" />
+    <ClInclude Include="src\GL\Taint.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\Tileset.png" />
+    <Image Include="..\..\..\OneDrive\Documents\Sprite Sheet 2.png" />
+    <Image Include="assets\entities\sheet2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll" />
+    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll" />
+    <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
+  </ItemGroup>
+</Project>

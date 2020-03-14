@@ -14,7 +14,7 @@ void Spawner::update(sf::Time elapsed) {
 		if (! (*p)->isAlive()) {
 
 
-			(*p)->getValue();
+			taint.addTaint((*p)->GetPosition(), (*p)->getValue());
 
 			(*p)->Reset();
 			Game::Instance()->entitysystem->DeactivateEntity(*p);

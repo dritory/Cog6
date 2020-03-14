@@ -19,13 +19,13 @@ private:
 	int gridPerTileLength = 2;
 
 	int width, height;
-
+	
 	int gridsize;
 
 	sf::ConvexShape convex;
 	sf::Texture texture;
 	sf::Image overlay;
-
+	sf::VertexArray varray;
 	sf::Vector2i isoToGrid(sf::Vector3f pos);
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;

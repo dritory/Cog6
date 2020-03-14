@@ -15,12 +15,15 @@ Panel::~Panel()
 }
 
 
-void Panel::update(sf::Event & e, sf::RenderWindow & window)
+bool Panel::update(sf::Event & e, sf::RenderWindow & window)
 {
 	for ( GuiObject o : objects )
 	{
-		o.update(e, window);
+		if ( !o.update(e, window) ) {
+			return false;
+		}
 	}
+	return true;
 }
 
 void Panel::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -28,5 +31,15 @@ void Panel::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	for ( GuiObject o : objects ) {
 		target.draw(o);
 	}
+}
+
+bool Panel::isMouseOverGUI()
+{
+	for ( auto o : objects ) {
+		if ( o.isMouseOverGUI() ) {
+			return true;
+		}
+	}
+	return false;
 }
 

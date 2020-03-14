@@ -14,19 +14,20 @@ private:
 		bool last = false;
 
 		int layer = 0;
+		bool isEmpty() {
+			return empty;
+		}
+
 	private:
 		sf::VertexArray m_vertices;
 		sf::Texture* m_tileset;
-		
+		bool empty = true;
 		
 	};
 
 public:
-	
-
 	TileMap();
 	~TileMap();
-
 	//loads the map and generates rows
 	//takes in tileset as a filename
 	bool load(const std::string& texturePath,sf::Vector2u tileTextureSize, sf::Vector2i tileSize,int layerDepth, const int tiles[], unsigned int width, const int collisionIDs[]);
@@ -51,7 +52,6 @@ public:
 	std::vector<TileMap::Row> &getRows();
 
 	const bool *getCollisionMap();
-
 
 	//brief converts iso coords to world coords
 	//return float vector with worlds coords
@@ -97,4 +97,6 @@ private:
 	unsigned int height;
 	std::vector<int>tiles;
 	bool *collisionMap;
+	
+
 };

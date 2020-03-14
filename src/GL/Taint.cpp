@@ -16,13 +16,22 @@ Taint::Taint()
 	overlay.create(width, height, sf::Color::Transparent);
 	texture.loadFromImage(overlay);
 
-	convex.setPointCount(4);
-	convex.setPoint(2, Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(tilesize/2, 0, -tilesize/2)));
-	convex.setPoint(3, Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(width*tilesize /gridPerTileLength + tilesize/2,0, -tilesize/2)));
-	convex.setPoint(0, Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f((width*tilesize / gridPerTileLength) + tilesize / 2, 0, (width*tilesize / gridPerTileLength) - tilesize/2)));
-	convex.setPoint(1, Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(tilesize / 2, 0, height*tilesize / gridPerTileLength - tilesize / 2) ));
 
-	convex.setTexture(&texture);
+	varray.setPrimitiveType(sf::Quads);
+	varray.resize(4);
+	varray[0].position = (Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f((width*tilesize / gridPerTileLength) + tilesize / 2, 0, (width*tilesize / gridPerTileLength) - tilesize / 2)));
+	varray[1].position = Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(tilesize / 2, 0, height*tilesize / gridPerTileLength - tilesize / 2));
+	varray[2].position = Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(tilesize / 2, 0, -tilesize / 2));
+	varray[3].position = Game::Instance()->tileSystem->isoToWorldCoord(sf::Vector3f(width*tilesize / gridPerTileLength + tilesize / 2, 0, -tilesize / 2));
+
+	
+	varray[2].texCoords = sf::Vector2f(0, 0);
+	varray[3].texCoords = sf::Vector2f(width, 0);
+	varray[0].texCoords = sf::Vector2f(width, height);
+	varray[1].texCoords = sf::Vector2f(0, height);
+
+	texture.setSmooth(true);
+
 	
 	SetPosition(sf::Vector3f(width*tilesize / gridPerTileLength, 0, width*tilesize / gridPerTileLength));
 }
@@ -47,6 +56,7 @@ void Taint::addTaint(sf::Vector3f pos, float value)
 		}
 
 		overlay.setPixel(grid.x, grid.y, sf::Color(r, g, b, a));
+		texture.update(overlay);
 	}
 }
 
@@ -91,5 +101,10 @@ sf::Vector2i Taint::isoToGrid(sf::Vector3f pos)
 void Taint::draw(sf::RenderTarget & target, sf::RenderStates state) const
 {
 	//sf::RenderStates newState(sf::BlendAlpha);
-	target.draw(convex, state);
+
+	state.texture = &texture;
+
+	state.blendMode = sf::BlendAdd;
+
+	target.draw(varray, state);
 }

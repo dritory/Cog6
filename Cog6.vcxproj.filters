@@ -2,14 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\TileSystem\TileSystem.cpp" />
     <ClCompile Include="src\TileSystem\TileMap.cpp" />
     <ClCompile Include="src\Rendering\SpriteBatch.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityDummy.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityMob.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityWall.cpp" />
     <ClCompile Include="src\EntitySystem\Entity.cpp" />
     <ClCompile Include="src\EntitySystem\EntitySystem.cpp" />
@@ -34,14 +32,14 @@
     <ClCompile Include="src\Gui\GuiObject.cpp" />
     <ClCompile Include="src\Gui\Panel.cpp" />
     <ClCompile Include="src\Gui\Text.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityFodder.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\EntityTank.cpp" />
     <ClCompile Include="src\EntitySystem\Entities\EntityAnimated.cpp" />
-    <ClCompile Include="src\EntitySystem\Entities\Particle.cpp" />
     <ClCompile Include="src\GL\Taint.cpp" />
+    <ClCompile Include="src\EntitySystem\Particles\Particle.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityFodder.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityMob.cpp" />
+    <ClCompile Include="src\EntitySystem\Entities\Mobs\EntityTank.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\TileSystem\TileSystem.h" />
     <ClInclude Include="src\TileSystem\TileMap.h" />
     <ClInclude Include="src\GameObject.h" />
@@ -49,7 +47,6 @@
     <ClInclude Include="src\AssetLoader\AssetLoader.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityDummy.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityMob.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityWall.h" />
     <ClInclude Include="src\EntitySystem\Entity.h" />
     <ClInclude Include="src\EntitySystem\EntitySystem.h" />
@@ -76,20 +73,29 @@
     <ClInclude Include="src\Gui\GuiObject.h" />
     <ClInclude Include="src\Gui\Panel.h" />
     <ClInclude Include="src\Gui\Text.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityFodder.h" />
-    <ClInclude Include="src\EntitySystem\Entities\EntityTank.h" />
     <ClInclude Include="src\EntitySystem\Entities\EntityAnimated.h" />
-    <ClInclude Include="src\EntitySystem\Entities\Particle.h" />
     <ClInclude Include="src\GL\Taint.h" />
+    <ClInclude Include="src\EntitySystem\Particles\Particle.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityTank.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityFodder.h" />
+    <ClInclude Include="src\EntitySystem\Entities\Mobs\EntityMob.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\Tileset.png" />
     <Image Include="..\..\..\OneDrive\Documents\Sprite Sheet 2.png" />
     <Image Include="assets\entities\sheet2.png" />
+    <Image Include="Libraries\EventBus-master\EventBusDiagram.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Libraries\sfgui-0.3.2\bin\sfgui-d.dll" />
-    <None Include="Libraries\sfgui-0.3.2\bin\sfgui.dll" />
     <None Include="F:\Users\Dritory hdd\Downloads\FastNoise-master\FastNoise-master\LICENSE" />
+    <None Include="Libraries\EventBus-master\.clang-format" />
+    <None Include="Libraries\EventBus-master\.gitignore" />
+    <None Include="Libraries\EventBus-master\.gitmodules" />
+    <None Include="Libraries\EventBus-master\.travis.yml" />
+    <None Include="Libraries\EventBus-master\LICENSE" />
+    <None Include="Libraries\EventBus-master\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Libraries\EventBus-master\CMakeLists.txt" />
   </ItemGroup>
 </Project>

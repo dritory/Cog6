@@ -5,6 +5,7 @@ enum State {
 	NORMAL,
 	HOVER,
 	CLICKED,
+	STARTUP,
 };
 class GuiObject : public sf::Drawable, protected sf::Transformable {
 	 
@@ -14,11 +15,12 @@ public:
 	GuiObject(sf::Vector2f position);
 	~GuiObject();
 
-	virtual void update(sf::Event& e, sf::RenderWindow& window);
+	virtual bool update(sf::Event& e, sf::RenderWindow& window);
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	int getState();
+
 
 	virtual void SetPosition(const sf::Vector2f& position);
 	const sf::Vector2f& GetPosition() { return position; }
@@ -26,10 +28,17 @@ public:
 	void setHidden(bool hidden) { this->hidden = hidden; }
 	bool isHidden() { return hidden; }
 
+	bool isOpaque() { return opaque; }
+	void setOpaque(bool opaque) { this->opaque = opaque; }
+
 	bool inBounds(const sf::Vector2f& position);
 	bool inBounds(int x, int y);
 	bool inBounds(float x, float y);
 	bool inBounds(const sf::Vector2i& position);
+
+
+
+	virtual bool isMouseOverGUI();
 
 
 protected:
@@ -45,6 +54,8 @@ protected:
 
 	bool pressed;
 
-	int state;
+	bool opaque = true;
+
+	int state = STARTUP;
 
 };

@@ -1,11 +1,14 @@
 #include "PlayState.h"
 #include <yojimbo.h>
 
+
 void PlayState::Init()
 {
 
 
 	std::srand(std::time(0));
+
+	bus = new Dexode::EventBus();
 
 	int seed = std::rand();
 	fastnoise = new FastNoise(seed);
@@ -18,6 +21,8 @@ void PlayState::Init()
 	camera = new Camera(sf::FloatRect(150, 150, 1200, 800));
 	gui = new PlayGui();
 	gui->initialize();
+
+	
 
 	pausedGui = new PausedGui();
 	pausedGui->initialize();
@@ -44,6 +49,7 @@ void PlayState::Unload()
 	delete batcher;
 	delete gui;
 	delete pausedGui;
+	delete bus;
 }
 
 void PlayState::Pause()

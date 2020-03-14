@@ -9,7 +9,7 @@ public:
 	Text(const sf::String &s, const sf::Font &font, sf::Vector2f position, bool sentered);
 	~Text();
 
-	 void update(sf::Event& e, sf::RenderWindow& window);
+	 bool update(sf::Event& e, sf::RenderWindow& window);
 
 	 void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

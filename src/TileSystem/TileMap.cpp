@@ -189,7 +189,10 @@ bool TileMap::Row::load(const std::string & texturePath, sf::Vector2u tileTextur
 		// get the current tile number
 		int index = offset - ((int)width - 1)*(i);
 		const int tileNumber = tiles[index];
-
+		if ( tileNumber > 0 ) //if the tile is not empty
+		{
+			empty = false;
+		}
 		// find its position in the tileset texture
 		int tu = tileNumber % (m_tileset->getSize().x / tileTextureSize.x);
 		int tv = tileNumber / (m_tileset->getSize().x / tileTextureSize.x);
@@ -233,6 +236,10 @@ void TileMap::Row::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 
 void TileMap::Row::setTileId(int x, int tileId, sf::Vector2u tileTextureSize) {
 	if (m_tileset != nullptr) {
+		if ( tileId > 0 ) //if the tile is not empty
+		{
+			empty = false;
+		}
 		int tu = tileId % (m_tileset->getSize().x / tileTextureSize.x);
 		int tv = tileId / (m_tileset->getSize().x / tileTextureSize.x);
 

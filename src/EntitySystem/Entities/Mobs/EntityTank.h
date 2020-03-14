@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity.h"
+#include "../../Entity.h"
 #include "EntityMob.h"
 class EntityTank : public EntityMob {
 public:
@@ -13,6 +13,6 @@ protected:
 
 	virtual void FixedUpdate(sf::Time elapsed) override;
 
-	std::string GetSpriteLocation() override { return "mob.png"; }
+	std::string GetSpriteLocation() override { return "sheet2.png"; }
 };
 

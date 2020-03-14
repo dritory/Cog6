@@ -4,11 +4,13 @@
 
 GuiObject::GuiObject()
 {
+	this->state = STARTUP;
 }
 
 GuiObject::GuiObject(sf::Vector2f position)
 {
 	this->position = position;
+	this->state = STARTUP;
 }
 
 GuiObject::~GuiObject()
@@ -54,7 +56,15 @@ bool GuiObject::inBounds(const sf::Vector2i & position)
 	return inBounds(sf::Vector2f(position.x, position.y));
 }
 
-void GuiObject::update(sf::Event & e, sf::RenderWindow & window)
+bool GuiObject::isMouseOverGUI()
+{
+	if ( state != NORMAL && opaque ) {
+		return true;
+	}
+	return false;
+}
+
+bool GuiObject::update(sf::Event & e, sf::RenderWindow & window)
 {
 	sf::Vector2f mousepos = Game::Instance()->getWindow().mapPixelToCoords(sf::Mouse::getPosition(Game::Instance()->getWindow()));
 	
@@ -110,7 +120,7 @@ void GuiObject::update(sf::Event & e, sf::RenderWindow & window)
 		}
 		}
 	}
-	
+	return true;
 }
 
 void GuiObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
